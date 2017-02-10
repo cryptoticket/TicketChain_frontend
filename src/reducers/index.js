@@ -1,20 +1,8 @@
-import objectAssign from 'object-assign';
+import {combineReducers} from "redux";
+import blankReducer from "./blank";
 
-import {
-    TEST_ACTION
-} from '../actions';
+const rootReducer = combineReducers({
+    blank: blankReducer
+});
 
-const initialState = {
-    testState: true
-};
-
-function mainReducer(state = initialState, action) {
-    switch (action.type) {
-        case TEST_ACTION:
-            return objectAssign({}, state);
-        default:
-            return state;
-    }
-}
-
-export default mainReducer;
+export default rootReducer;
