@@ -151,7 +151,6 @@ export default class BlankActions {
                     return response.json();
                 })
                 .then(json => {
-                    debugger
                     if (!isError) {
                         this.getTicket(inn,ticket.id);
                     } else {
