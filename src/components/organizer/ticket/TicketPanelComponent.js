@@ -17,266 +17,65 @@ class TicketPanelComponent extends Component {
         this.props.editTicket(this.props.inn, this.props.ticket)
     };
 
+    getRow = (label, value) =>
+        <Row gutter={2} style={{ marginTop: 8 }}>
+            <Col span={10} style={{ textAlign: 'right' }}>
+                <h4>{label}:&nbsp;</h4>
+            </Col>
+            <Col span={14}>
+                <span>{this.props.ticket ? value: null}</span>
+            </Col>
+        </Row>;
+
     render() {
         const {ticket, inn, isFetching} = this.props;
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
                 <div className="panel">
-                    <Row gutter={2} style={{ marginTop: 8 }}>
+                    <Row gutter={2}>
                         <Col span={8}>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Серийный номер</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.serial_number: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ID</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.id: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Статус</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.state: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Дата создания</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? moment(ticket.created_date).format('L'): null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Цена</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.price_rub: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Бумажный билет</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? (ticket.is_paper_ticket ? 'Да' : 'Нет') : null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Покупатель</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.buyer_name: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Дата покупки</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? moment(ticket.buying_date).format('L') : null}</span>
-                                </Col>
-                            </Row>
-
+                            {this.getRow('Серийный номер', ticket.serial_number)}
+                            {this.getRow('ID', ticket.id)}
+                            {this.getRow('Статус', ticket.state)}
+                            {this.getRow('Дата создания', ticket.created_date)}
+                            {this.getRow('Цена', ticket.price_rub)}
+                            {this.getRow('Бумажный билет', ticket.is_paper_ticket ? 'Да' : 'Нет')}
+                            {this.getRow('Покупатель', ticket.buyer_name)}
+                            {this.getRow('Дата покупки', moment(ticket.buying_date).format('L'))}
                         </Col>
                         <Col span={8}>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Эмиттер</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.issuer: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ИНН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.issuer_inn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.issuer_ogrn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРНИП</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.issuer_ogrnip: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Адрес</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.issuer_address: null}</span>
-                                </Col>
-                            </Row>
+                            {this.getRow('Эмиттер', ticket.issuer)}
+                            {this.getRow('ИНН', ticket.issuer_inn)}
+                            {this.getRow('ОГРН', ticket.issuer_ogrn)}
+                            {this.getRow('ОГРНИП', ticket.issuer_ogrnip)}
+                            {this.getRow('Адрес', ticket.issuer_address)}
                         </Col>
                         <Col span={8}>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Мероприятие</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.event_title: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Место проведения</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.event_place_title: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Дата</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? moment(ticket.event_date).format('L'): null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Адресс</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.event_place_address: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Ряд</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.row: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Место</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seat: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Категория билета</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.ticket_category: null}</span>
-                                </Col>
-                            </Row>
+                            {this.getRow('Мероприятие', ticket.event_title)}
+                            {this.getRow('Место проведения', ticket.event_title)}
+                            {this.getRow('Дата', moment(ticket.event_date).format('L'))}
+                            {this.getRow('Адрес', ticket.event_place_address)}
+                            {this.getRow('Ряд', ticket.row)}
+                            {this.getRow('Место', ticket.seat)}
+                            {this.getRow('Категория билета', ticket.ticket_category)}
                         </Col>
                     </Row>
                     <Row gutter={2} style={{ marginTop: 16 }}>
                         <Col span={8}>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Организатор</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.organizer: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ИНН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.organizer_inn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.organizer_ogrn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРНИП</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.organizer_ogrnip: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Адрес</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.organizer_address: null}</span>
-                                </Col>
-                            </Row>
+                            {this.getRow('Организатор', ticket.organizer)}
+                            {this.getRow('ИНН', ticket.organizer_inn)}
+                            {this.getRow('ОГРН', ticket.organizer_ogrn)}
+                            {this.getRow('ОГРНИП', ticket.organizer_ogrnip)}
+                            {this.getRow('Адрес', ticket.organizer_address)}
                         </Col>
                         <Col span={8}>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Продавец</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seller: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ИНН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seller_inn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРН</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seller_ogrn: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>ОГРНИП</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seller_ogrnip: null}</span>
-                                </Col>
-                            </Row>
-                            <Row gutter={2} style={{ marginTop: 8 }}>
-                                <Col span={8}>
-                                    <span>Адрес</span>
-                                </Col>
-                                <Col span={6}>
-                                    <span>{ticket ? ticket.seller_address: null}</span>
-                                </Col>
-                            </Row>
+                            {this.getRow('Продавец', ticket.seller)}
+                            {this.getRow('ИНН', ticket.seller_inn)}
+                            {this.getRow('ОГРН', ticket.seller_ogrn)}
+                            {this.getRow('ОГРНИП', ticket.seller_ogrnip)}
+                            {this.getRow('Адрес', ticket.seller_address)}
                         </Col>
-                        <Col span={8} >
+                        <Col span={8} style={{ textAlign: 'right' }}>
                             <div style={{marginTop: '116px'}}>
                                 {ticket.status === 'created' ?
                                     <Button
