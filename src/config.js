@@ -1,4 +1,4 @@
 
 export default {
-  baseUrl: 'http://api.ticketchain.ru/api/v1/',
+  baseUrl: 'http://37.139.13.60:8080/api/v1/',
 };

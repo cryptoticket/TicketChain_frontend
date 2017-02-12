@@ -7,7 +7,6 @@ import { Form, Input, InputNumber, Button } from 'antd';
 const FormItem = Form.Item;
 
 class CreateBlanksForm extends Component {
-    state = {loading: false};
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -20,7 +19,7 @@ class CreateBlanksForm extends Component {
 
     checkInn = (rule, value, callback) => {
         const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
-        if ((!isNaN(value) && reg.test(value)) || value === '' || value === '-') {
+        if (reg.test(value) && value.length === 10 || isNaN(value)) {
             callback();
             return;
         } else {
@@ -30,7 +29,7 @@ class CreateBlanksForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const {loading} = this.state;
+        const {isFetching} = this.props;
 
         const formItemLayout = {
             labelCol: { span: 8 },
@@ -77,7 +76,7 @@ class CreateBlanksForm extends Component {
                             type="primary"
                             htmlType="submit"
                             size="default"
-                            loading={loading}
+                            loading={isFetching}
                         >
                             Сгенерировать бланки
                         </Button>
@@ -89,7 +88,8 @@ class CreateBlanksForm extends Component {
 }
 
 CreateBlanksForm.PropTypes = {
-    submit: PropTypes.func.isRequired
+    submit: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired
 };
 
 export default Form.create({})(CreateBlanksForm);

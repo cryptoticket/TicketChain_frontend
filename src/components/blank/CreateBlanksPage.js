@@ -10,11 +10,14 @@ import CreateBlanksForm from './CreateBlanksForm';
 class CreateBlanksPage extends Component {
 
     render() {
-        const {createNewBatch} = this.props;
+        const {createNewBatch, isFetching} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col span={12} offset={6}>
-                    <CreateBlanksForm submit={createNewBatch} />
+                    <CreateBlanksForm
+                        submit={createNewBatch}
+                        isFetching={isFetching}
+                    />
                 </Col>
             </Row>
         );
@@ -22,10 +25,14 @@ class CreateBlanksPage extends Component {
 }
 
 CreateBlanksPage.PropTypes = {
-    createNewBatch: PropTypes.func.isRequired
+    createNewBatch: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired
 };
 
-// const mapStateToProps = (state) => ({showUploadPanel: state.showUploadPanel});
+
+const mapStateToProps = (state) => {
+    return ({isFetching: state.blank.isFetching})
+};
 const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions,dispatch));
 
-export default connect(undefined, mapDispatchToProps)(CreateBlanksPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBlanksPage);
