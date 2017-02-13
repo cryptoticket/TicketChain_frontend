@@ -55,7 +55,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести ИНН!'},
                                 {validator: this.checkInn}
                             ]
-                            })(<Input size="default" maxLength="11"/>)
+                            })(<Input size="default" maxLength="10"/>)
                         }
                     </FormItem>
 
