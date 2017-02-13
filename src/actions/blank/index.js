@@ -127,7 +127,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        this.getTicket(inn,ticket.id);
+                        dispatch(this.getTicket(inn,ticket.id));
                     } else {
                         openNotification('error', json);
                     }
@@ -152,7 +152,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        this.getTicket(inn,ticket.id);
+                        dispatch(this.getTicket(inn,ticket.id));
                     } else {
                         openNotification('error', json);
                     }
@@ -178,7 +178,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        this.getTicket(inn,ticket.id);
+                        dispatch(this.getTicket(inn,ticket.id))
                     } else {
                         openNotification('error', json);
                     }
