@@ -8,11 +8,11 @@ class BatchTableComponent extends Component {
 
     render() {
         const {batch, inn, isFetching} = this.props;
-        const data = batch.map((id, key) =>
+        const data = batch.map((ticket, key) =>
             ({
                 key,
                 number: key + 1,
-                id
+                serial_number: ticket.serial_number
             })
         );
         const columns = [
@@ -22,10 +22,12 @@ class BatchTableComponent extends Component {
                 key: 'number',
                 render: (text) => <Link to={`/organizers/${inn}/tickets/${text}`}>{text}</Link>
             }, {
-                title: 'Id',
-                dataIndex: 'id',
-                key: 'id',
-                render: (text) => <Link to={`/organizers/${inn}/tickets/${text}`}>{text}</Link>
+                title: 'Серийный номер',
+                dataIndex: 'serial_number',
+                key: 'serial_number',
+                render: (text) => <Link to={`/organizers/${inn}/tickets/${text}`}>
+                        {text.slice(0, 2) + " " + text.slice(2)}
+                    </Link>
             }
         ];
         return (

@@ -86,7 +86,11 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch({type: GET_BATCH_FULFILLED, payload: json});
+                        const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                        Promise.all(promiseList).then(result => {
+                            const tickets = result.map(r => r.payload);
+                            dispatch({type: GET_BATCH_FULFILLED, payload: tickets});
+                        });
                     } else {
                         openNotification('error', json);
                     }
