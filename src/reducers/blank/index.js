@@ -17,12 +17,20 @@ import {
     EDIT_TICKET_PENDING,
     EDIT_TICKET_FULFILLED,
     EDIT_TICKET_REJECTED,
-    HANDLE_TICKET
+    HANDLE_TICKET,
+    GET_ORGANIZERS_PENDING,
+    GET_ORGANIZERS_FULFILLED,
+    GET_ORGANIZERS_REJECTED,
+    GET_TICKETS_PENDING,
+    GET_TICKETS_FULFILLED,
+    GET_TICKETS_REJECTED
 } from '../../actions/blank';
 
 const initialState = {
     isFetching: false,
     batch: [],
+    organizers: [],
+    tickets: [],
     ticket: {}
 };
 
@@ -115,6 +123,41 @@ function blankReducer(state = initialState, action) {
         case HANDLE_TICKET: {
             return Object.assign({}, state, {
                 ticket: action.payload
+            });
+        }
+        case GET_ORGANIZERS_PENDING: {
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        }
+        case GET_ORGANIZERS_FULFILLED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                organizers: action.payload
+            });
+        }
+        case GET_ORGANIZERS_REJECTED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
+            });
+        }
+
+        case GET_TICKETS_PENDING: {
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        }
+        case GET_TICKETS_FULFILLED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                tickets: action.payload
+            });
+        }
+        case GET_TICKETS_REJECTED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
             });
         }
         default:

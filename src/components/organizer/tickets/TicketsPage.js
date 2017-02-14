@@ -4,28 +4,24 @@ import { bindActionCreators } from 'redux';
 import { Row, Col } from 'antd';
 
 import BlankActions from '../../../actions/blank';
-import TicketPanelComponent from './TicketPanelComponent';
+import TicketsTableComponent from './TicketsTableComponent.js';
 
 class TicketPage extends Component {
 
     componentWillMount() {
-        const inn = this.props.location.pathname.split('/')[1];
-        this.props.getTicket(inn, this.props.routeParams.id);
+        const inn = this.props.location.pathname.split('/')[2];
+        this.props.getTickets(inn);
     };
 
     render() {
-        const {ticket, isFetching, routeParams, sellTicket, cancelTicket, editTicket, handleTicket} = this.props;
+        const {tickets, isFetching, routeParams} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
-                <Col span={24}>
-                    <TicketPanelComponent
-                        ticket={ticket}
+                <Col span={16} offset={4}>
+                    <TicketsTableComponent
+                        tickets={tickets}
                         isFetching={isFetching}
                         inn={routeParams.inn}
-                        sellTicket={sellTicket}
-                        cancelTicket={cancelTicket}
-                        editTicket={editTicket}
-                        handleTicket={handleTicket}
                     />
                 </Col>
             </Row>
@@ -36,15 +32,13 @@ class TicketPage extends Component {
 TicketPage.PropTypes = {
     getTicket: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    sellTicket: PropTypes.func.isRequired,
-    cancelTicket: PropTypes.func.isRequired,
-    editTicket: PropTypes.func.isRequired,
-    handleTicket: PropTypes.func.isRequired
+    tickets: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
     return ({
-        ticket: state.blank.ticket,
+        tickets: state.blank.tickets,
         isFetching: state.blank.isFetching
     })
 };

@@ -17,6 +17,10 @@ export const GET_TICKET_PENDING = 'GET_TICKET_PENDING';
 export const GET_TICKET_FULFILLED = 'GET_TICKET_FULFILLED';
 export const GET_TICKET_REJECTED = 'GET_TICKET_REJECTED';
 
+export const GET_TICKETS_PENDING = 'GET_TICKETS_PENDING';
+export const GET_TICKETS_FULFILLED = 'GET_TICKETS_FULFILLED';
+export const GET_TICKETS_REJECTED = 'GET_TICKETS_REJECTED';
+
 export const SELL_TICKET_PENDING = 'SELL_TICKET_PENDING';
 export const SELL_TICKET_FULFILLED = 'SELL_TICKET_FULFILLED';
 export const SELL_TICKET_REJECTED = 'SELL_TICKET_REJECTED';
@@ -30,6 +34,10 @@ export const EDIT_TICKET_FULFILLED = 'EDIT_TICKET_FULFILLED';
 export const EDIT_TICKET_REJECTED = 'EDIT_TICKET_REJECTED';
 
 export const HANDLE_TICKET = 'HANDLE_TICKET';
+
+export const GET_ORGANIZERS_PENDING = 'GET_ORGANIZERS_PENDING';
+export const GET_ORGANIZERS_FULFILLED = 'GET_ORGANIZERS_FULFILLED';
+export const GET_ORGANIZERS_REJECTED = 'GET_ORGANIZERS_REJECTED';
 
 
 export default class BlankActions {
@@ -86,7 +94,7 @@ export default class BlankActions {
         };
     };
 
-    getTicket = (inn,ticketId) => {
+    getTicket = (inn, ticketId) => {
         let isError = false;
         return dispatch => {
             dispatch({type: GET_TICKET_PENDING});
@@ -190,5 +198,132 @@ export default class BlankActions {
 
     handleTicket = (ticket) => {
         return { type: HANDLE_TICKET, payload: ticket };
-    }
+    };
+
+    getOrganizers = () => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: GET_ORGANIZERS_PENDING});
+            fetch(`${config.baseUrl}organizers`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: GET_ORGANIZERS_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        const promiseList = json.map(inn => dispatch(this.getOrganizerByInnPromise(inn)));
+                        Promise.all(promiseList).then(result => {
+                            const organizers = result.map(r => r.payload);
+                            dispatch({type: GET_ORGANIZERS_FULFILLED, payload: organizers});
+                        });
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
+
+    getOrganizerByInnPromise = (inn) => {
+        let isError = false;
+        return (
+            fetch(`${config.baseUrl}organizers/${inn}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        return {type: 'GET_ORGANIZER_FULFILLED', payload: json};
+                    } else {
+                        openNotification('error', json);
+                    }
+                })
+        );
+    };
+
+    getOrganizerByInn = (inn) => {
+        let isError = false;
+        return dispatch => {
+            fetch(`${config.baseUrl}organizers/${inn}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        return json;
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
+
+    getTicketPromise = (inn,ticketId) => {
+        let isError = false;
+        return (
+            fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        return {type: GET_TICKET_FULFILLED, payload: json};
+                    } else {
+                        openNotification('error', json);
+                    }
+                })
+        );
+    };
+
+    getTickets = (inn) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: GET_TICKETS_PENDING});
+            fetch(`${config.baseUrl}organizers/${inn}/tickets`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: GET_TICKETS_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                        Promise.all(promiseList).then(result => {
+                            const tickets = result.map(r => r.payload);
+                            dispatch({type: GET_TICKETS_FULFILLED, payload: tickets});
+                        });
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
 }
