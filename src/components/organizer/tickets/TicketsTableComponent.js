@@ -1,8 +1,10 @@
 import React, {Component, PropTypes} from 'react';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Input } from 'antd';
 import { Link } from 'react-router'
 
 const { Column, ColumnGroup } = Table;
+
+const Search = Input.Search;
 
 class TicketsTableComponent extends Component {
 
@@ -39,9 +41,16 @@ class TicketsTableComponent extends Component {
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
 
-                <div className="panel">
+                <div className="panel tickets">
                     <div className="panel-head">
                         <h3>Билеты</h3>
+                        <div className="search">
+                            <Search
+                                placeholder="серия/номер"
+                                style={{ width: 200 }}
+                                onSearch={value => console.log(value)}
+                            />
+                        </div>
                     </div>
                     {data.length ? <Table dataSource={data} columns={columns} pagination={false} /> : null}
                 </div>
