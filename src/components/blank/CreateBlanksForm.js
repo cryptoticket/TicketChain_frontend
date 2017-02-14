@@ -71,7 +71,7 @@ class CreateBlanksForm extends Component {
                         }
                     </FormItem>
 
-                    <FormItem {...tailFormItemLayout}>
+                    <FormItem {...formItemLayout}>
                         <Button
                             type="primary"
                             htmlType="submit"
@@ -79,6 +79,18 @@ class CreateBlanksForm extends Component {
                             loading={isFetching}
                         >
                             Сгенерировать бланки
+                        </Button>
+                    </FormItem>
+
+                    <FormItem {...tailFormItemLayout}>
+                        <Button
+                            disabled
+                            type="submit"
+                            htmlType="submit"
+                            size="default"
+                            loading={isFetching}
+                        >
+                            Сгенерировать из CSV файла
                         </Button>
                     </FormItem>
                 </Form>
