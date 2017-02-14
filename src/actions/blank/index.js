@@ -29,6 +29,8 @@ export const EDIT_TICKET_PENDING = 'EDIT_TICKET_PENDING';
 export const EDIT_TICKET_FULFILLED = 'EDIT_TICKET_FULFILLED';
 export const EDIT_TICKET_REJECTED = 'EDIT_TICKET_REJECTED';
 
+export const HANDLE_TICKET = 'HANDLE_TICKET';
+
 
 export default class BlankActions {
 
@@ -185,4 +187,8 @@ export default class BlankActions {
                 });
         };
     };
+
+    handleTicket = (ticket) => {
+        return { type: HANDLE_TICKET, payload: ticket };
+    }
 }

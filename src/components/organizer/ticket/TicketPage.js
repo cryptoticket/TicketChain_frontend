@@ -13,7 +13,7 @@ class TicketPage extends Component {
     };
 
     render() {
-        const {ticket, isFetching, routeParams, sellTicket, cancelTicket, editTicket} = this.props;
+        const {ticket, isFetching, routeParams, sellTicket, cancelTicket, editTicket, handleTicket} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col span={24}>
@@ -24,6 +24,7 @@ class TicketPage extends Component {
                         sellTicket={sellTicket}
                         cancelTicket={cancelTicket}
                         editTicket={editTicket}
+                        handleTicket={handleTicket}
                     />
                 </Col>
             </Row>
@@ -36,7 +37,8 @@ TicketPage.PropTypes = {
     isFetching: PropTypes.bool.isRequired,
     sellTicket: PropTypes.func.isRequired,
     cancelTicket: PropTypes.func.isRequired,
-    editTicket: PropTypes.func.isRequired
+    editTicket: PropTypes.func.isRequired,
+    handleTicket: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => {

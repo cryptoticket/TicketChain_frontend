@@ -32,6 +32,9 @@ class BatchTableComponent extends Component {
             <Spin tip="Загрузка..." spinning={isFetching}>
 
                 <div className="panel">
+                    <div className="panel-head">
+                        <h3>Организатор: {inn}</h3>
+                    </div>
                     {data.length ? <Table dataSource={data} columns={columns} pagination={false} /> : null}
                 </div>
             </Spin>

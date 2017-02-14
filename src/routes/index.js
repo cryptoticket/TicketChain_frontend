@@ -3,6 +3,7 @@ import { Route, IndexRoute } from 'react-router';
 
 import BaseComponent from '../components/BaseComponent';
 import NotFoundComponent from '../components/common/NotFoundComponent';
+import MainPage from '../components/main/MainPage';
 
 import CreateBlanksPage from '../components/blank/CreateBlanksPage';
 import OrganizerComponent from '../components/organizer/OrganizerComponent';
@@ -30,6 +31,7 @@ export const urls = {
 export default (
     <Route>
         <Route path={urls.index.path} component={BaseComponent}>
+            <IndexRoute component={MainPage} />
             <Route path={urls.newTickets.path} component={CreateBlanksPage} />
             <Route path={urls.organizers.batches.path} component={BatchPage} />
             <Route path={urls.organizers.tickets.path} component={TicketPage} />

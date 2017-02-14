@@ -16,7 +16,8 @@ import {
     CANCEL_TICKET_REJECTED,
     EDIT_TICKET_PENDING,
     EDIT_TICKET_FULFILLED,
-    EDIT_TICKET_REJECTED
+    EDIT_TICKET_REJECTED,
+    HANDLE_TICKET
 } from '../../actions/blank';
 
 const initialState = {
@@ -109,6 +110,11 @@ function blankReducer(state = initialState, action) {
             return Object.assign({}, state, {
                 isFetching: false,
                 errorMessage: action.payload
+            });
+        }
+        case HANDLE_TICKET: {
+            return Object.assign({}, state, {
+                ticket: action.payload
             });
         }
         default:
