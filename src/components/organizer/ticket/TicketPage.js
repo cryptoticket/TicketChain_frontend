@@ -9,7 +9,7 @@ import TicketPanelComponent from './TicketPanelComponent';
 class TicketPage extends Component {
 
     componentWillMount() {
-        const inn = this.props.location.pathname.split('/')[1];
+        const inn = this.props.location.pathname.split('/')[2];
         this.props.getTicket(inn, this.props.routeParams.id);
     };
 
@@ -21,7 +21,7 @@ class TicketPage extends Component {
                     <TicketPanelComponent
                         ticket={ticket}
                         isFetching={isFetching}
-                        inn={routeParams.inn}
+                        inn={this.props.location.pathname.split('/')[2]}
                         sellTicket={sellTicket}
                         cancelTicket={cancelTicket}
                         editTicket={editTicket}

@@ -11,8 +11,8 @@ import 'antd/dist/antd.less';
 import moment from 'moment';
 import 'moment/locale/ru';
 
-window.moment = moment;
 moment.locale('ru');
+window.moment = moment;
 
 render(
   <Provider store={store}>

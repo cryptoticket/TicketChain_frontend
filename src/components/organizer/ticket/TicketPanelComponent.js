@@ -1,5 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import { Form, Row, Col, Table, Spin, Button, Input, Switch, DatePicker } from 'antd';
+import ruRU from 'antd/lib/date-picker/locale/ru_RU';
+
 
 const FormItem = Form.Item;
 const { Column, ColumnGroup } = Table;
@@ -68,7 +70,8 @@ class TicketPanelComponent extends Component {
                 </Col>
                 <Col span={14}>
                     <FormItem style={{ marginBottom: 0 }}>
-                        {this.props.form.getFieldDecorator(value)( <DatePicker format='YYYY/MM/DD' size="default"/>)}
+                        {this.props.form.getFieldDecorator(value)
+                        ( <DatePicker locale={ruRU} format='YYYY/MM/DD' size="default"/>)}
                     </FormItem>
                 </Col>
             </Row>
@@ -126,7 +129,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Адрес', 'seller_address')}
                             </Col>
                             <Col span={8} style={{ textAlign: 'right' }}>
-                                <div style={{marginTop: '116px'}}>
+                                <div style={{marginTop: '168px'}}>
                                     {ticket.status === 'created' ?
                                         <Button
                                             style={{marginRight: '8px'}}

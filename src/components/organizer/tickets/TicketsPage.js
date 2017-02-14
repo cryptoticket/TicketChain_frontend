@@ -21,7 +21,7 @@ class TicketPage extends Component {
                     <TicketsTableComponent
                         tickets={tickets}
                         isFetching={isFetching}
-                        inn={routeParams.inn}
+                        inn={this.props.location.pathname.split('/')[2]}
                     />
                 </Col>
             </Row>

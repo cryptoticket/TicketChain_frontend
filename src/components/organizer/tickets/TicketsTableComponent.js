@@ -29,7 +29,9 @@ class TicketsTableComponent extends Component {
                 title: 'Серийный Номер',
                 dataIndex: 'serial_number',
                 key: 'serial_number',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{text}</Link>
+                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>
+                    {text.slice(0, 2) + " " + text.slice(2)}
+                </Link>
             }, {
                 title: 'Дата создания',
                 dataIndex: 'created_date',
