@@ -22,7 +22,7 @@ class BatchTableComponent extends Component {
                 key: 'number',
                 render: (text) => <Link to={`/organizers/${inn}/tickets/${text}`}>{text}</Link>
             }, {
-                title: 'Серийный номер',
+                title: 'Номер/серию',
                 dataIndex: 'serial_number',
                 key: 'serial_number',
                 render: (text) => <Link to={`/organizers/${inn}/tickets/${text}`}>

@@ -103,7 +103,7 @@ class TicketPanelComponent extends Component {
                     <Form onSubmit={this.editTicket} style={{paddingTop: '20px'}}>
                         <Row gutter={2}>
                             <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRow('Серийный номер', ticket.serial_number)}
+                                {this.getRow('Номер/серия', ticket.serial_number)}
                                 {this.getRow('ID', ticket.id)}
                                 {this.getRow('Статус', ticket.state)}
                                 {this.getRow('Дата создания', ticket.created_date)}

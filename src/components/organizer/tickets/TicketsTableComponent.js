@@ -26,7 +26,7 @@ class TicketsTableComponent extends Component {
                 key: 'number',
                 render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{text}</Link>
             }, {
-                title: 'Серийный Номер',
+                title: 'Номер/серию',
                 dataIndex: 'serial_number',
                 key: 'serial_number',
                 render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>
