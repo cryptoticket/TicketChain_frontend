@@ -47,6 +47,21 @@ class TicketPanelComponent extends Component {
         )
     };
 
+    getDoubleRowInput = (value) => {
+        return (
+            <Row gutter={2} style={{ marginTop: 8 }}>
+                <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
+                    <h4>Компания&nbsp;&nbsp; выпустившая билет:&nbsp;</h4>
+                </Col>
+                <Col span={12} style={{ paddingTop: 12 }}>
+                    <FormItem style={{ marginBottom: 0 }}>
+                        {this.props.form.getFieldDecorator(value)(<Input size="default"/>)}
+                    </FormItem>
+                </Col>
+            </Row>
+        )
+    };
+
     getRowSwitch = (label, value) => {
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
@@ -65,7 +80,7 @@ class TicketPanelComponent extends Component {
     getRowDatePicker = (label, value) => {
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
-                <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
+                <Col span={10} style={{ textAlign: 'center', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
                 <Col span={14}>
@@ -106,7 +121,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Категория билета', 'ticket_category')}
                             </Col>
                             <Col span={8}>
-                                {this.getRowInput('Эмиттер', 'issuer')}
+                                {this.getDoubleRowInput('issuer')}
                                 {this.getRowInput('ИНН', 'issuer_inn')}
                                 {this.getRowInput('ОГРН', 'issuer_ogrn')}
                                 {this.getRowInput('ОГРНИП', 'issuer_ogrnip')}

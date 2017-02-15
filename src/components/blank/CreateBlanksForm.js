@@ -71,7 +71,7 @@ class CreateBlanksForm extends Component {
                         }
                     </FormItem>
 
-                    <FormItem {...formItemLayout}>
+                    <FormItem {...tailFormItemLayout}>
                         <Button
                             type="primary"
                             htmlType="submit"
@@ -80,10 +80,8 @@ class CreateBlanksForm extends Component {
                         >
                             Сгенерировать бланки
                         </Button>
-                    </FormItem>
-
-                    <FormItem {...tailFormItemLayout}>
                         <Button
+                            style={{marginTop: '12px'}}
                             disabled
                             type="submit"
                             htmlType="submit"
