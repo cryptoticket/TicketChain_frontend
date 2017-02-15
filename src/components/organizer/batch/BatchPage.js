@@ -17,7 +17,7 @@ class BatchPage extends Component {
         const {batch, routeParams, isFetching} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
-                <Col span={12} offset={6}>
+                <Col  xs={24} sm={24} md={{span:12, offset:6}} lg={{span:12, offset:6}}>
                     <BatchTableComponent
                         batch={batch}
                         inn={routeParams.inn}

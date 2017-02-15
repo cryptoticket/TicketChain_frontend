@@ -8,7 +8,7 @@ class MainPage extends Component {
         return (
             <div className="panel main">
                 <Row gutter={2} style={{ marginTop: 8 }}>
-                    <Col span={12}>
+                    <Col xs={24} sm={12} md={12} lg={12}>
                         <div className="logo">
                             <img src='src/assets/img/chain.jpg'/>
                         </div>
@@ -16,7 +16,7 @@ class MainPage extends Component {
                             <p>TicketChain</p>
                         </div>
                     </Col>
-                    <Col span={12} className="menu">
+                    <Col xs={24} sm={12} md={12} lg={12} className="menu">
                         <Link to={`/organizers`}><p>Организаторы</p></Link>
                         <Link to={`/new_tickets`}><p>Создание бланков</p></Link>
                     </Col>

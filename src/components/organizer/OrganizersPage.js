@@ -17,7 +17,7 @@ class OrganizersPage extends Component {
         const {organizers, isFetching} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
-                <Col span={16} offset={4}>
+                <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
                     <BatchTableComponent
                         organizers={organizers}
                         isFetching={isFetching}

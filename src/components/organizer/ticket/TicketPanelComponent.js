@@ -102,7 +102,7 @@ class TicketPanelComponent extends Component {
                 <div className="panel">
                     <Form onSubmit={this.editTicket} style={{paddingTop: '20px'}}>
                         <Row gutter={2}>
-                            <Col span={8}>
+                            <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRow('Серийный номер', ticket.serial_number)}
                                 {this.getRow('ID', ticket.id)}
                                 {this.getRow('Статус', ticket.state)}
@@ -112,7 +112,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Покупатель', 'buyer_name')}
                                 {this.getRowDatePicker('Дата покупки', 'buying_date')}
                             </Col>
-                            <Col span={8}>
+                            <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Мероприятие', 'event_title')}
                                 {this.getRowInput('Место проведения', 'event_place_title')}
                                 {this.getRowDatePicker('Дата', 'event_date')}
@@ -121,7 +121,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Место', 'seat')}
                                 {this.getRowInput('Категория билета', 'ticket_category')}
                             </Col>
-                            <Col span={8}>
+                            <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getDoubleRowInput('issuer')}
                                 {this.getRowInput('ИНН', 'issuer_inn')}
                                 {this.getRowInput('ОГРН', 'issuer_ogrn')}
@@ -130,21 +130,21 @@ class TicketPanelComponent extends Component {
                             </Col>
                         </Row>
                         <Row gutter={2} style={{ marginTop: 16 }}>
-                            <Col span={8}>
+                            <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRow('Организатор', ticket.organizer)}
                                 {this.getRow('ИНН', ticket.organizer_inn)}
                                 {this.getRow('ОГРН', ticket.organizer_ogrn)}
                                 {this.getRow('ОГРНИП', ticket.organizer_ogrnip)}
                                 {this.getRow('Адрес', ticket.organizer_address)}
                             </Col>
-                            <Col span={8}>
+                            <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Продавец', 'seller')}
                                 {this.getRowInput('ИНН', 'seller_inn')}
                                 {this.getRowInput('ОГРН', 'seller_ogrn')}
                                 {this.getRowInput('ОГРНИП', 'seller_ogrnip')}
                                 {this.getRowInput('Адрес', 'seller_address')}
                             </Col>
-                            <Col span={8} style={{ textAlign: 'right' }}>
+                            <Col xs={24} sm={12} md={12} lg={8} style={{ textAlign: 'right' }}>
                                 <div style={{marginTop: '168px'}}>
                                     {ticket.status === 'created' ?
                                         <Button

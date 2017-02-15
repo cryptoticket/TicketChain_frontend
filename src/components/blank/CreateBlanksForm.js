@@ -72,24 +72,28 @@ class CreateBlanksForm extends Component {
                     </FormItem>
 
                     <FormItem {...tailFormItemLayout}>
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            size="default"
-                            loading={isFetching}
-                        >
-                            Сгенерировать бланки
-                        </Button>
-                        <Button
-                            style={{marginTop: '12px'}}
-                            disabled
-                            type="submit"
-                            htmlType="submit"
-                            size="default"
-                            loading={isFetching}
-                        >
-                            Сгенерировать из CSV файла
-                        </Button>
+                        <div>
+                            <Button
+                                type="primary"
+                                htmlType="submit"
+                                size="default"
+                                loading={isFetching}
+                            >
+                                Сгенерировать бланки
+                            </Button>
+                        </div>
+                        <div>
+                            <Button
+                                style={{marginTop: '12px'}}
+                                disabled
+                                type="submit"
+                                htmlType="submit"
+                                size="default"
+                                loading={isFetching}
+                            >
+                                Сгенерировать из CSV файла
+                            </Button>
+                        </div>
                     </FormItem>
                 </Form>
             </div>
