@@ -78,6 +78,7 @@ class TicketPanelComponent extends Component {
     };
 
     getRowDatePicker = (label, value) => {
+        moment.locale('ru');
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
                 <Col span={10} style={{ textAlign: 'center', paddingTop: 6 }}>
