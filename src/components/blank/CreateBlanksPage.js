@@ -11,9 +11,9 @@ import CreateBlanksForm from './CreateBlanksForm';
 class CreateBlanksPage extends Component {
 
     showConfirm = () => {
-        const {createNewBatch, newBatch} = this.props;
+        const {createNewBatch, newBatch, ticketCount} = this.props;
         confirm({
-            title: 'Сгенерировать 16 бланков?',
+            title: `Сгенерировать ${ticketCount} бланков?`,
             okText: 'Ок',
             cancelText: 'Отмена',
             onOk: () =>  {
