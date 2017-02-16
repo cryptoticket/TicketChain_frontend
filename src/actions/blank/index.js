@@ -5,6 +5,10 @@ import {openNotification} from '../notification';
 import { browserHistory } from 'react-router';
 import { urls } from '../../routes';
 
+export const GET_TICKET_COUNT_PENDING = 'GET_TICKET_COUNT_PENDING';
+export const GET_TICKET_COUNT_FULFILLED = 'GET_TICKET_COUNT_FULFILLED';
+export const GET_TICKET_COUNT_REJECTED = 'GET_TICKET_COUNT_REJECTED';
+
 export const CREATE_NEW_BATCH_PENDING = 'CREATE_NEW_BATCH_PENDING';
 export const CREATE_NEW_BATCH_FULFILLED = 'CREATE_NEW_BATCH_FULFILLED';
 export const CREATE_NEW_BATCH_REJECTED = 'CREATE_NEW_BATCH_REJECTED';
@@ -41,6 +45,33 @@ export const GET_ORGANIZERS_REJECTED = 'GET_ORGANIZERS_REJECTED';
 
 
 export default class BlankActions {
+
+    getTicketCount = (data, callback) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: GET_TICKET_COUNT_PENDING, payload: data});
+            fetch(`${config.baseUrl}organizers/${data.inn}/calculate_ticket_count`,
+                { method: 'POST',
+                    headers: getHeaders(),
+                    body: JSON.stringify(data)
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: GET_TICKET_COUNT_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: GET_TICKET_COUNT_FULFILLED, payload: json});
+                        if (callback) callback();
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
 
     createNewBatch = (inn, data) => {
         let isError = false;

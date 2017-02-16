@@ -12,7 +12,7 @@ class CreateBlanksForm extends Component {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
-                this.props.submit(values.inn, {number_of_tickets: values.numberOfTickets})
+                this.props.submit(values, this.props.showConfirm)
             }
         });
     };
@@ -27,13 +27,57 @@ class CreateBlanksForm extends Component {
         }
     };
 
+    checkStartSeries = (rule, value, callback) => {
+        const form = this.props.form;
+        const reg = /[^А-Я]/;
+        if (value && (value.length !== 2 || reg.test(value))) {
+            callback('Введите начало серии (две буквы кириллицы заглавными)');
+        } else {
+            callback();
+        }
+    };
+
+    checkEndSeries = (rule, value, callback) => {
+        const form = this.props.form;
+        const reg = /[^А-Я]/;
+        if (value && (value.length !== 2 || reg.test(value))) {
+            callback('Введите конец серии (две буквы кириллицы заглавными)');
+        } else {
+            callback();
+        }
+    };
+
+    checkStartNumber = (rule, value, callback) => {
+        const form = this.props.form;
+        const reg = /[^0-9]/;
+        if (value && (value.length !== 6 || reg.test(value))) {
+            callback('Введите начало номера (6 цифр)');
+        } else {
+            callback();
+        }
+    };
+
+    checkEndNumber = (rule, value, callback) => {
+        const form = this.props.form;
+        const reg = /[^0-9]/;
+        if (value && (value.length !== 6 || reg.test(value))) {
+            callback('Введите конец номера (6 цифр)');
+        } else {
+            callback();
+        }
+    };
+
     render() {
         const { getFieldDecorator } = this.props.form;
         const {isFetching} = this.props;
 
         const formItemLayout = {
             labelCol: { span: 8 },
-            wrapperCol: { span: 12 }
+            wrapperCol: { span: 10 }
+        };
+        const formItemLayoutShort = {
+            labelCol: { span: 8 },
+            wrapperCol: { span: 6 }
         };
         const tailFormItemLayout = {
             wrapperCol: {
@@ -58,16 +102,56 @@ class CreateBlanksForm extends Component {
                             })(<Input size="default" maxLength="10"/>)
                         }
                     </FormItem>
-
                     <FormItem
-                        {...formItemLayout}
-                        label="Кол-во бланков"
+                        {...formItemLayoutShort}
+                        label="Начало - Серия"
                         hasFeedback
                     >
                         {getFieldDecorator(
-                            'numberOfTickets',
-                            {rules: [{required: true, message: 'Требуется указать кол-во бланков!'}]
-                            })(<InputNumber size="default" min={1}/>)
+                            'start_series',
+                            {rules: [{required: true, message: 'Требуется ввести начало серии!'},
+                                {validator: this.checkStartSeries}
+                            ]
+                            })(<Input size="default" maxLength="10"/>)
+                        }
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayoutShort}
+                        label="Начало - Номер"
+                        hasFeedback
+                    >
+                        {getFieldDecorator(
+                            'start_number',
+                            {rules: [{required: true, message: 'Требуется ввести начало номера!'},
+                                {validator: this.checkStartNumber}
+                            ]
+                            })(<Input size="default" maxLength="10"/>)
+                        }
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayoutShort}
+                        label="Конец - Серия"
+                        hasFeedback
+                    >
+                        {getFieldDecorator(
+                            'end_series',
+                            {rules: [{required: true, message: 'Требуется ввести конец серии!'},
+                                {validator: this.checkEndSeries}
+                            ]
+                            })(<Input size="default" maxLength="10"/>)
+                        }
+                    </FormItem>
+                    <FormItem
+                        {...formItemLayoutShort}
+                        label="Конец - Номер"
+                        hasFeedback
+                    >
+                        {getFieldDecorator(
+                            'end_number',
+                            {rules: [{required: true, message: 'Требуется ввести конец номера!'},
+                                {validator: this.checkEndNumber}
+                            ]
+                            })(<Input size="default" maxLength="10"/>)
                         }
                     </FormItem>
 
@@ -103,6 +187,7 @@ class CreateBlanksForm extends Component {
 
 CreateBlanksForm.PropTypes = {
     submit: PropTypes.func.isRequired,
+    showConfirm: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired
 };
 

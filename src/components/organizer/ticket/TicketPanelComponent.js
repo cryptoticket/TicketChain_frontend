@@ -77,17 +77,17 @@ class TicketPanelComponent extends Component {
         )
     };
 
-    getRowDatePicker = (label, value) => {
+    getRowDatePicker = (label, value, disabled) => {
         moment.locale('ru');
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
-                <Col span={10} style={{ textAlign: 'center', paddingTop: 6 }}>
+                <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
                 <Col span={14}>
                     <FormItem style={{ marginBottom: 0 }}>
                         {this.props.form.getFieldDecorator(value)
-                        ( <DatePicker locale={ruRU} format='YYYY/MM/DD' size="default"/>)}
+                        ( <DatePicker locale={ruRU} format='YYYY/MM/DD' size="default" disabled={disabled}/> )}
                     </FormItem>
                 </Col>
             </Row>
@@ -111,6 +111,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowSwitch('Бумажный билет', 'is_paper_ticket')}
                                 {this.getRowInput('Покупатель', 'buyer_name')}
                                 {this.getRowDatePicker('Дата покупки', 'buying_date')}
+                                {this.getRowDatePicker('Дата отмены', 'cancelled_date', ticket.state !== 'cancelled')}
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Мероприятие', 'event_title')}
@@ -219,6 +220,10 @@ export default Form.create({
             buying_date: {
                 ...props.buying_date,
                 value: moment(props.ticket.buying_date)
+            },
+            cancelled_date: {
+                ...props.cancelled_date,
+                value: moment(props.ticket.cancelled_date)
             },
             issuer: {
                 ...props.issuer,

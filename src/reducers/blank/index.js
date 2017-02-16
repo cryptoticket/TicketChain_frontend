@@ -1,4 +1,7 @@
 import {
+    GET_TICKET_COUNT_PENDING,
+    GET_TICKET_COUNT_FULFILLED,
+    GET_TICKET_COUNT_REJECTED,
     CREATE_NEW_BATCH_PENDING,
     CREATE_NEW_BATCH_FULFILLED,
     CREATE_NEW_BATCH_REJECTED,
@@ -36,6 +39,25 @@ const initialState = {
 
 function blankReducer(state = initialState, action) {
     switch (action.type) {
+        case GET_TICKET_COUNT_PENDING: {
+            return Object.assign({}, state, {
+                newBatch: action.payload,
+                isFetching: true
+            });
+        }
+        case GET_TICKET_COUNT_FULFILLED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                ticketCount: action.payload.count
+            });
+        }
+        case GET_TICKET_COUNT_REJECTED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
+            });
+        }
+
         case CREATE_NEW_BATCH_PENDING: {
             return Object.assign({}, state, {
                 isFetching: true
