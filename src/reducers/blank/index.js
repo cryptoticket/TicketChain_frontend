@@ -98,9 +98,13 @@ function blankReducer(state = initialState, action) {
             });
         }
         case GET_TICKET_FULFILLED: {
+            const ticket = action.payload;
+            if (ticket.state === 'created') {
+                delete ticket.buying_date;
+            }
             return Object.assign({}, state, {
                 isFetching: false,
-                ticket: action.payload
+                ticket
             });
         }
         case GET_TICKET_REJECTED: {

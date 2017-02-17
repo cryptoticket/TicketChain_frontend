@@ -147,7 +147,7 @@ class TicketPanelComponent extends Component {
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8} style={{ textAlign: 'right' }}>
                                 <div style={{marginTop: '168px'}}>
-                                    {ticket.status === 'created' ?
+                                    {ticket.state === 'created' ?
                                         <Button
                                             style={{marginRight: '8px'}}
                                             type="primary"
@@ -219,11 +219,11 @@ export default Form.create({
             },
             buying_date: {
                 ...props.buying_date,
-                value: moment(props.ticket.buying_date)
+                value: props.ticket.buying_date ? moment(props.ticket.buying_date) : null
             },
             cancelled_date: {
                 ...props.cancelled_date,
-                value: moment(props.ticket.cancelled_date)
+                value: props.ticket.cancelled_date ? moment(props.ticket.cancelled_date) : null
             },
             issuer: {
                 ...props.issuer,
@@ -255,7 +255,7 @@ export default Form.create({
             },
             event_date: {
                 ...props.event_date,
-                value: moment(props.ticket.event_date)
+                value: props.ticket.event_date ? moment(props.ticket.event_date) : null
             },
             event_place_address: {
                 ...props.event_place_address,
