@@ -4,6 +4,10 @@ import { bindActionCreators } from 'redux';
 
 import { Form, Input, InputNumber, Button } from 'antd';
 
+import InnInput from './InnInput';
+import SeriesInput from './SeriesInput';
+import NumberInput from './NumberInput';
+
 const FormItem = Form.Item;
 
 class CreateBlanksForm extends Component {
@@ -11,15 +15,16 @@ class CreateBlanksForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
+            let data = {};
+            Object.keys(values).forEach(p => (data[p] = values[p][p]));
             if (!err) {
-                this.props.submit(values, this.props.showConfirm)
+                this.props.submit(data, this.props.showConfirm)
             }
         });
     };
 
     checkInn = (rule, value, callback) => {
-        const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
-        if (reg.test(value) && value.length === 10 || isNaN(value)) {
+        if (value && value.inn && (value.inn.length === 12 || value.inn.length === 8)) {
             callback();
             return;
         } else {
@@ -27,11 +32,15 @@ class CreateBlanksForm extends Component {
         }
     };
 
+    // handleInn = () => {
+    //     this.props.form.setFieldsValue({inn: 'fdf'});
+    //   debugger
+    // };
+
     checkStartSeries = (rule, value, callback) => {
         const form = this.props.form;
-        const reg = /[^А-Я]/;
-        if (value && (value.length !== 2 || reg.test(value))) {
-            callback('Введите начало серии (две буквы кириллицы заглавными)');
+        if (value && value.start_series && value.start_series.length !== 2) {
+            callback('Введите начало серии!');
         } else {
             callback();
         }
@@ -39,9 +48,8 @@ class CreateBlanksForm extends Component {
 
     checkEndSeries = (rule, value, callback) => {
         const form = this.props.form;
-        const reg = /[^А-Я]/;
-        if (value && (value.length !== 2 || reg.test(value))) {
-            callback('Введите конец серии (две буквы кириллицы заглавными)');
+        if (value && value.end_series && value.end_series.length !== 2) {
+            callback('Введите конец серии !');
         } else {
             callback();
         }
@@ -49,8 +57,7 @@ class CreateBlanksForm extends Component {
 
     checkStartNumber = (rule, value, callback) => {
         const form = this.props.form;
-        const reg = /[^0-9]/;
-        if (value && (value.length !== 6 || reg.test(value))) {
+        if (value && value.start_number && value.start_number.length !== 6) {
             callback('Введите начало номера (6 цифр)');
         } else {
             callback();
@@ -59,8 +66,7 @@ class CreateBlanksForm extends Component {
 
     checkEndNumber = (rule, value, callback) => {
         const form = this.props.form;
-        const reg = /[^0-9]/;
-        if (value && (value.length !== 6 || reg.test(value))) {
+        if (value && value.end_number && value.end_number.length !== 6) {
             callback('Введите конец номера (6 цифр)');
         } else {
             callback();
@@ -73,11 +79,11 @@ class CreateBlanksForm extends Component {
 
         const formItemLayout = {
             labelCol: { span: 8 },
-            wrapperCol: { span: 10 }
+            wrapperCol: { span: 8 }
         };
         const formItemLayoutShort = {
             labelCol: { span: 8 },
-            wrapperCol: { span: 6 }
+            wrapperCol: { span: 4 }
         };
         const tailFormItemLayout = {
             wrapperCol: {
@@ -96,10 +102,8 @@ class CreateBlanksForm extends Component {
                     >
                         {getFieldDecorator(
                             'inn',
-                            {rules: [{required: true, message: 'Требуется ввести ИНН!'},
-                                {validator: this.checkInn}
-                            ]
-                            })(<Input size="default" maxLength="10"/>)
+                            {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
+                            })(<InnInput/>)
                         }
                     </FormItem>
                     <FormItem
@@ -112,7 +116,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести начало серии!'},
                                 {validator: this.checkStartSeries}
                             ]
-                            })(<Input size="default" maxLength="10"/>)
+                            })(<SeriesInput field={'start_series'}/>)
                         }
                     </FormItem>
                     <FormItem
@@ -125,7 +129,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести начало номера!'},
                                 {validator: this.checkStartNumber}
                             ]
-                            })(<Input size="default" maxLength="10"/>)
+                            })(<NumberInput field={'start_number'}/>)
                         }
                     </FormItem>
                     <FormItem
@@ -138,7 +142,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести конец серии!'},
                                 {validator: this.checkEndSeries}
                             ]
-                            })(<Input size="default" maxLength="10"/>)
+                            })(<SeriesInput field={'end_series'}/>)
                         }
                     </FormItem>
                     <FormItem
@@ -151,7 +155,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести конец номера!'},
                                 {validator: this.checkEndNumber}
                             ]
-                            })(<Input size="default" maxLength="10"/>)
+                            })(<NumberInput field={'end_number'}/>)
                         }
                     </FormItem>
 
