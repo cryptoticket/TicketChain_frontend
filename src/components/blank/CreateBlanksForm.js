@@ -25,7 +25,7 @@ class CreateBlanksForm extends Component {
     };
 
     checkInn = (rule, value, callback) => {
-        if (value && value.inn && (value.inn.length === 12 || value.inn.length === 8)) {
+        if (value && value.inn && (value.inn.length === 12 || value.inn.length === 10)) {
             callback();
             return;
         } else {

@@ -94,7 +94,7 @@ export default class BlankActions {
                         dispatch({type: CREATE_NEW_BATCH_FULFILLED, payload: json});
                         browserHistory.push(`organizers/${inn}/batches/${json.batch_id}`);
                     } else {
-                        openNotification('error', json);
+                        openNotification('error', `Бланк с номером ${json.collision} уже существует.`);
                     }
                 });
         };
