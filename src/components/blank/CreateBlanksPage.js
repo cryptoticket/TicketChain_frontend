@@ -12,8 +12,12 @@ class CreateBlanksPage extends Component {
 
     showConfirm = () => {
         const {createNewBatch, newBatch, ticketCount} = this.props;
+        const title = `Сгенерировать ${ticketCount} ` +
+            (ticketCount === 1 ? `бланк?`:
+                ticketCount === 2 || ticketCount === 3 || ticketCount === 4 ? `бланка` :
+                    `бланков`);
         confirm({
-            title: `Сгенерировать ${ticketCount} бланков?`,
+            title,
             okText: 'Ок',
             cancelText: 'Отмена',
             onOk: () =>  {
