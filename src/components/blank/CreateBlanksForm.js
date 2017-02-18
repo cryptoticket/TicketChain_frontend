@@ -15,9 +15,10 @@ class CreateBlanksForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
-            let data = {};
-            Object.keys(values).forEach(p => (data[p] = values[p][p]));
             if (!err) {
+                let data = {};
+                Object.keys(values).forEach(p => (data[p] = values[p][p]));
+                data.end_series = data.start_series;
                 this.props.submit(data, this.props.showConfirm)
             }
         });
@@ -32,24 +33,10 @@ class CreateBlanksForm extends Component {
         }
     };
 
-    // handleInn = () => {
-    //     this.props.form.setFieldsValue({inn: 'fdf'});
-    //   debugger
-    // };
-
     checkStartSeries = (rule, value, callback) => {
         const form = this.props.form;
         if (value && value.start_series && value.start_series.length !== 2) {
-            callback('Введите начало серии!');
-        } else {
-            callback();
-        }
-    };
-
-    checkEndSeries = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value.end_series && value.end_series.length !== 2) {
-            callback('Введите конец серии !');
+            callback('Введите серию!');
         } else {
             callback();
         }
@@ -108,12 +95,12 @@ class CreateBlanksForm extends Component {
                     </FormItem>
                     <FormItem
                         {...formItemLayoutShort}
-                        label="Начало - Серия"
+                        label="Серия"
                         hasFeedback
                     >
                         {getFieldDecorator(
                             'start_series',
-                            {rules: [{required: true, message: 'Требуется ввести начало серии!'},
+                            {rules: [{required: true, message: 'Требуется ввести серию!'},
                                 {validator: this.checkStartSeries}
                             ]
                             })(<SeriesInput field={'start_series'}/>)
@@ -130,19 +117,6 @@ class CreateBlanksForm extends Component {
                                 {validator: this.checkStartNumber}
                             ]
                             })(<NumberInput field={'start_number'}/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Конец - Серия"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'end_series',
-                            {rules: [{required: true, message: 'Требуется ввести конец серии!'},
-                                {validator: this.checkEndSeries}
-                            ]
-                            })(<SeriesInput field={'end_series'}/>)
                         }
                     </FormItem>
                     <FormItem

@@ -21,8 +21,8 @@ class NumberInput extends Component{
     }
     handleInnChange = (e) => {
         let number = e.target.value;
-        const reg = /^-?(0|[1-9][0-9]*)(\.[0-9]*)?$/;
-        if (number && !reg.test(number)) {
+        const reg = /^-?([0-9][0-9]*)(\.[0-9]*)?$/;
+        if (isNaN(number) && !reg.test(number)) {
             return;
         }
         // if (!('value' in this.props)) {
