@@ -1,8 +1,6 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import { bindActionCreators } from 'redux';
 
-import { Form, Input, InputNumber, Button } from 'antd';
+import { Form, Input, InputNumber, Button, Upload, Icon } from 'antd';
 
 import InnInput from './InnInput';
 import SeriesInput from './SeriesInput';
@@ -58,6 +56,11 @@ class CreateBlanksForm extends Component {
         } else {
             callback();
         }
+    };
+
+    createNewCSV = (data) => {
+        this.props.createNewCSV(this.props.form.getFieldValue('inn').inn, data);
+        return Promise.reject()
     };
 
     render() {
@@ -145,16 +148,18 @@ class CreateBlanksForm extends Component {
                             </Button>
                         </div>
                         <div>
-                            <Button
-                                style={{marginTop: '12px'}}
-                                disabled
-                                type="submit"
-                                htmlType="submit"
-                                size="default"
-                                loading={isFetching}
+                            <Upload
+                                beforeUpload={this.createNewCSV}
                             >
-                                Сгенерировать из CSV файла
-                            </Button>
+
+                                <Button
+                                    style={{marginTop: '12px'}}
+                                    size="default"
+                                    loading={isFetching}
+                                >
+                                    <Icon type="upload" /> Сгенерировать из CSV файла
+                                </Button>
+                            </Upload>
                         </div>
                     </FormItem>
                 </Form>
@@ -166,6 +171,7 @@ class CreateBlanksForm extends Component {
 CreateBlanksForm.PropTypes = {
     submit: PropTypes.func.isRequired,
     showConfirm: PropTypes.func.isRequired,
+    createNewCSV: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired
 };
 

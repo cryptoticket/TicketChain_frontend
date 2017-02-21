@@ -13,6 +13,10 @@ export const CREATE_NEW_BATCH_PENDING = 'CREATE_NEW_BATCH_PENDING';
 export const CREATE_NEW_BATCH_FULFILLED = 'CREATE_NEW_BATCH_FULFILLED';
 export const CREATE_NEW_BATCH_REJECTED = 'CREATE_NEW_BATCH_REJECTED';
 
+export const CREATE_NEW_CSV_PENDING = 'CREATE_NEW_CSV_PENDING';
+export const CREATE_NEW_CSV_FULFILLED = 'CREATE_NEW_CSV_FULFILLED';
+export const CREATE_NEW_CSV_REJECTED = 'CREATE_NEW_CSV_REJECTED';
+
 export const GET_BATCH_PENDING = 'GET_BATCH_PENDING';
 export const GET_BATCH_FULFILLED = 'GET_BATCH_FULFILLED';
 export const GET_BATCH_REJECTED = 'GET_BATCH_REJECTED';
@@ -92,6 +96,36 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         dispatch({type: CREATE_NEW_BATCH_FULFILLED, payload: json});
+                        browserHistory.push(`organizers/${inn}/batches/${json.batch_id}`);
+                    } else {
+                        openNotification('error', `Бланк с номером ${json.collision} уже существует.`);
+                    }
+                });
+        };
+    };
+
+    createNewCSV = (inn, data) => {
+        let isError = false;
+        const file = new FormData(data);
+        file.append('file', data);
+        return dispatch => {
+            dispatch({type: CREATE_NEW_CSV_PENDING});
+            fetch(`${config.baseUrl}organizers/${inn}/csv_job`,
+                { method: 'POST',
+                    body: file,
+                    mode: 'no-cors'
+
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: CREATE_NEW_CSV_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: CREATE_NEW_CSV_FULFILLED, payload: json});
                         browserHistory.push(`organizers/${inn}/batches/${json.batch_id}`);
                     } else {
                         openNotification('error', `Бланк с номером ${json.collision} уже существует.`);

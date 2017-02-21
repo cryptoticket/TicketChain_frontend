@@ -10,6 +10,7 @@ import OrganizerComponent from '../components/organizer/OrganizerComponent';
 import OrganizersPage from '../components/organizer/OrganizersPage';
 import TicketsComponent from '../components/organizer/tickets/TicketsComponent';
 import BatchPage from '../components/organizer/batch/BatchPage';
+import CsvJobsPage from '../components/csvJobs/CsvJobsPage';
 import TicketPage from '../components/organizer/ticket/TicketPage';
 import TicketsPage from '../components/organizer/tickets/TicketsPage';
 
@@ -20,6 +21,9 @@ export const urls = {
     },
     newTickets: {
         path: 'new_tickets'
+    },
+    csvJobs: {
+        path: 'csv_jobs'
     },
     organizers: {
         path: 'organizers',
@@ -40,6 +44,7 @@ export default (
         <Route path={urls.index.path} component={BaseComponent}>
             <IndexRoute component={MainPage} />
             <Route path={urls.newTickets.path} component={CreateBlanksPage} />
+            <Route path={urls.csvJobs.path} component={CsvJobsPage} />
             <Route path={urls.organizers.path} component={OrganizerComponent}>
                 <IndexRoute component={OrganizersPage} />
                 <Route path={urls.organizers.batches.path} component={BatchPage} />
