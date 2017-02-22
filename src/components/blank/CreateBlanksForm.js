@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import { Form, Input, InputNumber, Button, Upload, Icon } from 'antd';
+import { Form, Input, InputNumber, Button, Upload, Icon, Popover } from 'antd';
 
 import InnInput from './InnInput';
 import SeriesInput from './SeriesInput';
@@ -60,11 +60,11 @@ class CreateBlanksForm extends Component {
 
     createNewCSV = (data) => {
         this.props.createNewCSV(this.props.form.getFieldValue('inn').inn, data);
-        return Promise.reject()
+        return Promise.reject();
     };
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, getFieldError, getFieldValue} = this.props.form;
         const {isFetching} = this.props;
 
         const formItemLayout = {
@@ -148,18 +148,32 @@ class CreateBlanksForm extends Component {
                             </Button>
                         </div>
                         <div>
-                            <Upload
-                                beforeUpload={this.createNewCSV}
-                            >
-
-                                <Button
-                                    style={{marginTop: '12px'}}
-                                    size="default"
-                                    loading={isFetching}
+                            {getFieldValue('inn') && !getFieldError('inn') ?
+                                <Upload
+                                    beforeUpload={this.createNewCSV}
                                 >
-                                    <Icon type="upload" /> Сгенерировать из CSV файла
-                                </Button>
-                            </Upload>
+                                    <Button
+                                        style={{marginTop: '12px'}}
+                                        size="default"
+                                        loading={isFetching}
+                                    >
+                                        {!isFetching ?  <Icon type="upload" /> : '&nbsp;'} Сгенерировать из CSV файла
+                                    </Button>
+                                </Upload> :
+                                <Popover
+                                    content="Требуется ввести ИНН"
+                                    placement="rightTop"
+                                >
+
+                                    <Button
+                                        style={{marginTop: '12px'}}
+                                        size="default"
+                                        disabled
+                                    >
+                                        <Icon type="upload" /> Сгенерировать из CSV файла
+                                    </Button>
+                                </Popover>
+                            }
                         </div>
                     </FormItem>
                 </Form>

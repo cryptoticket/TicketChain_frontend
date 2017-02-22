@@ -5,6 +5,9 @@ import {
     CREATE_NEW_BATCH_PENDING,
     CREATE_NEW_BATCH_FULFILLED,
     CREATE_NEW_BATCH_REJECTED,
+    CREATE_NEW_CSV_PENDING,
+    CREATE_NEW_CSV_FULFILLED,
+    CREATE_NEW_CSV_REJECTED,
     GET_BATCH_PENDING,
     GET_BATCH_FULFILLED,
     GET_BATCH_REJECTED,
@@ -26,7 +29,10 @@ import {
     GET_ORGANIZERS_REJECTED,
     GET_TICKETS_PENDING,
     GET_TICKETS_FULFILLED,
-    GET_TICKETS_REJECTED
+    GET_TICKETS_REJECTED,
+    GET_CSV_JOB_PENDING,
+    GET_CSV_JOB_FULFILLED,
+    GET_CSV_JOB_REJECTED
 } from '../../actions/blank';
 
 const initialState = {
@@ -70,6 +76,23 @@ function blankReducer(state = initialState, action) {
             });
         }
         case CREATE_NEW_BATCH_REJECTED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
+            });
+        }
+        case CREATE_NEW_CSV_PENDING: {
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        }
+        case CREATE_NEW_CSV_FULFILLED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                batchId: action.payload.job_id
+            });
+        }
+        case CREATE_NEW_CSV_REJECTED: {
             return Object.assign({}, state, {
                 isFetching: false,
                 errorMessage: action.payload
@@ -181,6 +204,23 @@ function blankReducer(state = initialState, action) {
             });
         }
         case GET_TICKETS_REJECTED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
+            });
+        }
+        case GET_CSV_JOB_PENDING: {
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        }
+        case GET_CSV_JOB_FULFILLED: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                csvJob: action.payload
+            });
+        }
+        case GET_CSV_JOB_REJECTED: {
             return Object.assign({}, state, {
                 isFetching: false,
                 errorMessage: action.payload

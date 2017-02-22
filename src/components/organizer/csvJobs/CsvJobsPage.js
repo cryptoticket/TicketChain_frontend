@@ -5,20 +5,24 @@ import { Row, Col, Modal } from 'antd';
 
 const confirm = Modal.confirm;
 
-import BlankActions from '../../actions/blank';
-import CreateBlanksForm from './CsvJobsPanel';
+import BlankActions from '../../../actions/blank';
+import CsvJobsPanel from './CsvJobsPanel';
 
 class CsvJobsPage extends Component {
 
+    componentWillMount() {
+        this.props.getCsvJobById(this.props.routeParams.inn, this.props.routeParams.jobId);
+    };
+
     render() {
-        const {createNewBatch, getTicketCount, isFetching} = this.props;
+        const {csvJob, isFetching, routeParams} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col xs={24} sm={24} md={{span:12, offset:6}} lg={{span:12, offset:6}}>
-                    <CreateBlanksForm
-                        submit={getTicketCount}
-                        showConfirm={this.showConfirm}
+                    <CsvJobsPanel
+                        csvJob={csvJob}
                         isFetching={isFetching}
+                        inn={routeParams.inn}
                     />
                 </Col>
             </Row>
@@ -27,18 +31,15 @@ class CsvJobsPage extends Component {
 }
 
 CsvJobsPage.PropTypes = {
-    createNewBatch: PropTypes.func.isRequired,
-    getTicketCount: PropTypes.func.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    ticketCount: PropTypes.number.isRequired
+    getCsvJobById: PropTypes.func.isRequired,
+    isFetching: PropTypes.bool.isRequired
 };
 
 
 const mapStateToProps = (state) => {
     return ({
         isFetching: state.blank.isFetching,
-        ticketCount: state.blank.ticketCount,
-        newBatch: state.blank.newBatch
+        csvJob: state.blank.csvJob
     })
 };
 const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions,dispatch));

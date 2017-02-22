@@ -47,6 +47,10 @@ export const GET_ORGANIZERS_PENDING = 'GET_ORGANIZERS_PENDING';
 export const GET_ORGANIZERS_FULFILLED = 'GET_ORGANIZERS_FULFILLED';
 export const GET_ORGANIZERS_REJECTED = 'GET_ORGANIZERS_REJECTED';
 
+export const GET_CSV_JOB_PENDING = 'GET_CSV_JOB_PENDING';
+export const GET_CSV_JOB_FULFILLED = 'GET_CSV_JOB_FULFILLED';
+export const GET_CSV_JOB_REJECTED = 'GET_CSV_JOB_REJECTED';
+
 
 export default class BlankActions {
 
@@ -112,9 +116,7 @@ export default class BlankActions {
             dispatch({type: CREATE_NEW_CSV_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/csv_job`,
                 { method: 'POST',
-                    body: file,
-                    mode: 'no-cors'
-
+                    body: file
                 })
                 .then(response => {
                     if (response.status >= 400) {
@@ -126,9 +128,9 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         dispatch({type: CREATE_NEW_CSV_FULFILLED, payload: json});
-                        browserHistory.push(`organizers/${inn}/batches/${json.batch_id}`);
+                        browserHistory.push(`organizers/${inn}/csv_jobs/${json.job_id}`);
                     } else {
-                        openNotification('error', `Бланк с номером ${json.collision} уже существует.`);
+                        openNotification('error', json);
                     }
                 });
         };
@@ -345,6 +347,31 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         return json;
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
+
+    getCsvJobById = (inn, jobId) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: GET_CSV_JOB_PENDING});
+            fetch(`${config.baseUrl}organizers/${inn}/csv_job/${jobId}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: GET_CSV_JOB_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: GET_CSV_JOB_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }
