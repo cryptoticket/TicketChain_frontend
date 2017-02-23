@@ -391,7 +391,6 @@ export default Form.create({
                 ...props.seller_address,
                 value: props.ticket.seller_address
             }
-
         };
     }
 })(TicketPanelComponent);
