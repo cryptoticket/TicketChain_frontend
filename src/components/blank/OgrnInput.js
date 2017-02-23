@@ -4,7 +4,7 @@ import { Form, Input} from 'antd';
 
 const FormItem = Form.Item;
 
-class InnInput extends Component{
+class OgrnInput extends Component{
 
     constructor(props) {
         super(props);
@@ -28,9 +28,7 @@ class InnInput extends Component{
         if (inn && !reg.test(inn)) {
             return;
         }
-        // if (!('value' in this.props)) {
-        //     this.setState({ inn });
-        // }
+
         this.triggerChange({inn});
     };
 
@@ -46,8 +44,8 @@ class InnInput extends Component{
         const state = this.state;
         return (
             <Input
-                {...this.props}
                 size="default"
+                maxLength="12"
                 value={state.inn}
                 onChange={this.handleInnChange}
             />
@@ -55,4 +53,4 @@ class InnInput extends Component{
     }
 }
 
-export default InnInput;
+export default OgrnInput;

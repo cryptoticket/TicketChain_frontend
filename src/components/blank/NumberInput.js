@@ -19,15 +19,13 @@ class NumberInput extends Component{
             this.setState(value);
         }
     }
-    handleInnChange = (e) => {
+    handleNumberChange = (e) => {
         let number = e.target.value;
         const reg = /^-?([0-9][0-9]*)(\.[0-9]*)?$/;
-        if (isNaN(number) && !reg.test(number)) {
+        if (number && !reg.test(number)) {
             return;
         }
-        // if (!('value' in this.props)) {
-        //     this.setState({ inn });
-        // }
+
         this.triggerChange({[this.props.field]: number});
     };
 
@@ -43,10 +41,10 @@ class NumberInput extends Component{
         const state = this.state;
         return (
             <Input
+                maxLength={this.props.maxLength}
                 size="default"
-                maxLength="6"
                 value={state[this.props.field]}
-                onChange={this.handleInnChange}
+                onChange={this.handleNumberChange}
             />
         );
     }

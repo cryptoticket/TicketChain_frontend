@@ -8,10 +8,24 @@ const confirm = Modal.confirm;
 import BlankActions from '../../../actions/blank';
 import CsvJobsPanel from './CsvJobsPanel';
 
+const csvJobScheduler = (action) => {
+    action(true);
+    const interval = setInterval(() => action(), 5000);
+    window.interval = interval;
+};
+
 class CsvJobsPage extends Component {
 
     componentWillMount() {
-        this.props.getCsvJobById(this.props.routeParams.inn, this.props.routeParams.jobId);
+        csvJobScheduler((isPending) => this.props.getCsvJobById(this.props.routeParams.inn, this.props.routeParams.jobId, isPending))
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.csvJob.status === "ready") clearInterval(interval);
+    };
+
+    componentWillUnmount() {
+        clearInterval(interval);
     };
 
     render() {

@@ -1,5 +1,5 @@
 import React, {Component, PropTypes} from 'react';
-
+import { Link } from 'react-router'
 import { Spin} from 'antd';
 
 class CsvJobsPanel extends Component {
@@ -8,7 +8,7 @@ class CsvJobsPanel extends Component {
         const {csvJob, inn, isFetching} = this.props;
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
-                {csvJob !== 'ready' ?
+                {csvJob.status !== 'ready' ?
                     <div className="panel">
                         <div className="panel-head">
                             <h3>Файл обрабатывается...</h3>
@@ -22,13 +22,13 @@ class CsvJobsPanel extends Component {
                         {csvJob.errors.length ?
                             <div>
                                 <p>Список ошибок:</p>
-                                errors.map(error => <p>error</p>)
+                                {csvJob.errors.map(error => <p key={error}>{error}</p>)}
                             </div> : null
                         }
                         {csvJob.collisions.length ?
                             <div>
                                 <p>Список пересечений:</p>
-                                collisions.map(collision => <p>collision</p>)
+                                {csvJob.collisions.map(collision => <p key={collision}>{collision}</p>)}
                             </div> : null
                         }
                     </div>

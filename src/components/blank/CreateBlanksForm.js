@@ -93,7 +93,7 @@ class CreateBlanksForm extends Component {
                         {getFieldDecorator(
                             'inn',
                             {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
-                            })(<InnInput/>)
+                            })(<NumberInput field='inn' maxLength="12"/>)
                         }
                     </FormItem>
                     <FormItem
@@ -106,7 +106,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести серию!'},
                                 {validator: this.checkStartSeries}
                             ]
-                            })(<SeriesInput field={'start_series'}/>)
+                            })(<SeriesInput field='start_series'/>)
                         }
                     </FormItem>
                     <FormItem
@@ -119,7 +119,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести начало номера!'},
                                 {validator: this.checkStartNumber}
                             ]
-                            })(<NumberInput field={'start_number'}/>)
+                            })(<NumberInput field='start_number' maxLength="6"/>)
                         }
                     </FormItem>
                     <FormItem
@@ -132,7 +132,7 @@ class CreateBlanksForm extends Component {
                             {rules: [{required: true, message: 'Требуется ввести конец номера!'},
                                 {validator: this.checkEndNumber}
                             ]
-                            })(<NumberInput field={'end_number'}/>)
+                            })(<NumberInput field='end_number' maxLength="6"/>)
                         }
                     </FormItem>
 

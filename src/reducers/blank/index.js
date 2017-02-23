@@ -40,7 +40,8 @@ const initialState = {
     batch: [],
     organizers: [],
     tickets: [],
-    ticket: {}
+    ticket: {},
+    csvJob: {}
 };
 
 function blankReducer(state = initialState, action) {

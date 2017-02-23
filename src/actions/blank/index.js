@@ -128,7 +128,7 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         dispatch({type: CREATE_NEW_CSV_FULFILLED, payload: json});
-                        browserHistory.push(`organizers/${inn}/csv_jobs/${json.job_id}`);
+                        browserHistory.push(`organizers/${inn}/csv_job/${json.job_id}`);
                     } else {
                         openNotification('error', json);
                     }
@@ -153,11 +153,15 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
-                        Promise.all(promiseList).then(result => {
-                            const tickets = result.map(r => r.payload);
-                            dispatch({type: GET_BATCH_FULFILLED, payload: tickets});
-                        });
+                    const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                        Promise.all(promiseList)
+                            .then(result => {
+                                const tickets = result.map(r => r.payload);
+                                dispatch({type: GET_BATCH_FULFILLED, payload: tickets})
+                            })
+                            .catch(error => {
+                                openNotification('error', error);
+                            })
                     } else {
                         openNotification('error', json);
                     }
@@ -354,10 +358,10 @@ export default class BlankActions {
         };
     };
 
-    getCsvJobById = (inn, jobId) => {
+    getCsvJobById = (inn, jobId, isPending) => {
         let isError = false;
         return dispatch => {
-            dispatch({type: GET_CSV_JOB_PENDING});
+            if (isPending) dispatch({type: GET_CSV_JOB_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/csv_job/${jobId}`,
                 { method: 'GET',
                     headers: getHeaders()
@@ -366,6 +370,9 @@ export default class BlankActions {
                     if (response.status >= 400) {
                         isError = true;
                         dispatch({type: GET_CSV_JOB_REJECTED});
+                        if (response.status == 404) {
+                            browserHistory.push(`*`)
+                        }
                     }
                     return response.json();
                 })

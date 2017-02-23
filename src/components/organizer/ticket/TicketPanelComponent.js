@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { Form, Row, Col, Table, Spin, Button, Input, Switch, DatePicker } from 'antd';
 import ruRU from 'antd/lib/date-picker/locale/ru_RU';
 
+import NumberInput from '../../blank/NumberInput';
 
 const FormItem = Form.Item;
 const { Column, ColumnGroup } = Table;
@@ -9,15 +10,36 @@ const { Column, ColumnGroup } = Table;
 class TicketPanelComponent extends Component {
 
     sellTicket = () => {
-        this.props.sellTicket(this.props.inn, this.props.ticket)
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                const ticket = Object.assign({}, this.props.ticket);
+                Object.keys(ticket).forEach((key,index) => {
+                    if (typeof ticket[key] === 'object') {
+                        ticket[key] = ticket[key][key];
+                    }
+                });
+                this.props.sellTicket(this.props.inn, ticket)
+            }
+        });
+
     };
 
     cancelTicket = () => {
         this.props.cancelTicket(this.props.inn,this.props.ticket)
     };
 
-    editTicket = () => {
-        this.props.editTicket(this.props.inn, this.props.ticket)
+    editTicket = (e) => {
+        this.props.form.validateFieldsAndScroll((err, values) => {
+            if (!err) {
+                const ticket = Object.assign({}, this.props.ticket);
+                Object.keys(ticket).forEach((key,index) => {
+                    if (typeof ticket[key] === 'object') {
+                        ticket[key] = ticket[key][key];
+                    }
+                });
+                this.props.editTicket(this.props.inn, ticket)
+            }
+        });
     };
 
     getRow = (label, value) =>
@@ -32,15 +54,19 @@ class TicketPanelComponent extends Component {
 
 
 
-    getRowInput = (label, value) => {
+    getRowInput = (label, value, hasFeedback, required, message, validator, customComponent) => {
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
                 <Col span={12}>
-                    <FormItem style={{ marginBottom: 0 }}>
-                        {this.props.form.getFieldDecorator(value)(<Input size="default"/>)}
+                    <FormItem style={{ marginBottom: 0 }} hasFeedback={hasFeedback}>
+                        {this.props.form.getFieldDecorator(
+                            value,
+                            {rules: [{required, message}, {validator}],
+                            })(customComponent? customComponent : <Input size="default"/>)
+                        }
                     </FormItem>
                 </Col>
             </Row>
@@ -94,13 +120,63 @@ class TicketPanelComponent extends Component {
         )
     };
 
+    checkInn = (rule, value, callback) => {
+        let inn;
+        if (value && value[Object.keys(value)[0]]) {
+            inn = value[Object.keys(value)[0]];
+        } else {
+            callback();
+            return;
+        }
+        if (inn.length === 12 || inn.length === 10) {
+            callback();
+            return;
+        } else {
+            callback('Введите корректный ИНН!');
+        }
+    };
+
+    checkOgrn = (rule, value, callback) => {
+        let ogrn;
+        if (value && value[Object.keys(value)[0]]) {
+            ogrn = value[Object.keys(value)[0]];
+        } else {
+            callback();
+            return;
+        }
+        if (ogrn.length === 13) {
+            callback();
+            return;
+        } else {
+            callback('Введите корректный ОГРН!');
+        }
+    };
+
+    checkOgrnip = (rule, value, callback) => {
+        let ogrnip;
+        if (value && value[Object.keys(value)[0]]) {
+            ogrnip = value[Object.keys(value)[0]];
+        } else {
+            callback();
+            return;
+        }
+        if (ogrnip.length === 15) {
+            callback();
+            return;
+        } else {
+            callback('Введите корректный ОГРНИП!');
+        }
+    };
+
     render() {
+        const { getFieldDecorator} = this.props.form;
+
         const {ticket, inn, isFetching} = this.props;
 
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
                 <div className="panel">
-                    <Form onSubmit={this.editTicket} style={{paddingTop: '20px'}}>
+                    <Form style={{paddingTop: '20px'}}>
                         <Row gutter={2}>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRow('Номер/серия', ticket.serial_number)}
@@ -124,9 +200,9 @@ class TicketPanelComponent extends Component {
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getDoubleRowInput('issuer')}
-                                {this.getRowInput('ИНН', 'issuer_inn')}
-                                {this.getRowInput('ОГРН', 'issuer_ogrn')}
-                                {this.getRowInput('ОГРНИП', 'issuer_ogrnip')}
+                                {this.getRowInput('ИНН', 'issuer_inn', null, null, null, this.checkInn, <NumberInput field="issuer_inn" maxLength="12"/>)}
+                                {this.getRowInput('ОГРН', 'issuer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="issuer_ogrn" maxLength="13"/>)}
+                                {this.getRowInput('ОГРНИП', 'issuer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="issuer_ogrnip" maxLength="15"/>)}
                                 {this.getRowInput('Адрес', 'issuer_address')}
                             </Col>
                         </Row>
@@ -140,9 +216,9 @@ class TicketPanelComponent extends Component {
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Продавец', 'seller')}
-                                {this.getRowInput('ИНН', 'seller_inn')}
-                                {this.getRowInput('ОГРН', 'seller_ogrn')}
-                                {this.getRowInput('ОГРНИП', 'seller_ogrnip')}
+                                {this.getRowInput('ИНН', 'seller_inn', null, null, null, this.checkInn, <NumberInput field="seller_inn" maxLength="12"/>)}
+                                {this.getRowInput('ОГРН', 'seller_ogrn', null, null, null, this.checkOgrn, <NumberInput field="seller_ogrn" maxLength="13"/>)}
+                                {this.getRowInput('ОГРНИП', 'seller_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="seller_ogrnip" maxLength="15"/>)}
                                 {this.getRowInput('Адрес', 'seller_address')}
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8} style={{ textAlign: 'right' }}>
@@ -231,15 +307,15 @@ export default Form.create({
             },
             issuer_inn: {
                 ...props.issuer_inn,
-                value: props.ticket.issuer_inn
+                value: {issuer_inn: props.ticket.issuer_inn}
             },
             issuer_ogrn: {
                 ...props.issuer_ogrn,
-                value: props.ticket.issuer_ogrn
+                value: {issuer_ogrn: props.ticket.issuer_ogrn}
             },
             issuer_ogrnip: {
                 ...props.issuer_ogrnip,
-                value: props.ticket.issuer_ogrnip
+                value: {issuer_ogrnip: props.ticket.issuer_ogrnip}
             },
             issuer_address: {
                 ...props.issuer_address,
@@ -299,15 +375,15 @@ export default Form.create({
             },
             seller_inn: {
                 ...props.seller_inn,
-                value: props.ticket.seller_inn
+                value: {seller_inn: props.ticket.seller_inn}
             },
             seller_ogrn: {
                 ...props.seller_ogrn,
-                value: props.ticket.seller_ogrn
+                value: {seller_ogrn: props.ticket.seller_ogrn}
             },
             seller_ogrnip: {
                 ...props.seller_ogrnip,
-                value: props.ticket.seller_ogrnip
+                value: {seller_ogrnip: props.ticket.seller_ogrnip}
             },
             seller_address: {
                 ...props.seller_address,
