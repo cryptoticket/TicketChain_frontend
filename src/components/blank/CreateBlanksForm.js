@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 
-import { Form, Input, InputNumber, Button, Upload, Icon, Popover } from 'antd';
+import { Form, Input, InputNumber, Button, Upload, Icon, Popover, Switch } from 'antd';
 
 import InnInput from './InnInput';
 import SeriesInput from './SeriesInput';
@@ -9,6 +9,7 @@ import NumberInput from './NumberInput';
 const FormItem = Form.Item;
 
 class CreateBlanksForm extends Component {
+    state = {};
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -59,8 +60,12 @@ class CreateBlanksForm extends Component {
     };
 
     createNewCSV = (data) => {
-        this.props.createNewCSV(this.props.form.getFieldValue('inn').inn, data);
+        this.props.createNewCSV(this.props.form.getFieldValue('inn').inn, data, this.state.isBlocking);
         return Promise.reject();
+    };
+
+    handleSwitch = () => {
+        this.setState({isBlocking: true});
     };
 
     render() {
@@ -135,7 +140,12 @@ class CreateBlanksForm extends Component {
                             })(<NumberInput field='end_number' maxLength="6"/>)
                         }
                     </FormItem>
-
+                    <FormItem
+                        {...formItemLayoutShort}
+                        label="Обработать мгновенно"
+                    >
+                        <Switch defaultChecked={false} onChange={this.handleSwitch} size="default"/>
+                    </FormItem>
                     <FormItem {...tailFormItemLayout}>
                         <div>
                             <Button
@@ -157,7 +167,7 @@ class CreateBlanksForm extends Component {
                                         size="default"
                                         loading={isFetching}
                                     >
-                                        {!isFetching ?  <Icon type="upload" /> : '&nbsp;'} Сгенерировать из CSV файла
+                                        {!isFetching ?  <Icon type="upload" /> : ' '} Сгенерировать из CSV файла
                                     </Button>
                                 </Upload> :
                                 <Popover

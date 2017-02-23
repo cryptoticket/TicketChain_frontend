@@ -17,7 +17,8 @@ const csvJobScheduler = (action) => {
 class CsvJobsPage extends Component {
 
     componentWillMount() {
-        csvJobScheduler((isPending) => this.props.getCsvJobById(this.props.routeParams.inn, this.props.routeParams.jobId, isPending))
+        csvJobScheduler((isPending) =>
+            this.props.getCsvJobById(this.props.routeParams.inn, this.props.routeParams.jobId, isPending, this.props.location.query.blocking))
     };
 
     componentWillReceiveProps(nextProps) {

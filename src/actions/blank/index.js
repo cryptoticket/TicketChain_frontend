@@ -108,7 +108,7 @@ export default class BlankActions {
         };
     };
 
-    createNewCSV = (inn, data) => {
+    createNewCSV = (inn, data, isBlocking) => {
         let isError = false;
         const file = new FormData(data);
         file.append('file', data);
@@ -128,7 +128,7 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         dispatch({type: CREATE_NEW_CSV_FULFILLED, payload: json});
-                        browserHistory.push(`organizers/${inn}/csv_job/${json.job_id}`);
+                        browserHistory.push(`organizers/${inn}/csv_job/${json.job_id}${isBlocking ? '?blocking=1' : ''}`);
                     } else {
                         openNotification('error', json);
                     }
@@ -358,11 +358,11 @@ export default class BlankActions {
         };
     };
 
-    getCsvJobById = (inn, jobId, isPending) => {
+    getCsvJobById = (inn, jobId, isPending, isBlocking) => {
         let isError = false;
         return dispatch => {
             if (isPending) dispatch({type: GET_CSV_JOB_PENDING});
-            fetch(`${config.baseUrl}organizers/${inn}/csv_job/${jobId}`,
+            fetch(`${config.baseUrl}organizers/${inn}/csv_job/${jobId}${isBlocking ? '?blocking=1' : ''}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })
@@ -371,7 +371,7 @@ export default class BlankActions {
                         isError = true;
                         dispatch({type: GET_CSV_JOB_REJECTED});
                         if (response.status == 404) {
-                            browserHistory.push(`*`)
+                            browserHistory.push(`*`);
                         }
                     }
                     return response.json();
