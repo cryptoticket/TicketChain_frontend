@@ -14,8 +14,10 @@ class TicketPanelComponent extends Component {
             if (!err) {
                 const ticket = Object.assign({}, this.props.ticket);
                 Object.keys(ticket).forEach((key,index) => {
-                    if (typeof ticket[key] === 'object') {
+                    if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket.buying_date)) {
                         ticket[key] = ticket[key][key];
+                    } else if (moment.isMoment(ticket.buying_date)) {
+                        ticket[key] = moment().toDate(ticket[key]);
                     }
                 });
                 this.props.sellTicket(this.props.inn, ticket)
@@ -33,8 +35,10 @@ class TicketPanelComponent extends Component {
             if (!err) {
                 const ticket = Object.assign({}, this.props.ticket);
                 Object.keys(ticket).forEach((key,index) => {
-                    if (typeof ticket[key] === 'object') {
+                    if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket[key])) {
                         ticket[key] = ticket[key][key];
+                    } else if (moment.isMoment(ticket[key])) {
+                        ticket[key] = moment().toDate(ticket[key]);
                     }
                 });
                 this.props.editTicket(this.props.inn, ticket)
@@ -170,9 +174,7 @@ class TicketPanelComponent extends Component {
 
     render() {
         const { getFieldDecorator} = this.props.form;
-
         const {ticket, inn, isFetching} = this.props;
-
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
                 <div className="panel">
