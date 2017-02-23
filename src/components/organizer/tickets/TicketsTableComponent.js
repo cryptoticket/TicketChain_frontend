@@ -7,6 +7,18 @@ const { Column, ColumnGroup } = Table;
 const Search = Input.Search;
 
 class TicketsTableComponent extends Component {
+    state = {searchIsDirty: false};
+
+    handleSearch = (value) => {
+        const searchIsDirty = this.state.searchIsDirty;
+        if (value.length === 8 || value.length === 10 || value.length === 25) {
+            this.props.getTicket(this.props.inn, value, true);
+            this.setState({searchIsDirty: true});
+        } else if (searchIsDirty){
+            this.props.getTickets(this.props.inn);
+            this.setState({searchIsDirty: false});
+        }
+    };
 
     render() {
         const {tickets, isFetching, inn} = this.props;
@@ -50,7 +62,7 @@ class TicketsTableComponent extends Component {
                             <Search
                                 placeholder="серия/номер"
                                 style={{ width: 200 }}
-                                onSearch={value => console.log(value)}
+                                onSearch={this.handleSearch}
                             />
                         </div>
                     </div>
@@ -64,7 +76,9 @@ class TicketsTableComponent extends Component {
 TicketsTableComponent.PropTypes = {
     tickets: PropTypes.array.isRequired,
     isFetching: PropTypes.bool.isRequired,
-    inn: PropTypes.number.isRequired
+    inn: PropTypes.number.isRequired,
+    getTickets: PropTypes.func.isRequired,
+    getTicket: PropTypes.func.isRequired
 };
 
 export default TicketsTableComponent;

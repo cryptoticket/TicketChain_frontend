@@ -14,13 +14,15 @@ class TicketPage extends Component {
     };
 
     render() {
-        const {tickets, isFetching, routeParams} = this.props;
+        const {tickets, isFetching, routeParams, getTickets, getTicket} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
                     <TicketsTableComponent
                         tickets={tickets}
                         isFetching={isFetching}
+                        getTickets={getTickets}
+                        getTicket={getTicket}
                         inn={this.props.location.pathname.split('/')[2]}
                     />
                 </Col>
@@ -31,6 +33,7 @@ class TicketPage extends Component {
 
 TicketPage.PropTypes = {
     getTicket: PropTypes.func.isRequired,
+    getTickets: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     tickets: PropTypes.array.isRequired,
     location: PropTypes.object.isRequired

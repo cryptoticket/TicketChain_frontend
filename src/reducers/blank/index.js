@@ -123,12 +123,17 @@ function blankReducer(state = initialState, action) {
         }
         case GET_TICKET_FULFILLED: {
             const ticket = action.payload;
+            let tickets = state.tickets;
+            if (ticket.isSearch) {
+                tickets = [ticket];
+            }
             if (ticket.state === 'created') {
                 delete ticket.buying_date;
             }
             return Object.assign({}, state, {
                 isFetching: false,
-                ticket
+                ticket,
+                tickets
             });
         }
         case GET_TICKET_REJECTED: {

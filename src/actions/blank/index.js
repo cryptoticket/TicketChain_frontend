@@ -169,7 +169,7 @@ export default class BlankActions {
         };
     };
 
-    getTicket = (inn, ticketId) => {
+    getTicket = (inn, ticketId, isSearch) => {
         let isError = false;
         return dispatch => {
             dispatch({type: GET_TICKET_PENDING});
@@ -181,6 +181,7 @@ export default class BlankActions {
                     if (response.status >= 400) {
                         isError = true;
                         dispatch({type: GET_TICKET_REJECTED});
+                        if (isSearch) openNotification('error', `Билет ${ticketId} не найден!`);
                     }
                     return response.json();
                 })
@@ -188,6 +189,7 @@ export default class BlankActions {
                     if (!isError) {
                         dispatch(this.getOrganizerByInnPromise(inn)).then(organizer =>{
                             const ticket = json;
+                            if (isSearch) ticket.isSearch = true;
                             ticket.organizer = organizer.payload.organizer;
                             ticket.organizer_inn = organizer.payload.organizer_inn;
                             ticket.organizer_ogrn = organizer.payload.organizer_ogrn;
