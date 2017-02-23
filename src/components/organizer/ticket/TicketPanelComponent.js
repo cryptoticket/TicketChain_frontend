@@ -14,10 +14,10 @@ class TicketPanelComponent extends Component {
             if (!err) {
                 const ticket = Object.assign({}, this.props.ticket);
                 Object.keys(ticket).forEach((key,index) => {
-                    if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket.buying_date)) {
+                    if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket[key])) {
                         ticket[key] = ticket[key][key];
-                    } else if (moment.isMoment(ticket.buying_date)) {
-                        ticket[key] = moment().toDate(ticket[key]);
+                    } else if (moment.isMoment(ticket[key])) {
+                        ticket[key] = moment(ticket[key]).toDate();
                     }
                 });
                 this.props.sellTicket(this.props.inn, ticket)
@@ -38,7 +38,7 @@ class TicketPanelComponent extends Component {
                     if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket[key])) {
                         ticket[key] = ticket[key][key];
                     } else if (moment.isMoment(ticket[key])) {
-                        ticket[key] = moment().toDate(ticket[key]);
+                        ticket[key] = moment(ticket[key]).toDate();
                     }
                 });
                 this.props.editTicket(this.props.inn, ticket)
