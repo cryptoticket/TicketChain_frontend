@@ -6,19 +6,29 @@ const { Column, ColumnGroup } = Table;
 
 const Search = Input.Search;
 
+const mapState = (state) => {
+    switch (state) {
+        case 'created': return 'Бланк';
+        case 'sold': return 'Продан';
+        case 'cancelled': return 'Забракован';
+        default: return;
+    }
+};
+
 class TicketsTableComponent extends Component {
     state = {searchIsDirty: false};
 
     handleSearch = (value) => {
         const searchIsDirty = this.state.searchIsDirty;
-        if (value.length === 8 || value.length === 10 || value.length === 25) {
+        if (!searchIsDirty) {
             this.props.getTicket(this.props.inn, value, true);
             this.setState({searchIsDirty: true});
-        } else if (searchIsDirty){
+        } else {
             this.props.getTickets(this.props.inn);
             this.setState({searchIsDirty: false});
         }
     };
+
 
     render() {
         const {tickets, isFetching, inn} = this.props;
@@ -28,7 +38,8 @@ class TicketsTableComponent extends Component {
                 number: key + 1,
                 ticketId: ticket.id,
                 serial_number: ticket.serial_number,
-                created_date: ticket.created_date
+                created_date: ticket.created_date,
+                state: ticket.state
             })
         );
         const columns = [
@@ -49,6 +60,11 @@ class TicketsTableComponent extends Component {
                 dataIndex: 'created_date',
                 key: 'created_date',
                 render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{moment(text).format('YYYY/MM/DD')}</Link>
+            }, {
+                title: 'Состояние',
+                dataIndex: 'state',
+                key: 'state',
+                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mapState(record.state)}</Link>
             }
         ];
 

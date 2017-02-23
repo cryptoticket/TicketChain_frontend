@@ -51,6 +51,9 @@ export const GET_CSV_JOB_PENDING = 'GET_CSV_JOB_PENDING';
 export const GET_CSV_JOB_FULFILLED = 'GET_CSV_JOB_FULFILLED';
 export const GET_CSV_JOB_REJECTED = 'GET_CSV_JOB_REJECTED';
 
+export const GET_STATS_PENDING = 'GET_STATS_PENDING';
+export const GET_STATS_FULFILLED = 'GET_STATS_FULFILLED';
+export const GET_STATS_REJECTED = 'GET_STATS_REJECTED';
 
 export default class BlankActions {
 
@@ -433,6 +436,31 @@ export default class BlankActions {
                             const tickets = result.map(r => r.payload);
                             dispatch({type: GET_TICKETS_FULFILLED, payload: tickets});
                         });
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
+
+    getStats = (inn) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: GET_STATS_PENDING});
+            fetch(`${config.baseUrl}organizers/${inn}/stats`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: GET_STATS_REJECTED});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: GET_STATS_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }

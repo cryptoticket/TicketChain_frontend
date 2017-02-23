@@ -50,6 +50,11 @@ class OrganizersTableComponent extends Component {
                 dataIndex: 'organizer_address',
                 key: 'organizer_address',
                 render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets`}>{text}</Link>
+            }, {
+                title: ' ',
+                dataIndex: 'Статистика',
+                key: 'statistic',
+                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/stats`}>Статистика</Link>
             }
 
 

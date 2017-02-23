@@ -349,7 +349,7 @@ export default Form.create({
             },
             ticket_category: {
                 ...props.ticket_category,
-                value: props.ticket.ticket_category
+                value: props.ticket.ticket_category ? props.ticket.ticket_category.toString() : null
             },
             organizer: {
                 ...props.organizer,
