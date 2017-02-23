@@ -272,18 +272,20 @@ TicketPanelComponent.PropTypes = {
 export default Form.create({
     onFieldsChange(props, changedFields) {
         let ticket = props.ticket;
-        ticket[Object.keys(changedFields)[0]] = changedFields[Object.keys(changedFields)[0]].value;
-        props.handleTicket(ticket);
+        if (Object.keys(changedFields).length) {
+            ticket[Object.keys(changedFields)[0]] = changedFields[Object.keys(changedFields)[0]].value;
+            props.handleTicket(ticket);
+        }
     },
     mapPropsToFields(props) {
         return {
             serial_number: {
                 ...props.serial_number,
-                value: props.ticket.serial_number
+                value: props.ticket.serial_number ? props.ticket.serial_number.toString() : null
             },
             price_rub: {
                 ...props.price_rub,
-                value: props.ticket.price_rub
+                value: props.ticket.price_rub ? props.ticket.price_rub.toString() : null
             },
             is_paper_ticket: {
                 ...props.is_paper_ticket,
