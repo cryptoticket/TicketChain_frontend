@@ -114,7 +114,7 @@ export default class BlankActions {
         file.append('file', data);
         return dispatch => {
             dispatch({type: CREATE_NEW_CSV_PENDING});
-            fetch(`${config.baseUrl}organizers/${inn}/csv_job`,
+            fetch(`${config.baseUrl}organizers/${inn}/csv_jobs`,
                 { method: 'POST',
                     body: file
                 })
@@ -128,7 +128,7 @@ export default class BlankActions {
                 .then(json => {
                     if (!isError) {
                         dispatch({type: CREATE_NEW_CSV_FULFILLED, payload: json});
-                        browserHistory.push(`organizers/${inn}/csv_job/${json.job_id}${isBlocking ? '?blocking=1' : ''}`);
+                        browserHistory.push(`organizers/${inn}/csv_jobs/${json.job_id}${isBlocking ? '?blocking=1' : ''}`);
                     } else {
                         openNotification('error', json);
                     }
@@ -364,7 +364,7 @@ export default class BlankActions {
         let isError = false;
         return dispatch => {
             if (isPending) dispatch({type: GET_CSV_JOB_PENDING});
-            fetch(`${config.baseUrl}organizers/${inn}/csv_job/${jobId}${isBlocking ? '?blocking=1' : ''}`,
+            fetch(`${config.baseUrl}organizers/${inn}/csv_jobs/${jobId}${isBlocking ? '?blocking=1' : ''}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })

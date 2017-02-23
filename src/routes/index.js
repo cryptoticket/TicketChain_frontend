@@ -34,7 +34,7 @@ export const urls = {
             }
         },
         csvJobs: {
-            path: ':inn/csv_job/:jobId'
+            path: ':inn/csv_jobs/:jobId'
         },
     }
 };
