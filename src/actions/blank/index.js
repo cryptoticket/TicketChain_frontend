@@ -73,6 +73,10 @@ export default class BlankActions {
                     }
                     return response.json();
                 })
+                .catch(e => {
+                    dispatch({type: GET_TICKET_COUNT_REJECTED});
+                    openNotification('error', e);
+                })
                 .then(json => {
                     if (!isError) {
                         dispatch({type: GET_TICKET_COUNT_FULFILLED, payload: json});
@@ -99,6 +103,10 @@ export default class BlankActions {
                         dispatch({type: CREATE_NEW_BATCH_REJECTED});
                     }
                     return response.json();
+                })
+                .catch(e => {
+                    dispatch({type: CREATE_NEW_BATCH_REJECTED});
+                    openNotification('error', e.toString());
                 })
                 .then(json => {
                     if (!isError) {
