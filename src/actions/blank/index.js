@@ -161,6 +161,10 @@ export default class BlankActions {
                         isError = true;
                         dispatch({type: GET_BATCH_REJECTED});
                     }
+                    if (response.status == 404) {
+                        browserHistory.push(`*`);
+                        openNotification('error', `Пакет ${batchId} не найден!`);
+                    }
                     return response.json();
                 })
                 .then(json => {
