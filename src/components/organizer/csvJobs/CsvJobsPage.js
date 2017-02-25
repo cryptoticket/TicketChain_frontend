@@ -26,7 +26,7 @@ class CsvJobsPage extends Component {
         if (nextProps.csvJob.status === "ready"){
             clearInterval(interval);
             if(!nextProps.csvJob.collisions.length && !nextProps.csvJob.errors.length) {
-                browserHistory.push(`/organizers/${inn}/batches/${nextProps.csvJob.batch_id}`);
+                browserHistory.push(`/organizers/${this.props.routeParams.inn}/batches/${nextProps.csvJob.batch_id}`);
             }
         }
     };
