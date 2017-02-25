@@ -6,7 +6,7 @@ const { Column, ColumnGroup } = Table;
 
 const Search = Input.Search;
 
-const mapState = (state) => {
+export const mappingState = (state) => {
     switch (state) {
         case 'created': return 'Бланк';
         case 'sold': return 'Продан';
@@ -16,7 +16,18 @@ const mapState = (state) => {
 };
 
 class TicketsTableComponent extends Component {
-    state = {searchIsDirty: false};
+    state = {
+        searchIsDirty: false,
+        pagination: {total: 20, current: 1}
+    };
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.count && this.props !== nextProps.count) {
+            const pagination = this.state.pagination;
+            pagination.total = nextProps.count;
+            this.setState({pagination});
+        };
+    }
 
     handleSearch = (value) => {
         const searchIsDirty = this.state.searchIsDirty;
@@ -29,13 +40,23 @@ class TicketsTableComponent extends Component {
         }
     };
 
+    handleTableChange = (pagination, filters, sorter) => {
+        const pager = this.state.pagination;
+        pager.current = pagination.current;
+        this.setState({
+            pagination: pager,
+        });
+        const params = {page: pagination.current, limit: pagination.pageSize};
+        this.props.getTickets(this.props.inn, params);
+    };
 
     render() {
         const {tickets, isFetching, inn} = this.props;
+        const {pagination, searchIsDirty} = this.state;
         const data = tickets.map((ticket, key) =>
             ({
                 key,
-                number: key + 1,
+                number: key + 1+ 10 * (pagination.current - 1),
                 ticketId: ticket.id,
                 serial_number: ticket.serial_number,
                 created_date: ticket.created_date,
@@ -64,7 +85,7 @@ class TicketsTableComponent extends Component {
                 title: 'Состояние',
                 dataIndex: 'state',
                 key: 'state',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mapState(record.state)}</Link>
+                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mappingState(record.state)}</Link>
             }
         ];
 
@@ -82,7 +103,14 @@ class TicketsTableComponent extends Component {
                             />
                         </div>
                     </div>
-                    {data.length ? <Table dataSource={data} columns={columns} pagination={false} /> : null}
+                    {data.length ?
+                        <Table
+                            dataSource={data}
+                            columns={columns}
+                            pagination={searchIsDirty ? false : pagination}
+                            onChange={this.handleTableChange}
+                        /> : null
+                    }
                 </div>
             </Spin>
         );

@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import { Row, Col, Modal } from 'antd';
 
 const confirm = Modal.confirm;
@@ -10,7 +11,7 @@ import CsvJobsPanel from './CsvJobsPanel';
 
 const csvJobScheduler = (action) => {
     action(true);
-    const interval = setInterval(() => action(), 5000);
+    const interval = setInterval(() => action(), 3000);
     window.interval = interval;
 };
 
@@ -22,7 +23,12 @@ class CsvJobsPage extends Component {
     };
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.csvJob.status === "ready") clearInterval(interval);
+        if (nextProps.csvJob.status === "ready"){
+            clearInterval(interval);
+            if(!nextProps.csvJob.collisions.length && !nextProps.csvJob.errors.length) {
+                browserHistory.push(`/organizers/${inn}/batches/${nextProps.csvJob.batch_id}`);
+            }
+        }
     };
 
     componentWillUnmount() {

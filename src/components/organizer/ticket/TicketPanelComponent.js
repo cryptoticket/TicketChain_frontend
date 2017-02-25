@@ -3,7 +3,7 @@ import { Form, Row, Col, Table, Spin, Button, Input, Switch, DatePicker } from '
 import ruRU from 'antd/lib/date-picker/locale/ru_RU';
 
 import NumberInput from '../../blank/NumberInput';
-
+import {mappingState} from '../tickets/TicketsTableComponent';
 const FormItem = Form.Item;
 const { Column, ColumnGroup } = Table;
 
@@ -15,6 +15,7 @@ class TicketPanelComponent extends Component {
                 const ticket = Object.assign({}, this.props.ticket);
                 Object.keys(ticket).forEach((key,index) => {
                     if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket[key])) {
+                        this.props.ticket[key] = ticket[key][key];
                         ticket[key] = ticket[key][key];
                     } else if (moment.isMoment(ticket[key])) {
                         ticket[key] = moment(ticket[key]).toDate();
@@ -36,6 +37,7 @@ class TicketPanelComponent extends Component {
                 const ticket = Object.assign({}, this.props.ticket);
                 Object.keys(ticket).forEach((key,index) => {
                     if (typeof ticket[key] === 'object' && ticket[key] && !moment.isMoment(ticket[key])) {
+                        this.props.ticket[key] = ticket[key][key];
                         ticket[key] = ticket[key][key];
                     } else if (moment.isMoment(ticket[key])) {
                         ticket[key] = moment(ticket[key]).toDate();
@@ -183,7 +185,7 @@ class TicketPanelComponent extends Component {
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRow('Номер/серия', ticket.serial_number)}
                                 {this.getRow('ID', ticket.id)}
-                                {this.getRow('Статус', ticket.state)}
+                                {this.getRow('Статус', mappingState(ticket.state))}
                                 {this.getRow('Дата создания', ticket.created_date)}
                                 {this.getRowInput('Цена', 'price_rub')}
                                 {this.getRowSwitch('Бумажный билет', 'is_paper_ticket')}
@@ -198,7 +200,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Адрес', 'event_place_address')}
                                 {this.getRowInput('Ряд', 'row')}
                                 {this.getRowInput('Место', 'seat')}
-                                {this.getRowInput('Категория билета', 'ticket_category')}
+                                {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getDoubleRowInput('issuer')}
@@ -351,7 +353,7 @@ export default Form.create({
             },
             ticket_category: {
                 ...props.ticket_category,
-                value: props.ticket.ticket_category ? props.ticket.ticket_category.toString() : null
+                value: {ticket_category: props.ticket.ticket_category}
             },
             organizer: {
                 ...props.organizer,

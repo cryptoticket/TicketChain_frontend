@@ -11,10 +11,11 @@ class TicketPage extends Component {
     componentWillMount() {
         const inn = this.props.location.pathname.split('/')[2];
         this.props.getTickets(inn);
+        this.props.getTicketsCount(inn);
     };
 
     render() {
-        const {tickets, isFetching, routeParams, getTickets, getTicket} = this.props;
+        const {tickets, isFetching, routeParams, getTickets, getTicket, count} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
@@ -23,6 +24,7 @@ class TicketPage extends Component {
                         isFetching={isFetching}
                         getTickets={getTickets}
                         getTicket={getTicket}
+                        count={count}
                         inn={this.props.location.pathname.split('/')[2]}
                     />
                 </Col>
@@ -36,12 +38,14 @@ TicketPage.PropTypes = {
     getTickets: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     tickets: PropTypes.array.isRequired,
+    count: PropTypes.number.isRequired,
     location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
     return ({
         tickets: state.blank.tickets,
+        count: state.blank.count,
         isFetching: state.blank.isFetching
     })
 };

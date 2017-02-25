@@ -21,7 +21,7 @@ class NumberInput extends Component{
     }
     handleNumberChange = (e) => {
         let number = e.target.value;
-        const reg = /^-?([0-9][0-9]*)(\.[0-9]*)?$/;
+        const reg = /^-?([0-9][0-9]*)(\.[0-9]*)?$/  ;
         if (number && !reg.test(number)) {
             return;
         }

@@ -9,9 +9,6 @@ class MainPage extends Component {
             <div className="panel main">
                 <Row gutter={2} style={{ marginTop: 8 }}>
                     <Col xs={24} sm={12} md={12} lg={12}>
-                        <div className="logo">
-                            <img src='src/assets/img/chain.jpg'/>
-                        </div>
                         <div className="label">
                             <p>TicketChain</p>
                         </div>

@@ -1,9 +1,8 @@
 import fetch from 'isomorphic-fetch';
 import config from '../../config';
-import {getHeaders} from '../utils';
+import {getHeaders, getParams} from '../utils';
 import {openNotification} from '../notification';
 import { browserHistory } from 'react-router';
-import { urls } from '../../routes';
 
 export const GET_TICKET_COUNT_PENDING = 'GET_TICKET_COUNT_PENDING';
 export const GET_TICKET_COUNT_FULFILLED = 'GET_TICKET_COUNT_FULFILLED';
@@ -54,6 +53,8 @@ export const GET_CSV_JOB_REJECTED = 'GET_CSV_JOB_REJECTED';
 export const GET_STATS_PENDING = 'GET_STATS_PENDING';
 export const GET_STATS_FULFILLED = 'GET_STATS_FULFILLED';
 export const GET_STATS_REJECTED = 'GET_STATS_REJECTED';
+
+export const GET_TICKETS_COUNT = 'GET_TICKETS_COUNT';
 
 export default class BlankActions {
 
@@ -182,9 +183,11 @@ export default class BlankActions {
 
     getTicket = (inn, ticketId, isSearch) => {
         let isError = false;
+        let id = ticketId.split(' ').join("");
+
         return dispatch => {
             dispatch({type: GET_TICKET_PENDING});
-            fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
+            fetch(`${config.baseUrl}organizers/${inn}/tickets/${id}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })
@@ -192,7 +195,15 @@ export default class BlankActions {
                     if (response.status >= 400) {
                         isError = true;
                         dispatch({type: GET_TICKET_REJECTED});
-                        if (isSearch) openNotification('error', `Билет ${ticketId} не найден!`);
+
+                        if (isSearch) {
+                            openNotification('error', `Билет ${ticketId} не найден!`)
+                        } else {
+                            browserHistory.push(`*`);
+                        }
+                    }
+                    if (response.status == 404) {
+                        openNotification('error', `Билет ${ticketId} не найден!`);
                     }
                     return response.json();
                 })
@@ -422,11 +433,11 @@ export default class BlankActions {
         );
     };
 
-    getTickets = (inn) => {
+    getTickets = (inn, params = {page: 1, limit: 10}) => {
         let isError = false;
         return dispatch => {
             dispatch({type: GET_TICKETS_PENDING});
-            fetch(`${config.baseUrl}organizers/${inn}/tickets`,
+            fetch(`${config.baseUrl}organizers/${inn}/tickets?${getParams(params)}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })
@@ -444,6 +455,32 @@ export default class BlankActions {
                             const tickets = result.map(r => r.payload);
                             dispatch({type: GET_TICKETS_FULFILLED, payload: tickets});
                         });
+                    } else {
+                        openNotification('error', json);
+                    }
+                });
+        };
+    };
+
+    getTicketsCount = (inn, callback) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: `${GET_TICKETS_COUNT}_PENDING`});
+            fetch(`${config.baseUrl}organizers/${inn}/ticket_count`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: `${GET_TICKETS_COUNT}_REJECTED`});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: `${GET_TICKETS_COUNT}_FULFILLED`, payload: json});
+                        if (callback) callback();
                     } else {
                         openNotification('error', json);
                     }
