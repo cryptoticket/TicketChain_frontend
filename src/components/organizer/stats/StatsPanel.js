@@ -16,9 +16,9 @@ class StatsPanel extends Component {
                     {stats ?
                         <div>
                             <p>Бланков: {stats.blank}</p>
-                            <p>Откланено: {stats.cancelled}</p>
                             <p>Продано: {stats.sold}</p>
-                            <p>Всего билетов: {stats.totalTickets}</p>
+                            <p>Забраковано: {stats.cancelled}</p>
+                            <p>Всего: {stats.totalTickets}</p>
                         </div> : null
                     }
                 </div>
