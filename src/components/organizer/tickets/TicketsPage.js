@@ -10,12 +10,13 @@ class TicketPage extends Component {
 
     componentWillMount() {
         const inn = this.props.location.pathname.split('/')[2];
-        this.props.getTickets(inn);
-        this.props.getTicketsCount(inn);
+        if (!this.props.count) {
+            this.props.getTicketsCount(inn);
+        }
     };
 
     render() {
-        const {tickets, isFetching, routeParams, getTickets, getTicket, count} = this.props;
+        const {tickets, isFetching, routeParams, getTickets, getTicket, count, location} = this.props;
         return (
             <Row style={{marginTop: '36px'}}>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
@@ -24,6 +25,7 @@ class TicketPage extends Component {
                         isFetching={isFetching}
                         getTickets={getTickets}
                         getTicket={getTicket}
+                        location={location}
                         count={count}
                         inn={this.props.location.pathname.split('/')[2]}
                     />

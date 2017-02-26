@@ -192,6 +192,7 @@ function blankReducer(state = initialState, action) {
         case GET_ORGANIZERS_FULFILLED: {
             return Object.assign({}, state, {
                 isFetching: false,
+                count: undefined,
                 organizers: action.payload
             });
         }
