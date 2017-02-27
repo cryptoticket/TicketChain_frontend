@@ -20,18 +20,23 @@ class TicketsTableComponent extends Component {
         super(props);
         this.state = {
             searchIsDirty: false,
-            pagination: {total: 10, current: parseInt(props.location.query.page)}
+            pagination: {total: 50, current: parseInt(props.location.query.page), pageSize: 50}
         };
     }
 
     componentWillMount() {
-        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 10});
+        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50});
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.count && this.props !== nextProps.count) {
             const pagination = this.state.pagination;
             pagination.total = nextProps.count;
+            this.setState({pagination});
+        }
+        if (this.props.location.query.page !== nextProps.location.query.page) {
+            this.props.getTickets(this.props.inn, {page: nextProps.location.query.page, limit: 50});
+            const pagination = {total: nextProps.count, current: parseInt(nextProps.location.query.page), pageSize: 50};
             this.setState({pagination});
         }
     }
@@ -54,7 +59,7 @@ class TicketsTableComponent extends Component {
             pagination: pager,
         });
         const params = {page: pagination.current, limit: pagination.pageSize};
-        browserHistory.push(`/organizers/${this.props.inn}/tickets?page=${pagination.current}&limit=10`);
+        browserHistory.push(`/organizers/${this.props.inn}/tickets?page=${pagination.current}&limit=50`);
         this.props.getTickets(this.props.inn, params);
     };
 
@@ -64,7 +69,7 @@ class TicketsTableComponent extends Component {
         const data = tickets.map((ticket, key) =>
             ({
                 key,
-                number: key + 1+ 10 * (pagination.current - 1),
+                number: key + 1+ 50 * (pagination.current - 1),
                 ticketId: ticket.id,
                 serial_number: ticket.serial_number,
                 created_date: ticket.created_date,

@@ -212,11 +212,11 @@ class TicketPanelComponent extends Component {
                         </Row>
                         <Row gutter={2} style={{ marginTop: 16 }}>
                             <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRow('Организатор', ticket.organizer)}
-                                {this.getRow('ИНН', ticket.organizer_inn)}
-                                {this.getRow('ОГРН', ticket.organizer_ogrn)}
-                                {this.getRow('ОГРНИП', ticket.organizer_ogrnip)}
-                                {this.getRow('Адрес', ticket.organizer_address)}
+                                {this.getRowInput('Организатор', 'organizer')}
+                                {this.getRowInput('ИНН', 'organizer_inn', null, null, null, this.checkInn, <NumberInput field="organizer_inn" maxLength="12"/>)}
+                                {this.getRowInput('ОГРН', 'organizer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="organizer_ogrn" maxLength="13"/>)}
+                                {this.getRowInput('ОГРНИП', 'organizer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="organizer_ogrnip" maxLength="15"/>)}
+                                {this.getRowInput('Адрес', 'organizer_address')}
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Продавец', 'seller')}
@@ -361,15 +361,15 @@ export default Form.create({
             },
             organizer_inn: {
                 ...props.organizer_inn,
-                value: props.ticket.organizer_inn
+                value: {organizer_inn: props.ticket.organizer_inn}
             },
             organizer_ogrn: {
                 ...props.organizer_ogrn,
-                value: props.ticket.organizer_ogrn
+                value: {organizer_ogrn: props.ticket.organizer_ogrn}
             },
             organizer_ogrnip: {
                 ...props.organizer_ogrnip,
-                value: props.ticket.organizer_ogrnip
+                value: {organizer_ogrnip: props.ticket.organizer_ogrnip}
             },
             organizer_address: {
                 ...props.organizer_address,
