@@ -13,10 +13,10 @@ class MainPage extends Component {
                             <p>TicketChain</p>
                         </div>
                     </Col>
-                    <Col xs={24} sm={12} md={12} lg={12} className="menu">
-                        <Link to={`/organizers`}><p>Организаторы</p></Link>
-                        <Link to={`/new_tickets`}><p>Создание бланков</p></Link>
-                    </Col>
+                    {/*<Col xs={24} sm={12} md={12} lg={12} className="menu">*/}
+                        {/*<Link to={`/organizers`}><p>Организаторы</p></Link>*/}
+                        {/*<Link to={`/new_tickets`}><p>Создание бланков</p></Link>*/}
+                    {/*</Col>*/}
                 </Row>
             </div>
         );

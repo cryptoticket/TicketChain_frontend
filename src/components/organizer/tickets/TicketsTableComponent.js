@@ -25,7 +25,7 @@ class TicketsTableComponent extends Component {
     }
 
     componentWillMount() {
-        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50});
+        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50, state: this.props.location.query.state});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -35,7 +35,7 @@ class TicketsTableComponent extends Component {
             this.setState({pagination});
         }
         if (this.props.location.query.page !== nextProps.location.query.page) {
-            this.props.getTickets(this.props.inn, {page: nextProps.location.query.page, limit: 50});
+            this.props.getTickets(this.props.inn, {page: nextProps.location.query.page, limit: 50, state: this.props.location.query.state});
             const pagination = {total: nextProps.count, current: parseInt(nextProps.location.query.page), pageSize: 50};
             this.setState({pagination});
         }
