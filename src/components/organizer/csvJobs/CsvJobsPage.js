@@ -38,7 +38,7 @@ class CsvJobsPage extends Component {
     render() {
         const {csvJob, isFetching, routeParams} = this.props;
         return (
-            <Row style={{marginTop: '36px'}}>
+            <Row>
                 <Col xs={24} sm={24} md={{span:12, offset:6}} lg={{span:12, offset:6}}>
                     <CsvJobsPanel
                         csvJob={csvJob}

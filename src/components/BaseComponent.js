@@ -2,15 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import NavigationComponent from './navigation/NavigationComponent';
+
 class BaseComponent extends Component {
 
     render() {
+        const {children} = this.props;
         return (
-            <div className="page-wrapper">
-                <div className="content-wrapper">
-                    {this.props.children}
-                </div>
-            </div>
+            <NavigationComponent children={children} />
         );
     }
 }

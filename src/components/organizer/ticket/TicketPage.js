@@ -16,7 +16,7 @@ class TicketPage extends Component {
     render() {
         const {ticket, isFetching, routeParams, sellTicket, cancelTicket, editTicket, handleTicket} = this.props;
         return (
-            <Row style={{marginTop: '36px'}}>
+            <Row>
                 <Col span={24}>
                     <TicketPanelComponent
                         ticket={ticket}

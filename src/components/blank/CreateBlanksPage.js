@@ -30,7 +30,7 @@ class CreateBlanksPage extends Component {
     render() {
         const {createNewBatch, getTicketCount, isFetching,createNewCSV} = this.props;
         return (
-            <Row style={{marginTop: '36px'}}>
+            <Row>
                 <Col xs={24} sm={24} md={{span:12, offset:6}} lg={{span:12, offset:6}}>
                     <CreateBlanksForm
                         submit={getTicketCount}
