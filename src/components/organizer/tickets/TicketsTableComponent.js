@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
-import { Table, Spin, Input } from 'antd';
+import { Table, Spin, Input, DatePicker, Row, Col  } from 'antd';
 import { Link, browserHistory } from 'react-router'
+import ruRU from 'antd/lib/date-picker/locale/ru_RU';
 
 const { Column, ColumnGroup } = Table;
 
@@ -63,6 +64,10 @@ class TicketsTableComponent extends Component {
         this.props.getTickets(this.props.inn, params);
     };
 
+    handleDate = (date) => {
+
+    };
+
     render() {
         const {tickets, isFetching, inn} = this.props;
         const {pagination, searchIsDirty} = this.state;
@@ -101,20 +106,31 @@ class TicketsTableComponent extends Component {
                 render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mappingState(record.state)}</Link>
             }
         ];
-
+        moment.locale('ru');
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
 
                 <div className="panel tickets">
                     <div className="panel-head">
-                        <h3>Билеты</h3>
-                        <div className="search">
-                            <Search
-                                placeholder="серия/номер"
-                                style={{ width: 200 }}
-                                onSearch={this.handleSearch}
-                            />
-                        </div>
+                        <Row gutter={2}>
+                            <Col xs={12} sm={12} md={12} lg={12} className="menu">
+                                <h3>Билеты</h3>
+                            </Col>
+                            <Col xs={6} sm={6} md={6} lg={6} className="menu">
+                                <DatePicker
+                                    locale={ruRU}
+                                    format='YYYY/MM/DD'
+                                    size="default"
+                                    onChange={this.handleDate}
+                                />
+                            </Col>
+                            <Col xs={6} sm={6} md={6} lg={6} className="menu">
+                                <Search
+                                    placeholder="серия/номер"
+                                    onSearch={this.handleSearch}
+                                />
+                            </Col>
+                        </Row>
                     </div>
                     {data.length ?
                         <Table

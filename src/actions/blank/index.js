@@ -213,16 +213,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch(this.getOrganizerByInnPromise(inn)).then(organizer =>{
-                            const ticket = json;
-                            if (isSearch) ticket.isSearch = true;
-                            ticket.organizer = organizer.payload.organizer;
-                            ticket.organizer_inn = organizer.payload.organizer_inn;
-                            ticket.organizer_ogrn = organizer.payload.organizer_ogrn;
-                            ticket.organizer_ogrnip = organizer.payload.organizer_ogrnip;
-                            ticket.organizer_address = organizer.payload.organizer_address;
-                            dispatch({type: GET_TICKET_FULFILLED, payload: ticket});
-                        })
+                        dispatch({type: GET_TICKET_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }
