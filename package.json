@@ -4,7 +4,7 @@
   "description": "ticketchain_frontend",
   "author": "Petr Ryabinn",
   "engines": {
-    "node": "6.9.5"
+    "node": "6.0.0"
   },
   "scripts": {
     "clean": "rimraf dist/",
