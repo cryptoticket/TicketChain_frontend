@@ -319,11 +319,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        const promiseList = json.map(inn => dispatch(this.getOrganizerByInnPromise(inn)));
-                        Promise.all(promiseList).then(result => {
-                            const organizers = result.map(r => r.payload);
-                            dispatch({type: GET_ORGANIZERS_FULFILLED, payload: organizers});
-                        });
+                        dispatch({type: GET_ORGANIZERS_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }

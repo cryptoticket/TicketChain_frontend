@@ -83,7 +83,7 @@ class TicketPanelComponent extends Component {
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
-                    <h4>Компания&nbsp;&nbsp; выпустившая билет:&nbsp;</h4>
+                    <h4>Компания&nbsp;&nbsp; <br/> выпуст-шая билет:&nbsp;</h4>
                 </Col>
                 <Col span={12} style={{ paddingTop: 12 }}>
                     <FormItem style={{ marginBottom: 0 }}>

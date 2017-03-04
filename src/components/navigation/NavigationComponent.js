@@ -48,6 +48,7 @@ class NavigationComponent extends React.Component {
         return (
             <Layout>
                 <Sider
+                    width={180}
                     trigger={null}
                     collapsible
                     collapsed={this.state.collapsed}
