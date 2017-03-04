@@ -5,10 +5,25 @@ const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
 class NavigationComponent extends React.Component {
-    state = {
-        collapsed: false,
-        mode: 'inline',
+    constructor(props) {
+        super(props);
+        const pathname = this.props.children.props.location.pathname;
+        const selectedKey = pathname.split('/')[1];
+        this.state = {
+            collapsed: false,
+            mode: 'inline',
+            selectedKey
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.children.props.location.pathname !== this.props.children.props.location.pathname) {
+            const pathname = nextProps.children.props.location.pathname;
+            const selectedKey = pathname.split('/')[1];
+            this.setState({selectedKey});
+        }
     };
+
     onCollapse = (collapsed) => {
         console.log(collapsed);
         this.setState({
@@ -21,7 +36,7 @@ class NavigationComponent extends React.Component {
         this.setState({
             collapsed: !this.state.collapsed,
         });
-    }
+    };
 
     handleMenu = (e) => {
         switch (e.key) {
@@ -38,13 +53,12 @@ class NavigationComponent extends React.Component {
 
 
     handleLogo = () => {
+        this.setState({selectedKey: null});
         browserHistory.push('/');
     };
 
     render() {
-        const {collapsed} = this.state;
-        const pathname = this.props.children.props.location.pathname;
-        const selectedKey = pathname.split('/')[1];
+        const {collapsed, selectedKey} = this.state;
         return (
             <Layout>
                 <Sider
@@ -59,7 +73,7 @@ class NavigationComponent extends React.Component {
                         theme="dark" mode={this.state.mode}
                         style={{ height: '100%' }}
                         onClick={this.handleMenu}
-                        defaultSelectedKeys={[selectedKey]}
+                        selectedKeys={[selectedKey]}
                     >
                         <Menu.Item key="organizers">
                           <span>
