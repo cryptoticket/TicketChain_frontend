@@ -31,7 +31,7 @@ class CreateBlanksPage extends Component {
         const {createNewBatch, getTicketCount, isFetching,createNewCSV} = this.props;
         return (
             <Row>
-                <Col xs={24} sm={24} md={{span:12, offset:6}} lg={{span:12, offset:6}}>
+                <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
                     <CreateBlanksForm
                         submit={getTicketCount}
                         showConfirm={this.showConfirm}
