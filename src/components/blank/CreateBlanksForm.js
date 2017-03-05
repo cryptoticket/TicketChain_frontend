@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 
 import { Form, Input, InputNumber, Button, Upload, Icon, Popover, Switch } from 'antd';
 
-import InnInput from './InnInput';
 import SeriesInput from './SeriesInput';
 import NumberInput from './NumberInput';
 
