@@ -201,6 +201,10 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Ряд', 'row')}
                                 {this.getRowInput('Место', 'seat')}
                                 {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
+                                {ticket.contract_address ? this.getRow('Smart-контаркт',
+                                    <a href={`https://etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
+                                    ): null
+                                }
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getDoubleRowInput('issuer')}
@@ -306,6 +310,10 @@ export default Form.create({
             cancelled_date: {
                 ...props.cancelled_date,
                 value: props.ticket.cancelled_date ? moment(props.ticket.cancelled_date) : null
+            },
+            contract_address: {
+                ...props.contract_address,
+                value: props.ticket.contract_address
             },
             issuer: {
                 ...props.issuer,

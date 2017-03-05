@@ -10,7 +10,6 @@ class NavigationComponent extends React.Component {
         const pathname = this.props.children.props.location.pathname;
         const selectedKey = pathname.split('/')[1];
         this.state = {
-            collapsed: false,
             mode: 'inline',
             selectedKey
         }
@@ -22,20 +21,6 @@ class NavigationComponent extends React.Component {
             const selectedKey = pathname.split('/')[1];
             this.setState({selectedKey});
         }
-    };
-
-    onCollapse = (collapsed) => {
-        console.log(collapsed);
-        this.setState({
-            collapsed,
-            mode: collapsed ? 'vertical' : 'inline',
-        });
-    };
-
-    toggle = () => {
-        this.setState({
-            collapsed: !this.state.collapsed,
-        });
     };
 
     handleMenu = (e) => {
@@ -51,7 +36,6 @@ class NavigationComponent extends React.Component {
         }
     };
 
-
     handleLogo = () => {
         this.setState({selectedKey: null});
         browserHistory.push('/');
@@ -64,9 +48,6 @@ class NavigationComponent extends React.Component {
                 <Sider
                     width={180}
                     trigger={null}
-                    collapsible
-                    collapsed={this.state.collapsed}
-                    onCollapse={this.onCollapse}
                 >
                     <div className="logo" onClick={this.handleLogo}>{!collapsed? 'TicketChain': <Icon type="home" />}</div>
                     <Menu
@@ -91,11 +72,6 @@ class NavigationComponent extends React.Component {
                 </Sider>
                 <Layout>
                     <Header style={{ background: '#ECECEC', padding: 0 }}>
-                        <Icon
-                            className="trigger"
-                            type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-                            onClick={this.toggle}
-                        />
                     </Header>
                     <div className="page-wrapper">
                         <div className="content-wrapper">
