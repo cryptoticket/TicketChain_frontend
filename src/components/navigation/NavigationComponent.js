@@ -33,6 +33,10 @@ class NavigationComponent extends React.Component {
                 browserHistory.push('/new_tickets');
                 break;
             }
+            case 'new_csv': {
+                browserHistory.push('/new_csv');
+                break;
+            }
         }
     };
 
@@ -46,7 +50,7 @@ class NavigationComponent extends React.Component {
         return (
             <Layout>
                 <Sider
-                    width={180}
+                    width={190}
                     trigger={null}
                 >
                     <div className="logo" onClick={this.handleLogo}>{!collapsed? 'TicketChain': <Icon type="home" />}</div>
@@ -66,6 +70,12 @@ class NavigationComponent extends React.Component {
                           <span>
                             <Icon type="file" />
                             <span className="nav-text">Создание бланков</span>
+                          </span>
+                        </Menu.Item>
+                        <Menu.Item key="new_csv">
+                          <span>
+                            <Icon type="file" />
+                            <span className="nav-text">Загрузка CSV файла</span>
                           </span>
                         </Menu.Item>
                     </Menu>

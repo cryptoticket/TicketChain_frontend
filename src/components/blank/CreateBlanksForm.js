@@ -59,11 +59,6 @@ class CreateBlanksForm extends Component {
         }
     };
 
-    createNewCSV = (data) => {
-        this.props.createNewCSV(this.props.form.getFieldValue('inn').inn, data, this.state.isBlocking);
-        return Promise.reject();
-    };
-
     handleSwitch = () => {
         this.setState({isBlocking: true});
     };
@@ -140,12 +135,6 @@ class CreateBlanksForm extends Component {
                             })(<NumberInput field='end_number' maxLength="6"/>)
                         }
                     </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Обработать мгновенно"
-                    >
-                        <Switch defaultChecked={false} onChange={this.handleSwitch} size="default"/>
-                    </FormItem>
                     <FormItem {...tailFormItemLayout}>
                         <div>
                             <Button
@@ -156,34 +145,6 @@ class CreateBlanksForm extends Component {
                             >
                                 Сгенерировать бланки
                             </Button>
-                        </div>
-                        <div>
-                            {getFieldValue('inn') && !getFieldError('inn') ?
-                                <Upload
-                                    beforeUpload={this.createNewCSV}
-                                >
-                                    <Button
-                                        style={{marginTop: '12px'}}
-                                        size="default"
-                                        loading={isFetching}
-                                    >
-                                        {!isFetching ?  <Icon type="upload" /> : ' '} Сгенерировать из CSV файла
-                                    </Button>
-                                </Upload> :
-                                <Popover
-                                    content="Требуется ввести ИНН"
-                                    placement="rightTop"
-                                >
-
-                                    <Button
-                                        style={{marginTop: '12px'}}
-                                        size="default"
-                                        disabled
-                                    >
-                                        <Icon type="upload" /> Сгенерировать из CSV файла
-                                    </Button>
-                                </Popover>
-                            }
                         </div>
                     </FormItem>
                 </Form>
