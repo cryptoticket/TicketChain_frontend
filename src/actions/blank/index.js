@@ -453,11 +453,11 @@ export default class BlankActions {
         };
     };
 
-    getTicketsCount = (inn, callback) => {
+    getTicketsCount = (inn, params = {}, callback) => {
         let isError = false;
         return dispatch => {
             dispatch({type: `${GET_TICKETS_COUNT}_PENDING`});
-            fetch(`${config.baseUrl}organizers/${inn}/ticket_count`,
+            fetch(`${config.baseUrl}organizers/${inn}/ticket_count?${getParams(params)}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })

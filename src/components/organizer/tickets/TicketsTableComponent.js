@@ -26,6 +26,9 @@ class TicketsTableComponent extends Component {
     }
 
     componentWillMount() {
+        if (!this.props.count) {
+            this.props.getTicketsCount(this.props.inn,{state: this.props.location.query.state});
+        }
         this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50, state: this.props.location.query.state});
     }
 
@@ -59,8 +62,8 @@ class TicketsTableComponent extends Component {
         this.setState({
             pagination: pager,
         });
-        const params = {page: pagination.current, limit: pagination.pageSize};
-        browserHistory.push(`/organizers/${this.props.inn}/tickets?page=${pagination.current}&limit=50`);
+        const params = {page: pagination.current, limit: pagination.pageSize,  state: this.props.location.query.state};
+        browserHistory.push(`/organizers/${this.props.inn}/tickets?page=${pagination.current}&limit=50${this.props.location.query.state ? `$state=${this.props.location.query.state}`: null}`);
         this.props.getTickets(this.props.inn, params);
     };
 
@@ -151,6 +154,7 @@ TicketsTableComponent.PropTypes = {
     isFetching: PropTypes.bool.isRequired,
     inn: PropTypes.number.isRequired,
     getTickets: PropTypes.func.isRequired,
+    getTicketsCount: PropTypes.func.isRequired,
     getTicket: PropTypes.func.isRequired
 };
 

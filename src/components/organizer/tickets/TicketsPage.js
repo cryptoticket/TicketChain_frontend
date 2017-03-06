@@ -16,7 +16,7 @@ class TicketPage extends Component {
     };
 
     render() {
-        const {tickets, isFetching, routeParams, getTickets, getTicket, count, location} = this.props;
+        const {tickets, isFetching, routeParams, getTickets, getTicket, count, location, getTicketsCount} = this.props;
         return (
             <Row>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
@@ -27,6 +27,7 @@ class TicketPage extends Component {
                         getTicket={getTicket}
                         location={location}
                         count={count}
+                        getTicketsCount={getTicketsCount}
                         inn={this.props.location.pathname.split('/')[2]}
                     />
                 </Col>

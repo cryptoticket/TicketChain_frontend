@@ -32,17 +32,17 @@ class CreateCsvForm extends Component {
         const {isFetching} = this.props;
 
         const formItemLayout = {
-            labelCol: { span: 8 },
+            labelCol: { span: 12 },
             wrapperCol: { span: 8 }
         };
         const formItemLayoutShort = {
-            labelCol: { span: 8 },
+            labelCol: { span: 12 },
             wrapperCol: { span: 4 }
         };
         const tailFormItemLayout = {
             wrapperCol: {
                 span: 12,
-                offset: 8
+                offset: 12
             },
         };
 
