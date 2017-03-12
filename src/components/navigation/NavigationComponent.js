@@ -54,7 +54,7 @@ class NavigationComponent extends React.Component {
         return (
             <Layout>
                 <Sider
-                    width={190}
+                    width={224}
                     trigger={null}
                 >
                     <div className="logo" onClick={this.handleLogo}>{!collapsed? 'TicketChain': <Icon type="home" />}</div>
@@ -76,7 +76,7 @@ class NavigationComponent extends React.Component {
                             <span className="nav-text">Создание бланков</span>
                           </span>
                         </Menu.Item>
-                        <Menu.Item key="new_tickets">
+                        <Menu.Item key="new_tickets_by_num">
                           <span>
                             <Icon type="file" />
                             <span className="nav-text">Создание бланков (кол-во)</span>

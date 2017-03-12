@@ -28,14 +28,13 @@ class CreateBlanksPage extends Component {
     };
 
     render() {
-        const {createNewBatch, getTicketCount, isFetching,createNewCSV} = this.props;
+        const {createNewBatch, getTicketCount, isFetching} = this.props;
         return (
             <Row>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
                     <CreateBlanksForm
                         submit={getTicketCount}
                         showConfirm={this.showConfirm}
-                        createNewCSV={createNewCSV}
                         isFetching={isFetching}
                     />
                 </Col>
@@ -46,7 +45,6 @@ class CreateBlanksPage extends Component {
 
 CreateBlanksPage.PropTypes = {
     createNewBatch: PropTypes.func.isRequired,
-    createNewCSV: PropTypes.func.isRequired,
     getTicketCount: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     ticketCount: PropTypes.number.isRequired

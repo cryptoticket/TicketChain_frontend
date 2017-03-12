@@ -15,7 +15,7 @@ import StatsPage from '../components/organizer/stats/StatsPage';
 import CsvJobsPage from '../components/organizer/csvJobs/CsvJobsPage';
 import TicketPage from '../components/organizer/ticket/TicketPage';
 import TicketsPage from '../components/organizer/tickets/TicketsPage';
-import CreateBlanksPageByNum from '../components/blankbynum/CreateBlanksPageByNum';
+import CreateBlanksByNumPage from '../components/blankbynum/CreateBlanksByNumPage';
 
 export const urls = {
     index: {
@@ -55,7 +55,7 @@ export default (
         <Route path={urls.index.path} component={BaseComponent}>
             <IndexRoute component={MainPage} />
             <Route path={urls.newTickets.path} component={CreateBlanksPage} />
-            <Route path={urls.newTicketsByNum.path} component={CreateBlanksPageByNum} />
+            <Route path={urls.newTicketsByNum.path} component={CreateBlanksByNumPage} />
             <Route path={urls.newCsv.path} component={CreateCsvPage} />
             <Route path={urls.organizers.path} component={OrganizerComponent}>
                 <IndexRoute component={OrganizersPage} />

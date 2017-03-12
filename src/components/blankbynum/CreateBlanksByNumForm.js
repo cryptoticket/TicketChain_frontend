@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 
-import { Form, Input, InputNumber, Button, Upload, Icon, Popover, Switch } from 'antd';
+import { Form, Input, Button, Icon } from 'antd';
 
 import SeriesInput from '../blank/SeriesInput';
 import NumberInput from '../blank/NumberInput';
 
 const FormItem = Form.Item;
 
-class CreateBlanksForm extends Component {
+class CreateBlanksByNumForm extends Component {
     state = {};
 
     handleSubmit = (e) => {
@@ -121,11 +121,10 @@ class CreateBlanksForm extends Component {
     }
 }
 
-CreateBlanksForm.PropTypes = {
+CreateBlanksByNumForm.PropTypes = {
     submit: PropTypes.func.isRequired,
     showConfirm: PropTypes.func.isRequired,
-    createNewCSV: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired
 };
 
-export default Form.create({})(CreateBlanksForm);
+export default Form.create({})(CreateBlanksByNumForm);

@@ -155,7 +155,6 @@ class CreateBlanksForm extends Component {
 CreateBlanksForm.PropTypes = {
     submit: PropTypes.func.isRequired,
     showConfirm: PropTypes.func.isRequired,
-    createNewCSV: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired
 };
 
