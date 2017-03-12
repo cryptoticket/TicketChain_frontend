@@ -33,6 +33,10 @@ class NavigationComponent extends React.Component {
                 browserHistory.push('/new_tickets');
                 break;
             }
+            case 'new_tickets_by_num': {
+                browserHistory.push('/new_tickets_by_num');
+                break;
+            }
             case 'new_csv': {
                 browserHistory.push('/new_csv');
                 break;
@@ -70,6 +74,12 @@ class NavigationComponent extends React.Component {
                           <span>
                             <Icon type="file" />
                             <span className="nav-text">Создание бланков</span>
+                          </span>
+                        </Menu.Item>
+                        <Menu.Item key="new_tickets">
+                          <span>
+                            <Icon type="file" />
+                            <span className="nav-text">Создание бланков (кол-во)</span>
                           </span>
                         </Menu.Item>
                         <Menu.Item key="new_csv">
