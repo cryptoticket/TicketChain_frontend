@@ -202,7 +202,7 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Место', 'seat')}
                                 {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
                                 {ticket.contract_address ? this.getRow('Smart-контаркт',
-                                    <a href={`https://etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
+                                    <a href={`https://kovan.etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
                                     ): null
                                 }
                             </Col>
