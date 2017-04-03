@@ -7,8 +7,12 @@ export function getHeaders() {
 }
 export function getParams(params) {
     const esc = encodeURIComponent;
-    const query = Object.keys(params)
-        .map(k => esc(k) + '=' + esc(params[k]))
-        .join('&');
+    let query =[];
+    Object.keys(params).forEach(k => {
+            if(params[k]) {
+                query.push(esc(k) + '=' + esc(params[k]))
+            }
+        });
+    query = query.join('&');
     return query;
 }

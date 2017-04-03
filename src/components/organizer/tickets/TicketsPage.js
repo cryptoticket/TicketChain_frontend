@@ -10,9 +10,9 @@ class TicketPage extends Component {
 
     componentWillMount() {
         const inn = this.props.location.pathname.split('/')[2];
-        if (!this.props.count) {
-            this.props.getTicketsCount(inn);
-        }
+        // if (!this.props.count) {
+        //     this.props.getTicketsCount(inn);
+        // }
     };
 
     render() {
@@ -54,4 +54,4 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions,dispatch));
 
-export default connect(mapStateToProps, mapDispatchToProps)(TicketPage);
+export default connect(mapStateToProps, mapDispatchToProps, null, {pure: false})(TicketPage);

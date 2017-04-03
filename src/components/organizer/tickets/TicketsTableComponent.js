@@ -12,6 +12,7 @@ export const mappingState = (state) => {
         case 'created': return 'Бланк';
         case 'sold': return 'Продан';
         case 'cancelled': return 'Забракован';
+        case 'error': return 'Ошибка загрузки';
         default: return;
     }
 };
@@ -26,10 +27,11 @@ class TicketsTableComponent extends Component {
     }
 
     componentWillMount() {
+        const state = this.props.location.query.state;
         if (!this.props.count) {
-            this.props.getTicketsCount(this.props.inn,{state: this.props.location.query.state});
+            this.props.getTicketsCount(this.props.inn, {state: state ? state : null});
         }
-        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50, state: this.props.location.query.state});
+        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 50, state: state ? state: null});
     }
 
     componentWillReceiveProps(nextProps) {
@@ -89,24 +91,36 @@ class TicketsTableComponent extends Component {
                 title: '№',
                 dataIndex: 'number',
                 key: 'number',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{text}</Link>
+                render: (text, record) => (record.state !== 'error' ?
+                    <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{text}</Link> :
+                    null
+                )
             }, {
                 title: 'Номер/серия',
                 dataIndex: 'serial_number',
                 key: 'serial_number',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>
-                    {text.slice(0, 2) + " " + text.slice(2)}
-                </Link>
+                render: (text, record) => (record.state === 'error' ?
+                        <p>{text}</p> :
+                        <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>
+                            {text.slice(0, 2) + " " + text.slice(2)}
+                        </Link>
+                )
             }, {
                 title: 'Дата создания',
                 dataIndex: 'created_date',
                 key: 'created_date',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{moment(text).format('YYYY/MM/DD')}</Link>
+                render: (text, record) => (record.state !== 'error' ?
+                    <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{moment(text).format('YYYY/MM/DD')}</Link> :
+                        null
+                )
             }, {
                 title: 'Состояние',
                 dataIndex: 'state',
                 key: 'state',
-                render: (text, record) => <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mappingState(record.state)}</Link>
+                render: (text, record) => (record.state === 'error' ?
+                    <p>{mappingState(record.state)}</p> :
+                    <Link to={`/organizers/${inn}/tickets/${record.ticketId}`}>{mappingState(record.state)}</Link>
+                )
             }
         ];
         moment.locale('ru');
