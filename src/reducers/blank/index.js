@@ -143,7 +143,9 @@ function blankReducer(state = initialState, action) {
         }
         case GET_ASYNC_TICKET_FULFILLED: {
             let tickets = state.tickets;
-            tickets.push(action.payload);
+            if (!tickets.some(t => t.id === action.payload.id)) {
+                tickets.push(action.payload);
+            }
             return Object.assign({}, state, {
                 isFetching: false,
                 tickets
