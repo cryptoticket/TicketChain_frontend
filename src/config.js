@@ -1,4 +1,4 @@
 
 export default {
-  baseUrl: 'https://ticketchain-backend.herokuapp.com/api/v1/'
+  baseUrl: process.env.BASE_URL || 'https://ticketchain-backend.herokuapp.com/api/v1/'
 };
