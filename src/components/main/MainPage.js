@@ -16,7 +16,7 @@ class MainPage extends Component {
         return (
             <div className="panel">
                 <Spin tip="Загрузка..." spinning={isFetching}>
-                    <Row style={{paddingBottom: '4px'}}>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Smart Contracts enabled:</p>
                         </Col>
