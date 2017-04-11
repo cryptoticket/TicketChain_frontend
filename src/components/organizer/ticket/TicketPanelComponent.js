@@ -305,11 +305,11 @@ export default Form.create({
             },
             buying_date: {
                 ...props.buying_date,
-                value: props.ticket.buying_date ? moment(props.ticket.buying_date) : null
+                value: props.ticket.buying_date && props.ticket.buying_date !== "0" ? moment(props.ticket.buying_date) : null
             },
             cancelled_date: {
                 ...props.cancelled_date,
-                value: props.ticket.cancelled_date ? moment(props.ticket.cancelled_date) : null
+                value: props.ticket.cancelled_date && props.ticket.cancelled_date !== "0" ? moment(props.ticket.cancelled_date) : null
             },
             contract_address: {
                 ...props.contract_address,
@@ -345,7 +345,7 @@ export default Form.create({
             },
             event_date: {
                 ...props.event_date,
-                value: props.ticket.event_date ? moment(props.ticket.event_date) : null
+                value: props.ticket.event_date && props.ticket.event_date !== "0" ? moment(props.ticket.event_date) : null
             },
             event_place_address: {
                 ...props.event_place_address,

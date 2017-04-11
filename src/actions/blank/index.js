@@ -171,7 +171,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                    const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                    const promiseList = json.map(ticketId => dispatch(this.getTicketNotAsyncPromise(inn, ticketId)));
                         Promise.all(promiseList)
                             .then(result => {
                                 const tickets = result.map(r => r.payload);
@@ -245,7 +245,11 @@ export default class BlankActions {
                     } else {
                         openNotification('error', json);
                     }
-                });
+                })
+                .catch(er => {
+                    dispatch({type: SELL_TICKET_REJECTED});
+                })
+
         };
     };
 
@@ -401,6 +405,29 @@ export default class BlankActions {
                     }
                 });
         };
+    };
+
+    getTicketNotAsyncPromise = (inn,ticketId) => {
+        let isError = false;
+        return (
+            fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        return {type: GET_TICKET_FULFILLED, payload: json};
+                    } else {
+                        openNotification('error', json);
+                    }
+                })
+        );
     };
 
     getTicketPromise = (inn,ticketId) => {

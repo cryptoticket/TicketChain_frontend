@@ -79,7 +79,7 @@ class TicketsTableComponent extends Component {
         const data = tickets.map((ticket, key) =>
             ({
                 key,
-                number: key + 1+ 50 * (pagination.current - 1),
+                number: key + 1+ (pagination.current ? 50 * (pagination.current - 1): 0),
                 ticketId: ticket.id,
                 serial_number: ticket.serial_number,
                 created_date: ticket.created_date,
