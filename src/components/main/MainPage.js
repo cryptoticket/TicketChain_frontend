@@ -18,7 +18,7 @@ class MainPage extends Component {
                 <Spin tip="Загрузка..." spinning={isFetching}>
                     <Row style={{paddingBottom: '4px'}}>
                         <Col span={6}>
-                            <p>Eth is enabled:</p>
+                            <p>Smart Contracts enabled:</p>
                         </Col>
                         <Col span={12}>
                             <p>{Object.keys(info).length ? info.eth_is_enabled ? 'True' : 'False' : null}</p>
@@ -26,7 +26,7 @@ class MainPage extends Component {
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Eth node:</p>
+                            <p>Ethereum node:</p>
                         </Col>
                         <Col span={12}>
                             <p>{info.eth_node}</p>
@@ -34,43 +34,27 @@ class MainPage extends Component {
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Eth main address:</p>
-                        </Col>
-                        <Col span={12}>
-                            <p>{info.eth_main_address}</p>
-                        </Col>
-                    </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Eth main address link:</p>
+                            <p>Main Smart Contract:</p>
                         </Col>
                         <Col span={12}>
                             <a href={info.eth_main_address_link} target="_blank">
-                                {info.eth_main_address_link}
+                                 {info.eth_main_address}
                             </a>
                         </Col>
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Eth main account:</p>
-                        </Col>
-                        <Col span={12}>
-                            <p>{info.eth_main_account}</p>
-                        </Col>
-                    </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Eth main account link:</p>
+                            <p>Main account:</p>
                         </Col>
                         <Col span={12}>
                             <a href={info.eth_main_account_link} target="_blank">
-                                {info.eth_main_account_link}
+                                 {info.eth_main_account}
                             </a>
                         </Col>
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Eth balance wei:</p>
+                            <p>Main account Balance (Wei):</p>
                         </Col>
                         <Col span={12}>
                             <p>{info.eth_balance_wei}</p>
