@@ -37,7 +37,8 @@ import {
     GET_STATS_FULFILLED,
     GET_STATS_REJECTED,
     GET_TICKETS_COUNT,
-    GET_ASYNC_TICKET_FULFILLED
+    GET_ASYNC_TICKET_FULFILLED,
+    GET_BASIC_INFO
 } from '../../actions/blank';
 
 const initialState = {
@@ -46,7 +47,8 @@ const initialState = {
     organizers: [],
     tickets: [],
     ticket: {},
-    csvJob: {}
+    csvJob: {},
+    info: {}
 };
 
 function blankReducer(state = initialState, action) {
@@ -276,6 +278,23 @@ function blankReducer(state = initialState, action) {
             });
         }
         case `${GET_TICKETS_COUNT}_REJECTED`: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                errorMessage: action.payload
+            });
+        }
+        case `${GET_BASIC_INFO}_PENDING`: {
+            return Object.assign({}, state, {
+                isFetching: true
+            });
+        }
+        case `${GET_BASIC_INFO}_FULFILLED`: {
+            return Object.assign({}, state, {
+                isFetching: false,
+                info: action.payload
+            });
+        }
+        case `${GET_BASIC_INFO}_REJECTED`: {
             return Object.assign({}, state, {
                 isFetching: false,
                 errorMessage: action.payload

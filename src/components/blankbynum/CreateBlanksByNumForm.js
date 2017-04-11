@@ -97,9 +97,7 @@ class CreateBlanksByNumForm extends Component {
                     >
                         {getFieldDecorator(
                             'quantity',
-                            {rules: [{required: true, message: 'Требуется ввести количество!'},
-                                {validator: this.checkStartNumber}
-                            ]
+                            {rules: [{required: true, message: 'Требуется ввести количество!'}]
                             })(<NumberInput field='quantity' maxLength="5"/>)
                         }
                     </FormItem>

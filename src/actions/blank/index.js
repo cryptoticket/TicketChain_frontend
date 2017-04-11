@@ -2,7 +2,7 @@ import fetch from 'isomorphic-fetch';
 import config from '../../config';
 import {getHeaders, getParams} from '../utils';
 import {openNotification} from '../notification';
-import { browserHistory } from 'react-router';
+import {browserHistory} from 'react-router';
 
 export const GET_TICKET_COUNT_PENDING = 'GET_TICKET_COUNT_PENDING';
 export const GET_TICKET_COUNT_FULFILLED = 'GET_TICKET_COUNT_FULFILLED';
@@ -58,14 +58,48 @@ export const GET_TICKETS_COUNT = 'GET_TICKETS_COUNT';
 
 export const GET_ASYNC_TICKET_FULFILLED = 'GET_ASYNC_TICKET_FULFILLED';
 
+export const GET_BASIC_INFO = 'GET_BASIC_INFO';
+
 export default class BlankActions {
+
+    getBasicInfo = (inn, batchId) => {
+        let isError = false;
+        return dispatch => {
+            dispatch({type: `${GET_BASIC_INFO}__PENDING`});
+            fetch(`${config.baseUrl}info`,
+                {
+                    method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        isError = true;
+                        dispatch({type: `${GET_BASIC_INFO}_REJECTED`});
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (!isError) {
+                        dispatch({type: `${GET_BASIC_INFO}_FULFILLED`, payload: json});
+                    } else {
+                        dispatch({type: `${GET_BASIC_INFO}_REJECTED`});
+                        openNotification('error', json);
+                    }
+                })
+                .catch(e => {
+                    dispatch({type: `${GET_BASIC_INFO}_REJECTED`});
+                    openNotification('error', e);
+                });
+        };
+    };
 
     getTicketCount = (data, callback) => {
         let isError = false;
         return dispatch => {
             dispatch({type: GET_TICKET_COUNT_PENDING, payload: data});
-            fetch(`${config.baseUrl}organizers/${data.inn}/calculate_ticket_count`,
-                { method: 'POST',
+            fetch(`${config.baseUrl}organizers/${data.inn}/new_tickets_by_num `,
+                {
+                    method: 'POST',
                     headers: getHeaders(),
                     body: JSON.stringify(data)
                 })
@@ -96,7 +130,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: CREATE_NEW_BATCH_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/batches`,
-                { method: 'POST',
+                {
+                    method: 'POST',
                     headers: getHeaders(),
                     body: JSON.stringify(data)
                 })
@@ -129,7 +164,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: CREATE_NEW_CSV_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/csv_jobs`,
-                { method: 'POST',
+                {
+                    method: 'POST',
                     body: file
                 })
                 .then(response => {
@@ -150,12 +186,13 @@ export default class BlankActions {
         };
     };
 
-    getBatch = (inn,batchId) => {
+    getBatch = (inn, batchId) => {
         let isError = false;
         return dispatch => {
             dispatch({type: GET_BATCH_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/batches/${batchId}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -171,7 +208,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                    const promiseList = json.map(ticketId => dispatch(this.getTicketNotAsyncPromise(inn, ticketId)));
+                        const promiseList = json.map(ticketId => dispatch(this.getTicketNotAsyncPromise(inn, ticketId)));
                         Promise.all(promiseList)
                             .then(result => {
                                 const tickets = result.map(r => r.payload);
@@ -194,7 +231,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: GET_TICKET_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${id}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -228,7 +266,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: SELL_TICKET_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticket.id}/sell`,
-                { method: 'POST',
+                {
+                    method: 'POST',
                     headers: getHeaders(),
                     body: JSON.stringify(ticket)
                 })
@@ -241,7 +280,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch(this.getTicket(inn,ticket.id));
+                        dispatch(this.getTicket(inn, ticket.id));
                     } else {
                         openNotification('error', json);
                     }
@@ -253,12 +292,13 @@ export default class BlankActions {
         };
     };
 
-    cancelTicket = (inn,ticket) => {
+    cancelTicket = (inn, ticket) => {
         let isError = false;
         return dispatch => {
             dispatch({type: CANCEL_TICKET_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticket.id}/cancel`,
-                { method: 'POST',
+                {
+                    method: 'POST',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -270,7 +310,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch(this.getTicket(inn,ticket.id));
+                        dispatch(this.getTicket(inn, ticket.id));
                     } else {
                         openNotification('error', json);
                     }
@@ -283,7 +323,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: EDIT_TICKET_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticket.id}`,
-                { method: 'PUT',
+                {
+                    method: 'PUT',
                     headers: getHeaders(),
                     body: JSON.stringify(ticket)
                 })
@@ -296,7 +337,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch(this.getTicket(inn,ticket.id))
+                        dispatch(this.getTicket(inn, ticket.id))
                     } else {
                         openNotification('error', json);
                     }
@@ -305,7 +346,7 @@ export default class BlankActions {
     };
 
     handleTicket = (ticket) => {
-        return { type: HANDLE_TICKET, payload: ticket };
+        return {type: HANDLE_TICKET, payload: ticket};
     };
 
     getOrganizers = () => {
@@ -313,7 +354,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: GET_ORGANIZERS_PENDING});
             fetch(`${config.baseUrl}organizers`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -337,7 +379,8 @@ export default class BlankActions {
         let isError = false;
         return (
             fetch(`${config.baseUrl}organizers/${inn}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -360,7 +403,8 @@ export default class BlankActions {
         let isError = false;
         return dispatch => {
             fetch(`${config.baseUrl}organizers/${inn}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -384,7 +428,8 @@ export default class BlankActions {
         return dispatch => {
             if (isPending) dispatch({type: GET_CSV_JOB_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/csv_jobs/${jobId}${isBlocking ? '?blocking=1' : ''}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -407,11 +452,12 @@ export default class BlankActions {
         };
     };
 
-    getTicketNotAsyncPromise = (inn,ticketId) => {
+    getTicketNotAsyncPromise = (inn, ticketId) => {
         let isError = false;
         return (
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -430,16 +476,20 @@ export default class BlankActions {
         );
     };
 
-    getTicketPromise = (inn,ticketId) => {
+    getTicketPromise = (inn, ticketId) => {
         let isError = false;
         return dispatch => (
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
                     if (response.status >= 400) {
-                        dispatch({type: GET_ASYNC_TICKET_FULFILLED, payload: {serial_number: ticketId, state: 'Loading error'}});
+                        dispatch({
+                            type: GET_ASYNC_TICKET_FULFILLED,
+                            payload: {serial_number: ticketId, state: 'Loading error'}
+                        });
                         isError = true;
                     }
                     return response.json();
@@ -462,7 +512,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: GET_TICKETS_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/tickets?${getParams(params)}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -492,7 +543,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: `${GET_TICKETS_COUNT}_PENDING`});
             fetch(`${config.baseUrl}organizers/${inn}/ticket_count?${getParams(params)}`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
@@ -518,7 +570,8 @@ export default class BlankActions {
         return dispatch => {
             dispatch({type: GET_STATS_PENDING});
             fetch(`${config.baseUrl}organizers/${inn}/stats`,
-                { method: 'GET',
+                {
+                    method: 'GET',
                     headers: getHeaders()
                 })
                 .then(response => {
