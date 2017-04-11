@@ -65,7 +65,7 @@ export default class BlankActions {
     getBasicInfo = (inn, batchId) => {
         let isError = false;
         return dispatch => {
-            dispatch({type: `${GET_BASIC_INFO}__PENDING`});
+            dispatch({type: `${GET_BASIC_INFO}_PENDING`});
             fetch(`${config.baseUrl}info`,
                 {
                     method: 'GET',

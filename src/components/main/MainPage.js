@@ -16,15 +16,15 @@ class MainPage extends Component {
         return (
             <div className="panel">
                 <Spin tip="Загрузка..." spinning={isFetching}>
-                    <Row>
+                    <Row style={{paddingBottom: '4px'}}>
                         <Col span={6}>
                             <p>Eth is enabled:</p>
                         </Col>
                         <Col span={12}>
-                            <p>{info.eth_is_enabled ? 'True' : 'False'}</p>
+                            <p>{Object.keys(info).length ? info.eth_is_enabled ? 'True' : 'False' : null}</p>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Eth node:</p>
                         </Col>
@@ -32,7 +32,7 @@ class MainPage extends Component {
                             <p>{info.eth_node}</p>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Eth main address:</p>
                         </Col>
@@ -40,7 +40,17 @@ class MainPage extends Component {
                             <p>{info.eth_main_address}</p>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{paddingBottom: '8px'}}>
+                        <Col span={6}>
+                            <p>Eth main address link:</p>
+                        </Col>
+                        <Col span={12}>
+                            <a href={info.eth_main_address_link} target="_blank">
+                                {info.eth_main_address_link}
+                            </a>
+                        </Col>
+                    </Row>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Eth main account:</p>
                         </Col>
@@ -48,15 +58,17 @@ class MainPage extends Component {
                             <p>{info.eth_main_account}</p>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Eth main account link:</p>
                         </Col>
                         <Col span={12}>
-                            <p>{info.eth_main_account_link}</p>
+                            <a href={info.eth_main_account_link} target="_blank">
+                                {info.eth_main_account_link}
+                            </a>
                         </Col>
                     </Row>
-                    <Row>
+                    <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
                             <p>Eth balance wei:</p>
                         </Col>
