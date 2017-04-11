@@ -56,6 +56,8 @@ export const GET_STATS_REJECTED = 'GET_STATS_REJECTED';
 
 export const GET_TICKETS_COUNT = 'GET_TICKETS_COUNT';
 
+export const GET_ASYNC_TICKET_FULFILLED = 'GET_ASYNC_TICKET_FULFILLED';
+
 export default class BlankActions {
 
     getTicketCount = (data, callback) => {
@@ -169,7 +171,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                    const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                    const promiseList = json.map(ticketId => dispatch(this.getTicketNotAsyncPromise(inn, ticketId)));
                         Promise.all(promiseList)
                             .then(result => {
                                 const tickets = result.map(r => r.payload);
@@ -213,16 +215,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        dispatch(this.getOrganizerByInnPromise(inn)).then(organizer =>{
-                            const ticket = json;
-                            if (isSearch) ticket.isSearch = true;
-                            ticket.organizer = organizer.payload.organizer;
-                            ticket.organizer_inn = organizer.payload.organizer_inn;
-                            ticket.organizer_ogrn = organizer.payload.organizer_ogrn;
-                            ticket.organizer_ogrnip = organizer.payload.organizer_ogrnip;
-                            ticket.organizer_address = organizer.payload.organizer_address;
-                            dispatch({type: GET_TICKET_FULFILLED, payload: ticket});
-                        })
+                        dispatch({type: GET_TICKET_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }
@@ -252,7 +245,11 @@ export default class BlankActions {
                     } else {
                         openNotification('error', json);
                     }
-                });
+                })
+                .catch(er => {
+                    dispatch({type: SELL_TICKET_REJECTED});
+                })
+
         };
     };
 
@@ -328,11 +325,7 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        const promiseList = json.map(inn => dispatch(this.getOrganizerByInnPromise(inn)));
-                        Promise.all(promiseList).then(result => {
-                            const organizers = result.map(r => r.payload);
-                            dispatch({type: GET_ORGANIZERS_FULFILLED, payload: organizers});
-                        });
+                        dispatch({type: GET_ORGANIZERS_FULFILLED, payload: json});
                     } else {
                         openNotification('error', json);
                     }
@@ -414,7 +407,7 @@ export default class BlankActions {
         };
     };
 
-    getTicketPromise = (inn,ticketId) => {
+    getTicketNotAsyncPromise = (inn,ticketId) => {
         let isError = false;
         return (
             fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
@@ -437,6 +430,33 @@ export default class BlankActions {
         );
     };
 
+    getTicketPromise = (inn,ticketId) => {
+        let isError = false;
+        return dispatch => (
+            fetch(`${config.baseUrl}organizers/${inn}/tickets/${ticketId}`,
+                { method: 'GET',
+                    headers: getHeaders()
+                })
+                .then(response => {
+                    if (response.status >= 400) {
+                        dispatch({type: GET_ASYNC_TICKET_FULFILLED, payload: {serial_number: ticketId, state: 'Loading error'}});
+                        isError = true;
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    if (isError) {
+                        openNotification('error', json);
+                    } else {
+                        dispatch({type: GET_ASYNC_TICKET_FULFILLED, payload: json});
+                    }
+                })
+                .catch(err => {
+                    dispatch({type: GET_ASYNC_TICKET_FULFILLED, payload: {serial_number: ticketId, state: 'error'}});
+                })
+        );
+    };
+
     getTickets = (inn, params = {page: 1, limit: 10}) => {
         let isError = false;
         return dispatch => {
@@ -454,11 +474,12 @@ export default class BlankActions {
                 })
                 .then(json => {
                     if (!isError) {
-                        const promiseList = json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
-                        Promise.all(promiseList).then(result => {
-                            const tickets = result.map(r => r.payload);
-                            dispatch({type: GET_TICKETS_FULFILLED, payload: tickets});
-                        });
+                        json.map(ticketId => dispatch(this.getTicketPromise(inn, ticketId)));
+                        // Promise.all(promiseList).then(result => {
+                        //     const tickets = result.map(r => r.payload);
+                        //
+                        // });
+                        dispatch({type: GET_TICKETS_FULFILLED});
                     } else {
                         openNotification('error', json);
                     }
@@ -466,11 +487,11 @@ export default class BlankActions {
         };
     };
 
-    getTicketsCount = (inn, callback) => {
+    getTicketsCount = (inn, params = {}, callback) => {
         let isError = false;
         return dispatch => {
             dispatch({type: `${GET_TICKETS_COUNT}_PENDING`});
-            fetch(`${config.baseUrl}organizers/${inn}/ticket_count`,
+            fetch(`${config.baseUrl}organizers/${inn}/ticket_count?${getParams(params)}`,
                 { method: 'GET',
                     headers: getHeaders()
                 })

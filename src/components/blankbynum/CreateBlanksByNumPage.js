@@ -6,9 +6,9 @@ import { Row, Col, Modal } from 'antd';
 const confirm = Modal.confirm;
 
 import BlankActions from '../../actions/blank';
-import CreateBlanksForm from './CreateBlanksForm';
+import CreateBlanksByNumForm from './CreateBlanksByNumForm';
 
-class CreateBlanksPage extends Component {
+class CreateBlanksByNumPage extends Component {
 
     showConfirm = () => {
         const {createNewBatch, newBatch, ticketCount} = this.props;
@@ -32,7 +32,7 @@ class CreateBlanksPage extends Component {
         return (
             <Row>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
-                    <CreateBlanksForm
+                    <CreateBlanksByNumForm
                         submit={getTicketCount}
                         showConfirm={this.showConfirm}
                         isFetching={isFetching}
@@ -43,7 +43,7 @@ class CreateBlanksPage extends Component {
     }
 }
 
-CreateBlanksPage.PropTypes = {
+CreateBlanksByNumPage.PropTypes = {
     createNewBatch: PropTypes.func.isRequired,
     getTicketCount: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -58,6 +58,6 @@ const mapStateToProps = (state) => {
         newBatch: state.blank.newBatch
     })
 };
-const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions,dispatch));
+const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions, dispatch));
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateBlanksPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateBlanksByNumPage);

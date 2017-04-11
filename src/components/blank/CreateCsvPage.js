@@ -6,9 +6,9 @@ import { Row, Col, Modal } from 'antd';
 const confirm = Modal.confirm;
 
 import BlankActions from '../../actions/blank';
-import CreateBlanksForm from './CreateBlanksForm';
+import CreateCsvForm from './CreateCsvForm';
 
-class CreateBlanksPage extends Component {
+class CreateCsvPage extends Component {
 
     showConfirm = () => {
         const {createNewBatch, newBatch, ticketCount} = this.props;
@@ -28,13 +28,14 @@ class CreateBlanksPage extends Component {
     };
 
     render() {
-        const {createNewBatch, getTicketCount, isFetching} = this.props;
+        const {createNewBatch, getTicketCount, isFetching,createNewCSV} = this.props;
         return (
             <Row>
                 <Col xs={24} sm={24} md={{span:16, offset:4}} lg={{span:16, offset:4}}>
-                    <CreateBlanksForm
+                    <CreateCsvForm
                         submit={getTicketCount}
                         showConfirm={this.showConfirm}
+                        createNewCSV={createNewCSV}
                         isFetching={isFetching}
                     />
                 </Col>
@@ -43,8 +44,9 @@ class CreateBlanksPage extends Component {
     }
 }
 
-CreateBlanksPage.PropTypes = {
+CreateCsvPage.PropTypes = {
     createNewBatch: PropTypes.func.isRequired,
+    createNewCSV: PropTypes.func.isRequired,
     getTicketCount: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     ticketCount: PropTypes.number.isRequired
@@ -60,4 +62,4 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => (bindActionCreators(new BlankActions,dispatch));
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateBlanksPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateCsvPage);

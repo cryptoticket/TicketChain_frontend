@@ -83,7 +83,7 @@ class TicketPanelComponent extends Component {
         return (
             <Row gutter={2} style={{ marginTop: 8 }}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
-                    <h4>Компания&nbsp;&nbsp; выпустившая билет:&nbsp;</h4>
+                    <h4>Компания&nbsp;&nbsp; <br/> выпуст-шая билет:&nbsp;</h4>
                 </Col>
                 <Col span={12} style={{ paddingTop: 12 }}>
                     <FormItem style={{ marginBottom: 0 }}>
@@ -201,6 +201,10 @@ class TicketPanelComponent extends Component {
                                 {this.getRowInput('Ряд', 'row')}
                                 {this.getRowInput('Место', 'seat')}
                                 {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
+                                {ticket.contract_address ? this.getRow('Smart-контаркт',
+                                    <a href={`https://kovan.etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
+                                    ): null
+                                }
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getDoubleRowInput('issuer')}
@@ -212,11 +216,11 @@ class TicketPanelComponent extends Component {
                         </Row>
                         <Row gutter={2} style={{ marginTop: 16 }}>
                             <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRow('Организатор', ticket.organizer)}
-                                {this.getRow('ИНН', ticket.organizer_inn)}
-                                {this.getRow('ОГРН', ticket.organizer_ogrn)}
-                                {this.getRow('ОГРНИП', ticket.organizer_ogrnip)}
-                                {this.getRow('Адрес', ticket.organizer_address)}
+                                {this.getRowInput('Организатор', 'organizer')}
+                                {this.getRowInput('ИНН', 'organizer_inn', null, null, null, this.checkInn, <NumberInput field="organizer_inn" maxLength="12"/>)}
+                                {this.getRowInput('ОГРН', 'organizer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="organizer_ogrn" maxLength="13"/>)}
+                                {this.getRowInput('ОГРНИП', 'organizer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="organizer_ogrnip" maxLength="15"/>)}
+                                {this.getRowInput('Адрес', 'organizer_address')}
                             </Col>
                             <Col xs={24} sm={12} md={12} lg={8}>
                                 {this.getRowInput('Продавец', 'seller')}
@@ -301,11 +305,15 @@ export default Form.create({
             },
             buying_date: {
                 ...props.buying_date,
-                value: props.ticket.buying_date ? moment(props.ticket.buying_date) : null
+                value: props.ticket.buying_date && props.ticket.buying_date !== "0" ? moment(props.ticket.buying_date) : null
             },
             cancelled_date: {
                 ...props.cancelled_date,
-                value: props.ticket.cancelled_date ? moment(props.ticket.cancelled_date) : null
+                value: props.ticket.cancelled_date && props.ticket.cancelled_date !== "0" ? moment(props.ticket.cancelled_date) : null
+            },
+            contract_address: {
+                ...props.contract_address,
+                value: props.ticket.contract_address
             },
             issuer: {
                 ...props.issuer,
@@ -337,7 +345,7 @@ export default Form.create({
             },
             event_date: {
                 ...props.event_date,
-                value: props.ticket.event_date ? moment(props.ticket.event_date) : null
+                value: props.ticket.event_date && props.ticket.event_date !== "0" ? moment(props.ticket.event_date) : null
             },
             event_place_address: {
                 ...props.event_place_address,
@@ -361,15 +369,15 @@ export default Form.create({
             },
             organizer_inn: {
                 ...props.organizer_inn,
-                value: props.ticket.organizer_inn
+                value: {organizer_inn: props.ticket.organizer_inn}
             },
             organizer_ogrn: {
                 ...props.organizer_ogrn,
-                value: props.ticket.organizer_ogrn
+                value: {organizer_ogrn: props.ticket.organizer_ogrn}
             },
             organizer_ogrnip: {
                 ...props.organizer_ogrnip,
-                value: props.ticket.organizer_ogrnip
+                value: {organizer_ogrnip: props.ticket.organizer_ogrnip}
             },
             organizer_address: {
                 ...props.organizer_address,

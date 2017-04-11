@@ -15,10 +15,10 @@ class StatsPanel extends Component {
                     </div>
                     {stats ?
                         <div>
-                            <p>Бланков: {stats.blank}</p>
-                            <p>Продано: {stats.sold}</p>
-                            <p>Забраковано: {stats.cancelled}</p>
-                            <p>Всего: {stats.totalTickets}</p>
+                            <p>Бланков: <Link to={`/organizers/${inn}/tickets?page=1&limit=50&state=created`}>{stats.blank}</Link></p>
+                            <p>Продано: <Link to={`/organizers/${inn}/tickets?page=1&limit=50&state=sold`}>{stats.sold}</Link></p>
+                            <p>Забраковано: <Link to={`/organizers/${inn}/tickets?page=1&limit=50&state=cancelled`}>{stats.cancelled}</Link></p>
+                            <p>Всего: <Link to={`/organizers/${inn}/tickets?page=1&limit=50`}>{stats.totalTickets}</Link></p>
                         </div> : null
                     }
                 </div>

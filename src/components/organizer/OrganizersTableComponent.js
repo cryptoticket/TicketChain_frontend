@@ -12,11 +12,7 @@ class OrganizersTableComponent extends Component {
             ({
                 key,
                 number: key + 1,
-                organizer: organizer.organizer,
-                organizer_inn: organizer.organizer_inn,
-                organizer_ogrn: organizer.organizer_address,
-                organizer_ogrnip: organizer.organizer_address,
-                organizer_address: organizer.organizer_address
+                organizer_inn: organizer
             })
         );
         const columns = [
@@ -24,32 +20,12 @@ class OrganizersTableComponent extends Component {
                 title: '№',
                 dataIndex: 'number',
                 key: 'number',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
-            }, {
-                title: 'Организатор',
-                dataIndex: 'organizer',
-                key: 'organizer',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
+                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=50`}>{text}</Link>
             }, {
                 title: 'ИНН',
                 dataIndex: 'organizer_inn',
                 key: 'organizer_inn',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
-            }, {
-                title: 'ОГРН',
-                dataIndex: 'organizer_ogrn',
-                key: 'organizer_ogrn',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
-            }, {
-                title: 'ОГРНИП',
-                dataIndex: 'organizer_ogrnip',
-                key: 'organizer_ogrnip',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
-            }, {
-                title: 'Адрес',
-                dataIndex: 'organizer_address',
-                key: 'organizer_address',
-                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=10`}>{text}</Link>
+                render: (text, record) => <Link to={`/organizers/${record.organizer_inn}/tickets?page=1&limit=50`}>{text}</Link>
             }, {
                 title: ' ',
                 dataIndex: 'Статистика',

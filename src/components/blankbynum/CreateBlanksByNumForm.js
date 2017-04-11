@@ -1,13 +1,13 @@
 import React, {Component, PropTypes} from 'react';
 
-import { Form, Input, InputNumber, Button, Upload, Icon, Popover, Switch } from 'antd';
+import { Form, Input, Button, Icon } from 'antd';
 
-import SeriesInput from './SeriesInput';
-import NumberInput from './NumberInput';
+import SeriesInput from '../blank/SeriesInput';
+import NumberInput from '../blank/NumberInput';
 
 const FormItem = Form.Item;
 
-class CreateBlanksForm extends Component {
+class CreateBlanksByNumForm extends Component {
     state = {};
 
     handleSubmit = (e) => {
@@ -35,24 +35,6 @@ class CreateBlanksForm extends Component {
         const form = this.props.form;
         if (value && value.start_series && value.start_series.length !== 2) {
             callback('Введите серию!');
-        } else {
-            callback();
-        }
-    };
-
-    checkStartNumber = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value.start_number && value.start_number.length !== 6) {
-            callback('Введите начало номера (6 цифр)');
-        } else {
-            callback();
-        }
-    };
-
-    checkEndNumber = (rule, value, callback) => {
-        const form = this.props.form;
-        if (value && value.end_number && value.end_number.length !== 6) {
-            callback('Введите конец номера (6 цифр)');
         } else {
             callback();
         }
@@ -110,28 +92,15 @@ class CreateBlanksForm extends Component {
                     </FormItem>
                     <FormItem
                         {...formItemLayoutShort}
-                        label="Начало - Номер"
+                        label="Кол-во"
                         hasFeedback
                     >
                         {getFieldDecorator(
-                            'start_number',
-                            {rules: [{required: true, message: 'Требуется ввести начало номера!'},
+                            'quantity',
+                            {rules: [{required: true, message: 'Требуется ввести количество!'},
                                 {validator: this.checkStartNumber}
                             ]
-                            })(<NumberInput field='start_number' maxLength="6"/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Конец - Номер"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'end_number',
-                            {rules: [{required: true, message: 'Требуется ввести конец номера!'},
-                                {validator: this.checkEndNumber}
-                            ]
-                            })(<NumberInput field='end_number' maxLength="6"/>)
+                            })(<NumberInput field='quantity' maxLength="5"/>)
                         }
                     </FormItem>
                     <FormItem {...tailFormItemLayout}>
@@ -152,10 +121,10 @@ class CreateBlanksForm extends Component {
     }
 }
 
-CreateBlanksForm.PropTypes = {
+CreateBlanksByNumForm.PropTypes = {
     submit: PropTypes.func.isRequired,
     showConfirm: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired
 };
 
-export default Form.create({})(CreateBlanksForm);
+export default Form.create({})(CreateBlanksByNumForm);

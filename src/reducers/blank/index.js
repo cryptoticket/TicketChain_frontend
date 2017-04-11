@@ -36,7 +36,8 @@ import {
     GET_STATS_PENDING,
     GET_STATS_FULFILLED,
     GET_STATS_REJECTED,
-    GET_TICKETS_COUNT
+    GET_TICKETS_COUNT,
+    GET_ASYNC_TICKET_FULFILLED
 } from '../../actions/blank';
 
 const initialState = {
@@ -140,6 +141,16 @@ function blankReducer(state = initialState, action) {
                 tickets
             });
         }
+        case GET_ASYNC_TICKET_FULFILLED: {
+            let tickets = state.tickets;
+            if (!tickets.some(t => t.id === action.payload.id)) {
+                tickets.push(action.payload);
+            }
+            return Object.assign({}, state, {
+                isFetching: false,
+                tickets
+            });
+        }
         case GET_TICKET_REJECTED: {
             return Object.assign({}, state, {
                 isFetching: false,
@@ -211,7 +222,7 @@ function blankReducer(state = initialState, action) {
         case GET_TICKETS_FULFILLED: {
             return Object.assign({}, state, {
                 isFetching: false,
-                tickets: action.payload
+                // tickets: action.payload
             });
         }
         case GET_TICKETS_REJECTED: {

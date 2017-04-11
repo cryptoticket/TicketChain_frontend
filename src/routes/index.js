@@ -6,6 +6,7 @@ import NotFoundComponent from '../components/common/NotFoundComponent';
 import MainPage from '../components/main/MainPage';
 
 import CreateBlanksPage from '../components/blank/CreateBlanksPage';
+import CreateCsvPage from '../components/blank/CreateCsvPage';
 import OrganizerComponent from '../components/organizer/OrganizerComponent';
 import OrganizersPage from '../components/organizer/OrganizersPage';
 import TicketsComponent from '../components/organizer/tickets/TicketsComponent';
@@ -14,7 +15,7 @@ import StatsPage from '../components/organizer/stats/StatsPage';
 import CsvJobsPage from '../components/organizer/csvJobs/CsvJobsPage';
 import TicketPage from '../components/organizer/ticket/TicketPage';
 import TicketsPage from '../components/organizer/tickets/TicketsPage';
-
+import CreateBlanksByNumPage from '../components/blankbynum/CreateBlanksByNumPage';
 
 export const urls = {
     index: {
@@ -22,6 +23,12 @@ export const urls = {
     },
     newTickets: {
         path: 'new_tickets'
+    },
+    newTicketsByNum: {
+        path: 'new_tickets_by_num'
+    },
+    newCsv: {
+        path: 'new_csv'
     },
     organizers: {
         path: 'organizers',
@@ -48,6 +55,8 @@ export default (
         <Route path={urls.index.path} component={BaseComponent}>
             <IndexRoute component={MainPage} />
             <Route path={urls.newTickets.path} component={CreateBlanksPage} />
+            <Route path={urls.newTicketsByNum.path} component={CreateBlanksByNumPage} />
+            <Route path={urls.newCsv.path} component={CreateCsvPage} />
             <Route path={urls.organizers.path} component={OrganizerComponent}>
                 <IndexRoute component={OrganizersPage} />
                 <Route path={urls.organizers.batches.path} component={BatchPage} />
