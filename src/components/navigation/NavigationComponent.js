@@ -99,7 +99,7 @@ class NavigationComponent extends React.Component {
                         </div>
                     </div>
                     <Footer style={{ textAlign: 'center' }}>
-                        TicketChain ©2017 Created by Chain.cloud
+                        TicketChain ©2017, Built by <a href="http://chain.cloud">Chain.Cloud</a>
                     </Footer>
                 </Layout>
             </Layout>
