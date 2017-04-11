@@ -1,6 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import { Table, Spin, Input } from 'antd';
-import { Link } from 'react-router'
+import { Link, browserHistory } from 'react-router'
 
 const { Column, ColumnGroup } = Table;
 
@@ -16,17 +16,24 @@ export const mappingState = (state) => {
 };
 
 class TicketsTableComponent extends Component {
-    state = {
-        searchIsDirty: false,
-        pagination: {total: 20, current: 1}
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchIsDirty: false,
+            pagination: {total: 10, current: parseInt(props.location.query.page)}
+        };
+    }
+
+    componentWillMount() {
+        this.props.getTickets(this.props.inn, {page: this.props.location.query.page, limit: 10});
+    }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.count && this.props !== nextProps.count) {
             const pagination = this.state.pagination;
             pagination.total = nextProps.count;
             this.setState({pagination});
-        };
+        }
     }
 
     handleSearch = (value) => {
@@ -47,6 +54,7 @@ class TicketsTableComponent extends Component {
             pagination: pager,
         });
         const params = {page: pagination.current, limit: pagination.pageSize};
+        browserHistory.push(`/organizers/${this.props.inn}/tickets?page=${pagination.current}&limit=10`);
         this.props.getTickets(this.props.inn, params);
     };
 
