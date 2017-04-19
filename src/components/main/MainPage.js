@@ -18,15 +18,15 @@ class MainPage extends Component {
                 <Spin tip="Загрузка..." spinning={isFetching}>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Smart Contracts enabled:</p>
+                            <p>Смарт контракты</p>
                         </Col>
                         <Col span={12}>
-                            <p>{Object.keys(info).length ? info.eth_is_enabled ? 'True' : 'False' : null}</p>
+                            <p>{Object.keys(info).length ? info.eth_is_enabled ? 'Да' : 'Нет' : null}</p>
                         </Col>
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Ethereum node:</p>
+                            <p>Ethereum узел</p>
                         </Col>
                         <Col span={12}>
                             <p>{info.eth_node}</p>
@@ -34,7 +34,7 @@ class MainPage extends Component {
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Main Smart Contract:</p>
+                            <p>Основной контракт</p>
                         </Col>
                         <Col span={12}>
                             <a href={info.eth_main_address_link} target="_blank">
@@ -44,7 +44,7 @@ class MainPage extends Component {
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Main account:</p>
+                            <p>Аккаунт</p>
                         </Col>
                         <Col span={12}>
                             <a href={info.eth_main_account_link} target="_blank">
@@ -54,10 +54,10 @@ class MainPage extends Component {
                     </Row>
                     <Row style={{paddingBottom: '8px'}}>
                         <Col span={6}>
-                            <p>Main account Balance (Wei):</p>
+                            <p>Баланс</p>
                         </Col>
                         <Col span={12}>
-                            <p>{info.eth_balance_wei}</p>
+                            <p>{info.eth_balance_wei} (Wei)</p>
                         </Col>
                     </Row>
                 </Spin>
