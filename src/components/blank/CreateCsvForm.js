@@ -32,72 +32,71 @@ class CreateCsvForm extends Component {
         const {isFetching} = this.props;
 
         const formItemLayout = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 8 }
         };
         const formItemLayoutShort = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 4 }
         };
-        const tailFormItemLayout = {
+        const tailHintItemLayout = {
             wrapperCol: {
                 span: 12,
-                offset: 12
+                offset: 11
             },
         };
 
         return (
-            <div className="panel">
-                <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
-                    <FormItem
-                        {...formItemLayout}
-                        label="ИНН организатора"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'inn',
-                            {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
-                            })(<NumberInput field='inn' maxLength="12"/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Обработать файл мгновенно"
-                    >
-                        <Switch defaultChecked={false} onChange={this.handleSwitch} size="default"/>
-                    </FormItem>
-                    <FormItem {...tailFormItemLayout}>
-                        <div>
-                            {getFieldValue('inn') && !getFieldError('inn') ?
-                                <Upload
-                                    beforeUpload={this.createNewCSV}
-                                >
-                                    <Button
-                                        style={{marginTop: '12px'}}
-                                        size="default"
-                                        loading={isFetching}
-                                    >
-                                        {!isFetching ?  <Icon type="upload" /> : ' '} Загрузить файл
-                                    </Button>
-                                </Upload> :
-                                <Popover
-                                    content="Требуется ввести ИНН"
-                                    placement="rightTop"
-                                >
+            <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
+                <FormItem
+                    {...formItemLayout}
+                    label="ИНН организатора"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'inn',
+                        {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
+                        })(<NumberInput field='inn' maxLength="12"/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayoutShort}
+                    label="Обработать файл мгновенно"
+                >
+                    <Switch defaultChecked={false} onChange={this.handleSwitch} size="default"/>
+                </FormItem>
+                <FormItem {...tailHintItemLayout}>
+                    <span className="comment">* - поле обязательное для заполнения</span>
+                </FormItem>
+                <div style={{padding: '70px', margin: '0 auto', textAlign: 'center'}}>
+                    {getFieldValue('inn') && !getFieldError('inn') ?
+                        <Upload
+                            beforeUpload={this.createNewCSV}
+                        >
+                            <Button
+                                style={{marginTop: '12px'}}
+                                size="default"
+                                loading={isFetching}
+                            >
+                                {!isFetching ?  <Icon type="upload" /> : ' '} Загрузить файл
+                            </Button>
+                        </Upload> :
+                        <Popover
+                            content="Требуется ввести ИНН"
+                            placement="rightTop"
+                        >
 
-                                    <Button
-                                        style={{marginTop: '12px'}}
-                                        size="default"
-                                        disabled
-                                    >
-                                        <Icon type="upload" /> Загрузить файл
-                                    </Button>
-                                </Popover>
-                            }
-                        </div>
-                    </FormItem>
-                </Form>
-            </div>
+                            <Button
+                                style={{marginTop: '12px' }}
+                                size="default"
+                                disabled
+                            >
+                                Загрузить файл
+                            </Button>
+                        </Popover>
+                    }
+                </div>
+            </Form>
         );
     }
 }

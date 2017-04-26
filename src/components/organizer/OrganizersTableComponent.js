@@ -38,7 +38,7 @@ class OrganizersTableComponent extends Component {
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
 
-                <div className="panel">
+                <div>
                     <div className="panel-head">
                         <h3>Организаторы</h3>
                     </div>

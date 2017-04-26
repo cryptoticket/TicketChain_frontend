@@ -49,7 +49,7 @@ class TicketPanelComponent extends Component {
     };
 
     getRow = (label, value) =>
-        <Row gutter={2} style={{ marginTop: 12 }}>
+        <Row gutter={2} style={{ marginTop: 4, paddingBottom: 10}}>
             <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                 <h4>{label}:&nbsp;</h4>
             </Col>
@@ -62,7 +62,7 @@ class TicketPanelComponent extends Component {
 
     getRowInput = (label, value, hasFeedback, required, message, validator, customComponent) => {
         return (
-            <Row gutter={2} style={{ marginTop: 8 }}>
+            <Row gutter={2}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
@@ -81,7 +81,7 @@ class TicketPanelComponent extends Component {
 
     getDoubleRowInput = (value) => {
         return (
-            <Row gutter={2} style={{ marginTop: 8 }}>
+            <Row gutter={2}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>Компания&nbsp;&nbsp; <br/> выпуст-шая билет:&nbsp;</h4>
                 </Col>
@@ -96,7 +96,7 @@ class TicketPanelComponent extends Component {
 
     getRowSwitch = (label, value) => {
         return (
-            <Row gutter={2} style={{ marginTop: 8 }}>
+            <Row gutter={2}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
@@ -112,7 +112,7 @@ class TicketPanelComponent extends Component {
     getRowDatePicker = (label, value, disabled) => {
         moment.locale('ru');
         return (
-            <Row gutter={2} style={{ marginTop: 8 }}>
+            <Row gutter={2}>
                 <Col span={10} style={{ textAlign: 'right', paddingTop: 6 }}>
                     <h4>{label}:&nbsp;</h4>
                 </Col>
@@ -179,88 +179,89 @@ class TicketPanelComponent extends Component {
         const {ticket, inn, isFetching} = this.props;
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
-                <div className="panel">
-                    <Form style={{paddingTop: '20px'}}>
-                        <Row gutter={2}>
-                            <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRow('Номер/серия', ticket.serial_number)}
-                                {this.getRow('ID', ticket.id)}
-                                {this.getRow('Статус', mappingState(ticket.state))}
-                                {this.getRow('Дата создания', ticket.created_date)}
-                                {this.getRowInput('Цена', 'price_rub')}
-                                {this.getRowSwitch('Бумажный билет', 'is_paper_ticket')}
-                                {this.getRowInput('Покупатель', 'buyer_name')}
-                                {this.getRowDatePicker('Дата покупки', 'buying_date')}
-                                {this.getRowDatePicker('Дата отмены', 'cancelled_date', ticket.state !== 'cancelled')}
-                            </Col>
-                            <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRowInput('Мероприятие', 'event_title')}
-                                {this.getRowInput('Место проведения', 'event_place_title')}
-                                {this.getRowDatePicker('Дата', 'event_date')}
-                                {this.getRowInput('Адрес', 'event_place_address')}
-                                {this.getRowInput('Ряд', 'row')}
-                                {this.getRowInput('Место', 'seat')}
-                                {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
-                                {ticket.contract_address ? this.getRow('Smart-контаркт',
-                                    <a href={`https://kovan.etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
-                                    ): null
-                                }
-                            </Col>
-                            <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getDoubleRowInput('issuer')}
-                                {this.getRowInput('ИНН', 'issuer_inn', null, null, null, this.checkInn, <NumberInput field="issuer_inn" maxLength="12"/>)}
-                                {this.getRowInput('ОГРН', 'issuer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="issuer_ogrn" maxLength="13"/>)}
-                                {this.getRowInput('ОГРНИП', 'issuer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="issuer_ogrnip" maxLength="15"/>)}
-                                {this.getRowInput('Адрес', 'issuer_address')}
-                            </Col>
-                        </Row>
-                        <Row gutter={2} style={{ marginTop: 16 }}>
-                            <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRowInput('Организатор', 'organizer')}
-                                {this.getRowInput('ИНН', 'organizer_inn', null, null, null, this.checkInn, <NumberInput field="organizer_inn" maxLength="12"/>)}
-                                {this.getRowInput('ОГРН', 'organizer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="organizer_ogrn" maxLength="13"/>)}
-                                {this.getRowInput('ОГРНИП', 'organizer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="organizer_ogrnip" maxLength="15"/>)}
-                                {this.getRowInput('Адрес', 'organizer_address')}
-                            </Col>
-                            <Col xs={24} sm={12} md={12} lg={8}>
-                                {this.getRowInput('Продавец', 'seller')}
-                                {this.getRowInput('ИНН', 'seller_inn', null, null, null, this.checkInn, <NumberInput field="seller_inn" maxLength="12"/>)}
-                                {this.getRowInput('ОГРН', 'seller_ogrn', null, null, null, this.checkOgrn, <NumberInput field="seller_ogrn" maxLength="13"/>)}
-                                {this.getRowInput('ОГРНИП', 'seller_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="seller_ogrnip" maxLength="15"/>)}
-                                {this.getRowInput('Адрес', 'seller_address')}
-                            </Col>
-                            <Col xs={24} sm={12} md={12} lg={8} style={{ textAlign: 'right' }}>
-                                <div style={{marginTop: '168px'}}>
-                                    {ticket.state === 'created' ?
-                                        <Button
-                                            style={{marginRight: '8px'}}
-                                            type="primary"
-                                            size="default"
-                                            onClick={this.sellTicket}
-                                        >
-                                            Продать билет
-                                        </Button> :
-                                        <Button
-                                            style={{marginRight: '8px'}}
-                                            type="primary"
-                                            size="default"
-                                            onClick={this.editTicket}
-                                        >
-                                            Сохранить
-                                        </Button>
-                                    }
-                                    <Button
-                                        type="primary"
-                                        size="default"
-                                        onClick={this.cancelTicket}
-                                    >
-                                        Забраковать
-                                    </Button>
-                                </div>
-                            </Col>
-                        </Row>
-                    </Form>
-                </div>
+                <Form style={{padding: '20px 120px 0 120px'}}>
+                    <Row gutter={2}>
+                        <Col xs={24} sm={12} md={12} lg={12}>
+                            {this.getRow('Номер/серия', ticket.serial_number)}
+                            {this.getRow('ID', ticket.id)}
+                            {this.getRow('Статус', mappingState(ticket.state))}
+                            {this.getRow('Дата создания', ticket.created_date)}
+                            {this.getRowInput('Цена', 'price_rub')}
+                            {this.getRowSwitch('Бумажный билет', 'is_paper_ticket')}
+                            {this.getRowInput('Покупатель', 'buyer_name')}
+                            {this.getRowDatePicker('Дата покупки', 'buying_date')}
+                            {this.getRowDatePicker('Дата отмены', 'cancelled_date', ticket.state !== 'cancelled')}
+                        </Col>
+                        <Col xs={24} sm={12} md={12} lg={12}>
+                            {this.getRowInput('Мероприятие', 'event_title')}
+                            {this.getRowInput('Место проведения', 'event_place_title')}
+                            {this.getRowDatePicker('Дата', 'event_date')}
+                            {this.getRowInput('Адрес', 'event_place_address')}
+                            {this.getRowInput('Ряд', 'row')}
+                            {this.getRowInput('Место', 'seat')}
+                            {this.getRowInput('Категория билета', 'ticket_category', null, null, null, (rule, value, callback) => callback(), <NumberInput field="ticket_category" maxLength="5"/>)}
+                            {ticket.contract_address ? this.getRow('Смарт контаркт',
+                                <a href={`https://kovan.etherscan.io/address/${ticket.contract_address}`} target="_blank">{ticket.contract_address}</a>
+                                ): null
+                            }
+                        </Col>
+                    </Row>
+                    <Row gutter={2} style={{ marginTop: 32 }}>
+                        <Col xs={24} sm={12} md={12} lg={12}>
+                            {this.getDoubleRowInput('issuer')}
+                            {this.getRowInput('ИНН', 'issuer_inn', null, null, null, this.checkInn, <NumberInput field="issuer_inn" maxLength="12"/>)}
+                            {this.getRowInput('ОГРН', 'issuer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="issuer_ogrn" maxLength="13"/>)}
+                            {this.getRowInput('ОГРНИП', 'issuer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="issuer_ogrnip" maxLength="15"/>)}
+                            {this.getRowInput('Адрес', 'issuer_address')}
+                        </Col>
+                    
+                        <Col xs={24} sm={12} md={12} lg={12}>
+                            {this.getRowInput('Организатор', 'organizer')}
+                            {this.getRowInput('ИНН', 'organizer_inn', null, null, null, this.checkInn, <NumberInput field="organizer_inn" maxLength="12"/>)}
+                            {this.getRowInput('ОГРН', 'organizer_ogrn', null, null, null, this.checkOgrn, <NumberInput field="organizer_ogrn" maxLength="13"/>)}
+                            {this.getRowInput('ОГРНИП', 'organizer_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="organizer_ogrnip" maxLength="15"/>)}
+                            {this.getRowInput('Адрес', 'organizer_address')}
+                        </Col>
+                    </Row>
+                    <Row gutter={2} style={{ marginTop: 32 }}>
+                        <Col xs={24} sm={12} md={12} lg={12}>
+                            {this.getRowInput('Продавец', 'seller')}
+                            {this.getRowInput('ИНН', 'seller_inn', null, null, null, this.checkInn, <NumberInput field="seller_inn" maxLength="12"/>)}
+                            {this.getRowInput('ОГРН', 'seller_ogrn', null, null, null, this.checkOgrn, <NumberInput field="seller_ogrn" maxLength="13"/>)}
+                            {this.getRowInput('ОГРНИП', 'seller_ogrnip', null, null, null, this.checkOgrnip, <NumberInput field="seller_ogrnip" maxLength="15"/>)}
+                            {this.getRowInput('Адрес', 'seller_address')}
+                        </Col>
+                    </Row>
+                    <Row gutter={2} style={{ marginTop: 32 }}>
+                        <Col span={16} offset={6}>
+                            {ticket.state === 'created' ?
+                                <Button
+                                    style={{marginRight: '8px'}}
+                                    type="primary"
+                                    size="default"
+                                    onClick={this.sellTicket}
+                                >
+                                    Продать билет
+                                </Button> :
+                                <Button
+                                    style={{marginRight: '8px'}}
+                                    type="primary"
+                                    size="default"
+                                    onClick={this.editTicket}
+                                >
+                                    Сохранить
+                                </Button>
+                            }
+                            <Button
+                                type="primary"
+                                size="default"
+                                onClick={this.cancelTicket}
+                            >
+                                Забраковать
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form>
             </Spin>
         );
     }

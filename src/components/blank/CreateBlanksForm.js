@@ -67,87 +67,92 @@ class CreateBlanksForm extends Component {
         const {isFetching} = this.props;
 
         const formItemLayout = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 8 }
         };
         const formItemLayoutShort = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 4 }
+        };
+        const tailHintItemLayout = {
+            wrapperCol: {
+                span: 12,
+                offset: 11
+            },
         };
         const tailFormItemLayout = {
             wrapperCol: {
                 span: 12,
-                offset: 12
+                offset: 7
             },
         };
 
         return (
-            <div className="panel">
-                <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
-                    <FormItem
-                        {...formItemLayout}
-                        label="ИНН организатора"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'inn',
-                            {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
-                            })(<NumberInput field='inn' maxLength="12"/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Серия"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'start_series',
-                            {rules: [{required: true, message: 'Требуется ввести серию!'},
-                                {validator: this.checkStartSeries}
-                            ]
-                            })(<SeriesInput field='start_series'/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Начало - Номер"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'start_number',
-                            {rules: [{required: true, message: 'Требуется ввести начало номера!'},
-                                {validator: this.checkStartNumber}
-                            ]
-                            })(<NumberInput field='start_number' maxLength="6"/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Конец - Номер"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'end_number',
-                            {rules: [{required: true, message: 'Требуется ввести конец номера!'},
-                                {validator: this.checkEndNumber}
-                            ]
-                            })(<NumberInput field='end_number' maxLength="6"/>)
-                        }
-                    </FormItem>
-                    <FormItem {...tailFormItemLayout}>
-                        <div>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                size="default"
-                                loading={isFetching}
-                            >
-                                Сгенерировать бланки
-                            </Button>
-                        </div>
-                    </FormItem>
-                </Form>
-            </div>
+            <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
+                <FormItem
+                    {...formItemLayout}
+                    label="ИНН организатора"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'inn',
+                        {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
+                        })(<NumberInput field='inn' maxLength="12"/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayoutShort}
+                    label="Серия"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'start_series',
+                        {rules: [{required: true, message: 'Требуется ввести серию!'},
+                            {validator: this.checkStartSeries}
+                        ]
+                        })(<SeriesInput field='start_series'/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayoutShort}
+                    label="Начало - Номер"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'start_number',
+                        {rules: [{required: true, message: 'Требуется ввести начало номера!'},
+                            {validator: this.checkStartNumber}
+                        ]
+                        })(<NumberInput field='start_number' maxLength="6"/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayoutShort}
+                    label="Конец - Номер"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'end_number',
+                        {rules: [{required: true, message: 'Требуется ввести конец номера!'},
+                            {validator: this.checkEndNumber}
+                        ]
+                        })(<NumberInput field='end_number' maxLength="6"/>)
+                    }
+                </FormItem>
+                <FormItem {...tailHintItemLayout}>
+                    <span className="comment">* - поле обязательное для заполнения</span>
+                </FormItem>
+                <div style={{padding: '70px', margin: '0 auto', textAlign: 'center'}}>
+                    <Button
+                            type="primary"
+                            htmlType="submit"
+                            size="default"
+                            loading={isFetching}
+                        >
+                            Сгенерировать бланки
+                        </Button>
+                    </div>
+            </Form>
         );
     }
 }

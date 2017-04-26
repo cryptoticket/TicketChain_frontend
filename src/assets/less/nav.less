@@ -1,0 +1,38 @@
+.ant-menu-dark, .ant-menu-dark .ant-menu-sub {
+    background: #464650 !important;
+}
+
+.ant-menu-dark.ant-menu-inline .ant-menu-item {
+    height: 57px;
+    margin-bottom: 1px;
+    padding: 0 20px 0 30px;
+    font-size: 12px;
+    line-height: 57px;
+    color: #fff;
+    transition: background .1s ease-in-out;
+
+    &:hover {
+        background: #196251 !important;
+    }
+}
+
+.ant-menu-item-active {
+    background: #196251 !important;
+}
+
+.ant-menu-item-selected {
+    background: #196251 !important;
+
+    &:after {
+        content: "";
+        top: 0;
+        right: 0;
+        position: absolute;
+        border: 28px solid transparent;
+        border-right: 15px solid #fff;
+    }
+}
+
+.ant-layout-sider {
+    overflow: hidden !important;
+}

@@ -127,7 +127,7 @@ class TicketsTableComponent extends Component {
         return (
             <Spin tip="Загрузка..." spinning={isFetching}>
 
-                <div className="panel tickets">
+                <div className="tickets">
                     <div className="panel-head">
                         <Row gutter={2}>
                             <Col xs={12} sm={12} md={12} lg={12} className="menu">

@@ -49,72 +49,76 @@ class CreateBlanksByNumForm extends Component {
         const {isFetching} = this.props;
 
         const formItemLayout = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 8 }
         };
         const formItemLayoutShort = {
-            labelCol: { span: 12 },
+            labelCol: { span: 11 },
             wrapperCol: { span: 4 }
+        };
+        const tailHintItemLayout = {
+            wrapperCol: {
+                span: 12,
+                offset: 11
+            },
         };
         const tailFormItemLayout = {
             wrapperCol: {
                 span: 12,
-                offset: 12
+                offset: 7
             },
         };
 
         return (
-            <div className="panel">
-                <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
-                    <FormItem
-                        {...formItemLayout}
-                        label="ИНН организатора"
-                        hasFeedback
+            <Form onSubmit={this.handleSubmit} style={{paddingTop: '20px'}}>
+                <FormItem
+                    {...formItemLayout}
+                    label="ИНН организатора"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'inn',
+                        {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
+                        })(<NumberInput field='inn' maxLength="12"/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="Серия"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'start_series',
+                        {rules: [{required: true, message: 'Требуется ввести серию!'},
+                            {validator: this.checkStartSeries}
+                        ]
+                        })(<SeriesInput field='start_series'/>)
+                    }
+                </FormItem>
+                <FormItem
+                    {...formItemLayout}
+                    label="Количество"
+                    hasFeedback
+                >
+                    {getFieldDecorator(
+                        'quantity',
+                        {rules: [{required: true, message: 'Требуется ввести количество!'}]
+                        })(<NumberInput field='quantity' maxLength="5"/>)
+                    }
+                </FormItem>
+                <FormItem {...tailHintItemLayout}>
+                    <span className="comment">* - поле обязательное для заполнения</span>
+                </FormItem>
+                <div style={{padding: '70px', margin: '0 auto', textAlign: 'center'}}>
+                    <Button
+                        htmlType="submit"
+                        size="default"
+                        loading={isFetching}
                     >
-                        {getFieldDecorator(
-                            'inn',
-                            {rules: [{required: true, message: 'Требуется ввести ИНН!'}, {validator: this.checkInn}],
-                            })(<NumberInput field='inn' maxLength="12"/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Серия"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'start_series',
-                            {rules: [{required: true, message: 'Требуется ввести серию!'},
-                                {validator: this.checkStartSeries}
-                            ]
-                            })(<SeriesInput field='start_series'/>)
-                        }
-                    </FormItem>
-                    <FormItem
-                        {...formItemLayoutShort}
-                        label="Кол-во"
-                        hasFeedback
-                    >
-                        {getFieldDecorator(
-                            'quantity',
-                            {rules: [{required: true, message: 'Требуется ввести количество!'}]
-                            })(<NumberInput field='quantity' maxLength="5"/>)
-                        }
-                    </FormItem>
-                    <FormItem {...tailFormItemLayout}>
-                        <div>
-                            <Button
-                                type="primary"
-                                htmlType="submit"
-                                size="default"
-                                loading={isFetching}
-                            >
-                                Сгенерировать бланки
-                            </Button>
-                        </div>
-                    </FormItem>
-                </Form>
-            </div>
+                        Сгенерировать бланки
+                    </Button>
+                </div>
+            </Form>
         );
     }
 }
