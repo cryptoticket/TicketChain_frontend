@@ -107,7 +107,7 @@ class NavigationComponent extends React.Component {
                             {this.props.children}
                         </div>
                     </div>
-                    <Footer style={{textAlign: 'center'}}>
+                    <Footer style={{width: 'calc(100% - 250px)'}}>
                         TicketChain ©2017, Built by <a href="http://chain.cloud">Chain.Cloud</a>
                     </Footer>
                 </Layout>

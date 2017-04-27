@@ -14,50 +14,70 @@ class MainPage extends Component {
     render() {
         const {isFetching, info} = this.props;
         return (
-            <div className="panel">
+            <div style={{marginLeft: '25%', marginRight:'25%', marginTop: '40px'}}>
                 <Spin tip="Загрузка..." spinning={isFetching}>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Смарт контракты</p>
+                    <Row style={{paddingBottom: '32px'}}>
+                        <Col span={8}>
+                            <p style={{textAlign: 'right', paddingRight: '20px'}}>Смарт контракты</p>
                         </Col>
-                        <Col span={12}>
-                            <p>{Object.keys(info).length ? info.eth_is_enabled ? 'Да' : 'Нет' : null}</p>
-                        </Col>
-                    </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Ethereum узел</p>
-                        </Col>
-                        <Col span={12}>
-                            <p>{info.eth_node}</p>
+                        <Col span={15}>
+                            <p style={{textAlign: 'center', borderBottom: '2px solid #dcdcdc'}}>
+                                {Object.keys(info).length ? info.eth_is_enabled ? 'Да' : 'Нет' : null}
+                            </p>
                         </Col>
                     </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Основной контракт</p>
+                    <Row style={{paddingBottom: '32px'}}>
+                        <Col span={8}>
+                            <p style={{textAlign: 'right', paddingRight: '20px'}}>
+                                Ethereum узел
+                            </p>
                         </Col>
-                        <Col span={12}>
-                            <a href={info.eth_main_address_link} target="_blank">
-                                 {info.eth_main_address}
-                            </a>
-                        </Col>
-                    </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Аккаунт</p>
-                        </Col>
-                        <Col span={12}>
-                            <a href={info.eth_main_account_link} target="_blank">
-                                 {info.eth_main_account}
-                            </a>
+                        <Col span={15}>
+                            <p style={{textAlign: 'center', borderBottom: '2px solid #dcdcdc'}}>
+                                <a href={info.eth_node} target="_blank">
+                                    {info.eth_node}
+                                </a>
+                            </p>
                         </Col>
                     </Row>
-                    <Row style={{paddingBottom: '8px'}}>
-                        <Col span={6}>
-                            <p>Баланс</p>
+                    <Row style={{paddingBottom: '32px'}}>
+                        <Col span={8}>
+                            <p style={{textAlign: 'right', paddingRight: '20px'}}>
+                                Основной контракт
+                            </p>
                         </Col>
-                        <Col span={12}>
-                            <p>{info.eth_balance_wei} (Wei)</p>
+                        <Col span={15}>
+                            <p style={{textAlign: 'center', borderBottom: '2px solid #dcdcdc'}}>
+                                <a  href={info.eth_main_address_link} target="_blank">
+                                     {info.eth_main_address}
+                                </a>
+                            </p>
+                        </Col>
+                    </Row>
+                    <Row style={{paddingBottom: '32px'}}>
+                        <Col span={8}>
+                            <p style={{textAlign: 'right', paddingRight: '20px'}}>
+                                Аккаунт
+                            </p>
+                        </Col>
+                        <Col span={15}>
+                            <p style={{textAlign: 'center', borderBottom: '2px solid #dcdcdc'}}>
+                                <a href={info.eth_main_account_link} target="_blank">
+                                    {info.eth_main_account}
+                                </a>
+                            </p>
+                        </Col>
+                    </Row>
+                    <Row style={{paddingBottom: '32px'}}>
+                        <Col span={8}>
+                            <p style={{textAlign: 'right', paddingRight: '20px'}}>
+                                Баланс
+                            </p>
+                        </Col>
+                        <Col span={15}>
+                            <p style={{textAlign: 'center', borderBottom: '2px solid #dcdcdc'}}>
+                                {info.eth_balance_wei ? `${info.eth_balance_wei} (Wei)` : null}
+                            </p>
                         </Col>
                     </Row>
                 </Spin>
